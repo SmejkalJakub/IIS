@@ -20,8 +20,8 @@
       <li><a href="tests">Tests</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->name}}</a></li>
-      <li><a href="logout"><span></span> Logout</a></li>
+        <li><a href="user"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
+        <li><a href="logout"><span></span> Logout</a></li>
     </ul>
   </div>
 </nav>

@@ -23,4 +23,7 @@ Route::get('tests', function () {
     return view('tests');
 });
 
+Route::get('user', 'SettingsController@settings');
+Route::post('save-config', 'SettingsController@saveConfig');
+
 ?>

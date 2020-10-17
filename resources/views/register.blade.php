@@ -16,9 +16,16 @@
     {{ csrf_field() }}
     <div class="form-group">
         <label for="inputFirstName">Full Name</label>
-        <input type="text" class="form-control" id="inputFirstName" placeholder="Enter full name" name="name">
+        <input type="text" class="form-control" id="inputFirstName" placeholder="Enter first name" name="first_name">
         @if ($errors->has('name'))
-            <span class="error">{{ $errors->first('name') }}</span>
+            <span class="error">{{ $errors->first('first_name') }}</span>
+        @endif
+    </div>
+    <div class="form-group">
+        <label for="inputSurname">Full Name</label>
+        <input type="text" class="form-control" id="inputSurname" placeholder="Enter surname" name="surname">
+        @if ($errors->has('name'))
+            <span class="error">{{ $errors->first('surname') }}</span>
         @endif
     </div>
     <div class="form-group">
