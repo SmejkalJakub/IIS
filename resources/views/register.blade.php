@@ -11,6 +11,7 @@
 <body>
 
 <div class="container">
+
   <h2>Register</h2>
   <form action="{{url('post-register')}}" method="POST" id="regForm">
     {{ csrf_field() }}

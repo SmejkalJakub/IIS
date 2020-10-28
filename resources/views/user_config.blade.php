@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Tests</title>
+  <title>Settings</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -18,6 +18,9 @@
     <ul class="nav navbar-nav">
       <li><a href="home">Home</a></li>
       <li><a href="tests">Tests</a></li>
+        @if(Auth::user()->hasRole('admin'))
+            <li><a href="#">Users</a></li>
+        @endif
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="user"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
@@ -52,25 +55,26 @@
           @endif
       </div>
       <div class="form-group">
-          <label for="oldPassword">Current Password:</label>
+          <label for="inputOldPassword">Current Password:</label>
           <input type="password" class="form-control" id="oldPassword" placeholder="Current password" name="currentPassword">
-          @if ($errors->has('password'))
-              <span class="error">{{ $errors->first('password') }}</span>
-          @endif
+            <b>
+                @if($errors->has('wrongpwd'))
+                    {{ implode('', $errors->all(':message')) }}
+                @endif
+            </b>
       </div>
       <div class="form-group">
-        <label for="newPassword">New Password:</label>
+        <label for="inputNewPassword">New Password:</label>
         <input type="password" class="form-control" id="newPassword" placeholder="New password" name="newPassword">
-        @if ($errors->has('password'))
-            <span class="error">{{ $errors->first('password') }}</span>
-        @endif
+        <b>
+            @if($errors->has('notMatching'))
+                {{ implode('', $errors->all(':message')) }}
+            @endif
+        </b>
     </div>
     <div class="form-group">
-        <label for="newPasswordConfirm">New Password Again:</label>
+        <label for="inputNewPasswordConfirm">New Password Again:</label>
         <input type="password" class="form-control" id="newPasswordConfirm" placeholder="New password again" name="newPasswordConfirm">
-        @if ($errors->has('password'))
-            <span class="error">{{ $errors->first('password') }}</span>
-        @endif
     </div>
       <button type="submit" class="btn btn-default">Save</button>
     </form>
