@@ -18,6 +18,9 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="home">Home</a></li>
       <li><a href="tests">Tests</a></li>
+        @if(Auth::user()->hasRole('admin'))
+            <li><a href="#">Users</a></li>
+        @endif
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="user"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
