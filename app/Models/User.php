@@ -47,4 +47,30 @@ class User extends Authenticatable
     {
         return $this->role == $role;
     }
+
+
+    public function created_tests()
+    {
+        return $this->hasMany(Test::class);
+    }
+    public function applied_signs()
+    {
+        return $this->hasMany(SignOnTestApply::class, 'applier_id', 'id');
+    }
+    public function confirmed_signs()
+    {
+        return $this->hasMany(SignOnTestApply::class, 'applier_id', 'id');
+    }
+
+    public function filled_instances()
+    {
+        return $this->hasMany(TestInstance::class, 'student_id', 'id');
+    }
+
+    public function corrected_instances()
+    {
+        return $this->hasMany(TestInstance::class, 'assistant_id', 'id');
+    }
+
+
 }
