@@ -21,7 +21,7 @@ class CreateTestsTable extends Migration
             $table->dateTime('available_from');
             $table->dateTime('available_to');
 
-            $table->integer('creator_id');
+            $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -29,7 +29,7 @@ class CreateQuestionsTable extends Migration
             $table->string('option_4')->nullable();
 
 
-            $table->integer('category_id');
+            $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
         });

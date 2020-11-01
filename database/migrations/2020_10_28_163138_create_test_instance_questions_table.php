@@ -23,9 +23,9 @@ class CreateTestInstanceQuestionsTable extends Migration
             $table->string('answer');
             $table->integer('points');
 
-            $table->integer('test_instance_id')->unsigned();
+            $table->bigInteger('test_instance_id')->unsigned();
             $table->foreign('test_instance_id')->references('id')->on('test_instances')->onDelete('cascade');
-            $table->integer('question_id')->unsigned();
+            $table->bigInteger('question_id')->unsigned();
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
 
         });

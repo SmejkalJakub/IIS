@@ -22,9 +22,9 @@ class CreateTestCategoriesTable extends Migration
             $table->integer('number_of_questions');
 
 
-            $table->integer('test_id')->unsigned();
+            $table->bigInteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
-            $table->integer('category_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }

@@ -18,11 +18,11 @@ class CreateTestInstancesTable extends Migration
             $table->timestamps();
 
 
-            $table->integer('test_id');
+            $table->bigInteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
-            $table->integer('student_id');
+            $table->bigInteger('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('assistant_id');
+            $table->bigInteger('assistant_id')->unsigned();
             $table->foreign('assistant_id')->references('id')->on('users')->onDelete('cascade');
 
         });
