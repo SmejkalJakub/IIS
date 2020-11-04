@@ -21,6 +21,9 @@
         @if(Auth::user()->hasRole('admin'))
             <li><a href="user-list">Users</a></li>
         @endif
+        @if(Auth::user()->hasRole('profesor'))
+            <li><a href="categories">Categories</a></li>
+        @endif
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="user"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
