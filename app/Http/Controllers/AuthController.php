@@ -32,7 +32,7 @@ class AuthController extends Controller
             // Authentication passed...
             return redirect()->intended('home');
         }
-        return Redirect::to("login")->withSuccess('Oppes! You have entered invalid credentials');
+        return Redirect::to("login")->withErrors('Oppes! You have entered invalid credentials');
     }
 
     public function postRegister(Request $request)

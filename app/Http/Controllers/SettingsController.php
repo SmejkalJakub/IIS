@@ -17,7 +17,6 @@ class SettingsController extends Controller
 
     public function saveConfig(Request $request)
     {
-
         static $passChanged = false;
 
         $user = Auth::user();
@@ -26,9 +25,7 @@ class SettingsController extends Controller
         $validation_array = [
         'first_name' => 'required',
         'surname' => 'required',
-        'password' => 'required_with:newPassword,',
         ];
-
 
         if(strcmp($user->email, $data['email']) != 0)
         {
@@ -37,44 +34,28 @@ class SettingsController extends Controller
                 ]);
         }
 
-
         $user->first_name = $data['first_name'];
         $user->surname = $data['surname'];
         $user->email = $data['email'];
 
-
-        if($passChanged)
+        if($request->filled('newPassword'))
         {
-            return view('tests');
-            $user->password = Hash::make($data['newPassword']);
-        }
-
-        if(Hash::check($data['currentPassword'], $user->password))
-        {
-            if($request->filled('newPassword'))
+            if($data['newPassword'] != $data['newPasswordConfirm'])
             {
-                if($data['newPassword'] != $data['newPasswordConfirm'])
-                {
-                    return Redirect::back()->withErrors(['notMatching' => 'Passwords not matching']);
+                return Redirect::back()->withErrors(['notMatching' => 'Passwords not matching']);
+            }
+            else
+            {
+                $validation_array = array_merge($validation_array, [
+                    'newPassword' => 'required|min:6',
+                    ]);
                 }
-                else
-                {
-                    $validation_array = array_merge($validation_array, [
-                        'newPassword' => 'required|min:6',
-                        ]);
-                    }
-                }
-                if($passChanged)
-                {
-                    $user->password = Hash::make($data['newPassword']);
-                }
-            request()->validate($validation_array);
-            $user->save();
-            return view('home');
-        }
-        else
-        {
-            return Redirect::back()->withErrors(['wrongpwd' => 'Incorrect password']);
-        }
+            }
+            $user->password = Hash::make($data['newPassword']);
+
+
+        request()->validate($validation_array);
+        $user->save();
+        return redirect()->route('home');
     }
 }
