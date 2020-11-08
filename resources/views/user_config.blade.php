@@ -11,25 +11,25 @@
 <body>
 
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="home">Best Tests</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{route('home')}}">Best Tests</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="{{route('home')}}">Home</a></li>
+            <li><a href="tests">Tests</a></li>
+            @if(Auth::user()->hasRole('admin'))
+                <li class="active"><a href="{{route('user-list')}}">Users</a></li>
+            @endif
+            @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
+                <li><a href="{{route('categories')}}">Categories</a></li>
+            @endif
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{route('user')}}"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
+            <li><a href="{{route('logout')}}"><span></span> Logout</a></li>
+        </ul>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="home">Home</a></li>
-      <li><a href="tests">Tests</a></li>
-        @if(Auth::user()->hasRole('admin'))
-            <li><a href="user-list">Users</a></li>
-        @endif
-        @if(Auth::user()->hasRole('profesor'))
-            <li><a href="categories">Categories</a></li>
-        @endif
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="active"><a href="user"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
-      <li><a href="logout"><span></span> Logout</a></li>
-    </ul>
-  </div>
 </nav>
 
 <div class="container">
@@ -59,7 +59,7 @@
       </div>
       <div class="form-group">
         <label for="inputNewPassword">New Password:</label>
-        <input type="password" class="form-control" id="newPassword" placeholder="New password" name="newPassword">
+          <label for="newPassword"></label><input type="password" class="form-control" id="newPassword" placeholder="New password" name="newPassword">
         <b>
             @if($errors->has('notMatching'))
                 {{ implode('', $errors->all(':message')) }}
@@ -68,7 +68,7 @@
     </div>
     <div class="form-group">
         <label for="inputNewPasswordConfirm">New Password Again:</label>
-        <input type="password" class="form-control" id="newPasswordConfirm" placeholder="New password again" name="newPasswordConfirm">
+        <label for="newPasswordConfirm"></label><input type="password" class="form-control" id="newPasswordConfirm" placeholder="New password again" name="newPasswordConfirm">
     </div>
       <button type="submit" class="btn btn-default">Save</button>
     </form>
