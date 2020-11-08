@@ -16,7 +16,7 @@
       <a class="navbar-brand" href="home">Best Tests</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="home">Home</a></li>
+      <li><a href='home'>Home</a></li>
       <li><a href="tests">Tests</a></li>
         @if(Auth::user()->hasRole('admin'))
             <li class="active"><a href="user-list">Users</a></li>
@@ -72,6 +72,8 @@
             return confirm("Are you sure?");
         });
     </script>
+</div>
+
     </body>
 </html>
 

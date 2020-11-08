@@ -31,7 +31,7 @@ Route::get('user-list', 'UsersListController@showUserList')->name('user.list');
 Route::delete('delete-user/{id}', 'UsersListController@deleteUser')->name('user.delete');
 Route::get('edit-user/{id}', 'UsersListController@editUser')->name('user.edit');
 
-Route::get('categories', 'CategoriesController@showCategories');
+Route::get('categories', 'CategorysController@index');
 
 Route::get('user_edit', function () {
     return view('user_edit');
