@@ -18,6 +18,6 @@ class CategoriesController extends Controller
         }
         $categories = Category::all();
 
-        return view('categories', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 }

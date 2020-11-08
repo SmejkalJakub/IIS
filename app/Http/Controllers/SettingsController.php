@@ -12,7 +12,7 @@ class SettingsController extends Controller
 {
     public function settings()
     {
-        return view('user_config');
+        return view('users.user_config');
     }
 
     public function saveConfig(Request $request)
