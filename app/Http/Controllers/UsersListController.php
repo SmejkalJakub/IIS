@@ -19,7 +19,7 @@ class UsersListController extends Controller
         }
         $users = User::all();
 
-        return view('users_list', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     public function search(Request $request)

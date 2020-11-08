@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home</title>
+  <title>Tests</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -17,7 +17,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="tests">Tests</a></li>
+            <li><a href="">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
