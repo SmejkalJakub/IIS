@@ -52,10 +52,10 @@ class QuestionController extends Controller
         $question->type = $request->type;
 
         $question->task = $request->task;
-        $question->options_1 = $request->options_1;
-        $question->options_2 = $request->options_2;
-        $question->options_3 = $request->options_3;
-        $question->options_4 = $request->options_4;
+        $question->option_1 = $request->option_1;
+        $question->option_2 = $request->option_2;
+        $question->option_3 = $request->option_3;
+        $question->option_4 = $request->option_4;
         $question->image_path = '\no-image-100.png';
 
 
@@ -94,10 +94,10 @@ class QuestionController extends Controller
         $question->type = $request->type;
 
         $question->task = $request->task;
-        $question->options_1 = $request->options_1;
-        $question->options_2 = $request->options_2;
-        $question->options_3 = $request->options_3;
-        $question->options_4 = $request->options_4;
+        $question->option_1 = $request->option_1;
+        $question->option_2 = $request->option_2;
+        $question->option_3 = $request->option_3;
+        $question->option_4 = $request->option_4;
 
 
         $question->save();

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Test extends Model
 {
-    protected $fillable = ['name', 'descripion', 'available_from', 'available_to'];
+    protected $fillable = ['name', 'description', 'available_from', 'available_to', 'max_duration'];
 
     public function instances(){
         return $this->hasMany(TestInstance::class);
@@ -21,7 +21,7 @@ class Test extends Model
     }
     public function test_categories()
     {
-        return $this->hasMany(TestCategory::class);
+        return $this->belongsToMany(TestCategory::class, 'test_categories');
     }
 
 }

@@ -19,9 +19,17 @@ Route::post('post-register', 'AuthController@postRegister');
 Route::get('logout', 'AuthController@logout')->name('logout');
 Route::get('home', 'AuthController@home')->name('home');
 
-Route::get('tests', function () {
-    return view('tests.index');
+Route::group([null], function(){
+
+    Route::resource('tests', 'TestController');
 });
+
+/*Route::get('tests.index', 'TestController@index')->name('tests.index');
+Route::get('tests.create', 'TestController@create')->name('tests.create');
+Route::get('tests.edit/{id}', 'TestController@edit')->name('tests.edit/{id}');
+Route::delete('tests.destroy/{id}', 'TestController@destroy')->name('tests.destroy');
+Route::put('tests.store', 'TestController@store')->name('tests.store');
+Route::put('tests.update', 'TestController@update')->name('tests.update');*/
 
 Route::get('user', 'SettingsController@settings')->name('user');
 Route::post('save-config', 'SettingsController@saveConfig');
@@ -38,6 +46,3 @@ Route::get('user_edit', function () {
 });
 Route::post('save-edit', 'UsersListController@saveEdit');
 
-
-
-?>

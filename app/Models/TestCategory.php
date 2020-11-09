@@ -13,10 +13,10 @@ class TestCategory extends Model
 
     public function test()
     {
-        return $this->belongsTo(Test::class);
+        return $this->hasOne(Test::class);
     }
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Category::class);
     }
 }

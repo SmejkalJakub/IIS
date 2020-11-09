@@ -19,7 +19,7 @@ class CategoryController extends Controller
         }
         $categories = Category::all();
 
-        return view('categories', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
     public function create()
@@ -29,7 +29,8 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('category.edit', compact('category'));
+        $questions = Question::all()->pluck('name', 'id');
+        return view('category.edit', compact('category', 'questions'));
     }
 
     public function store(Request $request)
@@ -56,6 +57,7 @@ class CategoryController extends Controller
 
         $category->save();
 
+        $category->questions()->sync($request->question_id, false);
 
         Session::flash('message', 'Category created successfully');
         return redirect()->route('categories.index');
@@ -83,6 +85,7 @@ class CategoryController extends Controller
         $category->max_points = $request->max_points;
 
         $category->save();
+        $category->questions()->sync($request->question_id);
 
         Session::flash('message', 'Category updated successfully');
         return redirect()->route('categories.index');

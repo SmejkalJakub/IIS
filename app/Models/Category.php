@@ -13,7 +13,7 @@ class Category extends Model
 
     public function test_categories()
     {
-        return $this->HasMany(TestCategory::class);
+        return $this->belongsToMany(TestCategory::class, 'test_categories');
     }
 
     public function questions()

@@ -17,11 +17,11 @@ class CreateQuestionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('task');
             $table->string('image_path');
             $table->enum('type_of_answer', ['open', 'abcd']);
             $table->string('right_answer');
 
+            $table->string('task');
             //Otazka jak namodelovat moznosti u otazek abcd...?
             $table->string('option_1')->nullable();
             $table->string('option_2')->nullable();

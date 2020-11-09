@@ -20,6 +20,7 @@ class CreateTestsTable extends Migration
             $table->string('description');
             $table->dateTime('available_from');
             $table->dateTime('available_to');
+            $table->time('max_duration');
 
             $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
