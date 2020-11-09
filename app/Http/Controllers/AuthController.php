@@ -42,6 +42,7 @@ class AuthController extends Controller
         'surname' => 'required',
         'email' => 'required|email|unique:users',
         'password' => 'required|min:6',
+        'passwordConfirmation' => 'required|same:password'
         ]);
 
         $data = $request->all();

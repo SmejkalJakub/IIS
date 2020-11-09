@@ -43,6 +43,13 @@
             <span class="error">{{ $errors->first('password') }}</span>
         @endif
     </div>
+    <div class="form-group">
+        <label for="inputPassword">Confirm Password:</label>
+        <input type="password" class="form-control" id="imputPasswordConfirmation" placeholder="Confirm password" name="passwordConfirmation">
+        @if ($errors->has('password'))
+            <span class="error">{{ $errors->first('password') }}</span>
+        @endif
+    </div>
     <button type="submit" class="btn btn-default">Submit</button>
 
     <div class="card-footer text-center">
