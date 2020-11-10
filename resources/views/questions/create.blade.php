@@ -17,10 +17,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-<<<<<<< HEAD
-=======
             <li><a href="{{route('categories')}}">Tests</a></li>
->>>>>>> 309b27161556ab2fe2b7f351f45767948188728a
             @if(Auth::user()->hasRole('admin'))
                 <li><a href="{{route('user-list')}}">Users</a></li>
             @endif
