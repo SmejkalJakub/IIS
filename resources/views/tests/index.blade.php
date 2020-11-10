@@ -17,11 +17,11 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="">Tests</a></li>
+            <li class="active"><a href="">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
-                <li class="active"><a href="{{route('user-list')}}">Users</a></li>
+                <li><a href="{{route('user-list')}}">Users</a></li>
             @endif
-            @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
+            @if(Auth::user()->hasRole('profesor'))
                 <li><a href="{{route('categories')}}">Categories</a></li>
             @endif
         </ul>

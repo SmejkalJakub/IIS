@@ -45,7 +45,36 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->role == $role;
+        switch ($role)
+        {
+            case "student":
+                if($this->role == "admin" || $this->role == "profesor" || $this->role == "assistant" || $this->role == "student")
+                {
+                    return true;
+                }
+                break;
+            case "assistant":
+                if($this->role == "admin" || $this->role == "profesor" || $this->role == "assistant")
+                {
+                    return true;
+                }
+                break;
+            case "profesor":
+                if($this->role == "admin" || $this->role == "profesor")
+                {
+                    return true;
+                }
+                break;
+            case "admin":
+                if($this->role == "admin")
+                {
+                    return true;
+                }
+                break;
+            default:
+                return false;
+        }
+        return false;
     }
 
 

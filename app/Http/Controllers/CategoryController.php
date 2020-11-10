@@ -17,7 +17,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->role != 'profesor' && Auth::user()->role != 'admin')
+        if(!Auth::user()->hasRole('profesor'))
         {
             return redirect()->route('home');
         }

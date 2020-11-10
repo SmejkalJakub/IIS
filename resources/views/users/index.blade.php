@@ -16,11 +16,11 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="{{route('home')}}">Home</a></li>
-      <li><a href="tests">Tests</a></li>
+      <li><a href="">Tests</a></li>
         @if(Auth::user()->hasRole('admin'))
             <li class="active"><a href="{{route('user-list')}}">Users</a></li>
         @endif
-        @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
+        @if(Auth::user()->hasRole('profesor'))
             <li><a href="{{route('categories')}}">Categories</a></li>
         @endif
     </ul>
@@ -36,34 +36,39 @@
         <label>Search</label>
         <label for="search"></label><input type="text" class="form-controller" id="search" name="search"/>
     </div>
-    <table class="table table-bordered table-hover">
-        <thead>
-          <th>Full Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th></th>
-          <th></th>
-        </thead>
+    <div class="card-body">
+        <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+            <thead>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            </thead>
 
-        <tbody></tbody>
+        <tbody>
+            <script type="text/javascript">
+                $('#search').on('keyup', search);
+                $(document).ready(search);
 
-    </table>
-    <script type="text/javascript">
-        $('#search').on('keyup',function(){
-            let $value = $(this).val();
-            $.ajax({
-        type : 'get',
-        url : '{{URL::to('search')}}',
-        data:{'search':$value},
-        success:function(data){
-        $('tbody').html(data);
-        }
-        });
-        })
-    </script>
-    <script type="text/javascript">
-        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script>
+                function search() {
+                    let $value = $(this).val();
+                    $.ajax({
+                            type : 'get',
+                            url : '{{URL::to('search')}}',
+                            data:{'search':$value},
+                            success:function(data) {
+                                $('tbody').html(data);
+                            }
+                    });
+                }
+            </script>
+            <script type="text/javascript">
+                $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+            </script>
+        </tbody>
+
+        </table>
 
     <script>
         $(".delete").on("submit", function(){

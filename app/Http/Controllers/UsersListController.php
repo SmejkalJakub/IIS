@@ -42,10 +42,7 @@ class UsersListController extends Controller
                     '<td>'.$user->email.'</td>'.
                     '<td>'.$user->role.'</td>'.
                     '<td>'.
-                       '<form class="edit" action="'.route('user.edit', $user->id).'" method="GET">'.
-                           csrf_field().
-                           '<input type="submit" class="btn btn-info" value="Edit">'.
-                       '</form>'.
+                       '<a href="'.route('user.edit', $user->id).'" class="btn btn-sm btn-primary">Edit</a>'.
                     '</td>'.
                     '<td>'.
                        '<form class="delete" action="'.route('user.delete', $user->id).'" method="POST">'.
@@ -66,13 +63,13 @@ class UsersListController extends Controller
     {
         $user = User::find($userId);
         $user->delete();
-        return redirect()->route('user.list');
+        return $this->showUserList();
     }
 
     public function editUser($userId)
     {
         $user = User::find($userId);
-        return view('user_edit', compact('user'));
+        return view('users.user_edit', compact('user'));
     }
 
     public function saveEdit(Request $request)
@@ -103,7 +100,7 @@ class UsersListController extends Controller
 
         request()->validate($validation_array);
         $user->save();
-        return redirect()->route('user.list');
+        return $this->showUserList();
     }
 
 }

@@ -12,7 +12,7 @@ class CategoriesController extends Controller
 {
     public function showCategories()
     {
-        if(Auth::user()->role != 'profesor' && Auth::user()->role != 'admin')
+        if(!Auth::user()->hasRole('profesor'))
         {
             return redirect()->route('home');
         }
