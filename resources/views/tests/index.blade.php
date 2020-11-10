@@ -17,7 +17,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li class="active"><a href="">Tests</a></li>
+            <li><a href="{{route('categories')}}">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
                 <li><a href="{{route('user-list')}}">Users</a></li>
             @endif
@@ -96,9 +96,10 @@
                                    <?php
                                    $points = 0;
                                    foreach($test_categories as $tc){
-                                       if($tc->test_id == $test->id)
-                                        $category = $categories->where('id', $tc->category_id);
-                                        $points = $points + ($tc->number_of_questions * $category->max_points);
+                                       if($tc->test_id == $test->id){
+                                        $category = $categories->where('id', $tc->category_id)->first();
+                                        $points = $points + ($tc->number_of_questions * ($category->max_points));
+                                        }
                                    }
                                    ?>
                                    {{$points}}

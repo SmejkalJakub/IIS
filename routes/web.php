@@ -22,9 +22,11 @@ Route::get('home', 'AuthController@home')->name('home');
 Route::group([null], function(){
     Route::resource('tests', 'TestController');
     Route::resource('categories', 'CategoryController');
-    Route::resource('categories.questions', 'QuestionController');
+    Route::resource('test.categories', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
+    Route::resource('categories.questions', 'QuestionController');
 });
+Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
 
 

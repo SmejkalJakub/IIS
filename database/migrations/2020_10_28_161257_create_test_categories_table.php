@@ -20,8 +20,6 @@ class CreateTestCategoriesTable extends Migration
             $table->timestamps();
 
             $table->integer('number_of_questions');
-
-
             $table->bigInteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned();
