@@ -21,15 +21,13 @@ class TestController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
-
-        return view('tests.create', compact('categories'));
+        return view('tests.create');
     }
 
     public function edit(Test $test)
     {
-        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
-        return view('tests.edit', compact('categories', 'test'));
+        $categories = TestCategory::all()->where('test_id', '=', $test->id);
+        return view('tests.edit', compact('test', 'categories'));
     }
 
     public function store(Request $request)
@@ -57,10 +55,8 @@ class TestController extends Controller
 
         $test->save();
 
-        $test->categories()->sync($request->category_id, false);
-
         Session::flash('message', 'Test created successfully');
-        return redirect()->route('tests.index');
+        return redirect()->route('tests');
     }
 
     public function update(Request $request, Test $test)
@@ -88,18 +84,14 @@ class TestController extends Controller
 
         $test->save();
 
-        $test->categories()->sync($request->category_id);
-
         Session::flash('message', 'Test updated successfully');
-        return redirect()->route('tests.index');
+        return redirect()->route('tests');
     }
 
 
     public function destroy(Test $test)
     {
 
-        error_log('deletujiiiii');
-        error_log($test);
         $test->delete();
         Session::flash('delete-message', 'Test deleted successfully');
         return redirect()->route('tests.index');

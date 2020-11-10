@@ -15,10 +15,8 @@ class QuestionController extends Controller
 
     public function create($category_id)
     {
-        error_log($category_id);
         return view('questions.create')->with('category_id', $category_id);
 
-        //return view('questions.create', compact('category'));
     }
 
     public function show(Category $category, Question $question)
@@ -114,7 +112,7 @@ class QuestionController extends Controller
         $question->save();
 
         Session::flash('message', 'Question updated successfully');
-        return redirect()->route('categories.edit', $category_id);
+        return back();
     }
 
 

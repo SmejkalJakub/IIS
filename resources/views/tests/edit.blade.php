@@ -22,11 +22,13 @@
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
             @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
-                <li><a href="{{route('tests.index')}}">Categories</a></li>
+                <li><a href="{{route('tests')}}">Categories</a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{route('user')}}"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
+            <li><a href="{{route('user')}}"><span
+                        class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}
+                </a></li>
             <li><a href="{{route('logout')}}"><span></span> Logout</a></li>
         </ul>
     </div>
@@ -57,13 +59,6 @@
                             <span class="help-block">{!! $errors->first('description') !!}</span>@endif
                     </div>
 
-                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
-                        {!! Form::label('Category') !!}
-                        {!! Form::select('category_id[]', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
-                        @if ($errors->has('category_id'))
-                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
-                        @endif
-                    </div>
 
                     {!! Form::label('Available from') !!}
                     {{ Form::input('dateTime-local', 'available_from', $test->available_from, ['id' => 'available_from', 'class' => 'form-control']) }}
@@ -73,10 +68,83 @@
 
                     {!! Form::label('Max Duration') !!}
                     {{ Form::input('time', 'max_duration', $test->max_duration, ['id' => 'max_duration', 'class' => 'form-control']) }}
+                    <div>
+                        <h2>
 
-                    {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
-                    {!! Form::close() !!}
+                            {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
+                            {!! Form::close() !!}
+                        </h2>
+                    </div>
                 </div>
+                <div class="card">
+                    <div class="card-header">
+                        <header><h3>Categories of test
+                                <a
+                                    href="{{ route('test.categories.create',  $test->id) }}"
+                                    class="btn btn-lg btn-primary align-middle float-right">Add</a>
+                            </h3>
+                        </header>
+                    </div>
+
+                    <div class="card-body">
+                        <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Number of questions</th>
+                                <th scope="col">Maximum points per question</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php
+                            $total_max_test_points= 0;
+                            ?>
+                            @foreach($categories as $category)
+                                <tr>
+                                    <td>
+                                        <?php
+                                        $cat = \App\Models\Category::where('id', '=', $category->category_id)->first();
+
+                                        $total_max_test_points = $total_max_test_points + ($cat->max_points * $category->number_of_questions);
+                                        ?>
+                                        {{ $cat->name }}
+                                    </td>
+                                    <td>
+                                        {{$category->number_of_questions}}
+                                    </td>
+                                    <td>
+                                        {{$cat->max_points}}
+                                    </td>
+                                    <td>
+
+
+                                        <a href="{{ route('test.categories.edit', [$test->id, $cat->id]) }}"
+                                           class="btn btn-sm btn-primary">Edit</a>
+
+                                        {!! Form::open(['route' => ['test.categories.destroy', $test->id, $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <header>
+                            <h2>
+                                Maximum points per test
+                            </h2>
+                        </header>
+                        <h3>
+                        {{$total_max_test_points}}
+                        </h3>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>

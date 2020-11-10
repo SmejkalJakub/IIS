@@ -17,7 +17,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="">Categories</a></li>
+            <li><a href="{{route('tests')}}">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
@@ -39,30 +39,33 @@
         <div class="col-md-12">
             <div class="card">
                 <div
-                    class="card-header"><h1>Category create</h1></div>
+                    class="card-header"><h1>Question add</h1></div>
 
                 <div class="card-body">
-                    {!! Form::open(['route' => 'categories.store']) !!}
 
+                    {{ Form::open(array('route' => array('test.categories.store', $test_id))) }}
 
-                    <div class="form-group @if($errors->has('name')) has-error @endif">
-                        {!! Form::label('Name') !!}
-                        {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name', 'maxlength'=>128]) !!}
-                        @if ($errors->has('name'))
-                            <span class="help-block">{!! $errors->first('name') !!}</span>@endif
+                    <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
+                        {!! Form::label('Number of questions') !!}
+                        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
+                        @if ($errors->has('number_of_questions'))
+                            <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>
 
-                    <div>
-                        {!! Form::label('Max points') !!}
-                        {{ Form::input('number', 'max_points', null, ['id' => 'max_points', 'class' => 'form-control']) }}
+                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
+                        {!! Form::label('Categories') !!}
+                        {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
+                        @if ($errors->has('category_id'))
+                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
+                        @endif
                     </div>
-                    <div>
-                        <h1>
+
+
+
+
 
                     {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
-                        </h1>
-                    </div>
                 </div>
             </div>
         </div>
@@ -71,4 +74,17 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+
+    function PreviewImage(orderOfImage, uploadPreviewOrder) {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById(orderOfImage).files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
+        };
+    }
+
+</script>
 

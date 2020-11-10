@@ -37,7 +37,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $questions = Question::all();
+        $questions = Question::all()->where('questions');
         return view('categories.create', compact('questions'));
     }
 

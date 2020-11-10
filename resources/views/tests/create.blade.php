@@ -17,12 +17,12 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="">Tests</a></li>
+            <li><a href="{{route('tests')}}">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
             @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
-                <li><a href="{{route('tests.index')}}">Categories</a></li>
+                <li><a href="{{route('categories')}}">Categories</a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -57,13 +57,7 @@
                             <span class="help-block">{!! $errors->first('description') !!}</span>@endif
                     </div>
 
-                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
-                        {!! Form::label('Category') !!}
-                        {!! Form::select('category_id[]', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
-                        @if ($errors->has('category_id'))
-                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
-                        @endif
-                    </div>
+
 
 
 
@@ -77,9 +71,13 @@
                     {!! Form::label('Max Duration') !!}
                     {{ Form::input('time', 'max_duration', null, ['id' => 'max_duration', 'class' => 'form-control']) }}
 
+<div>
+    <h2>
+        {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
+        {!! Form::close() !!}
+    </h2>
+</div>
 
-                    {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

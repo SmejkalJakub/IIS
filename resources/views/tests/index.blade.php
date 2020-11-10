@@ -96,9 +96,10 @@
                                    <?php
                                    $points = 0;
                                    foreach($test_categories as $tc){
-                                       if($tc->test_id == $test->id)
-                                        $category = $categories->where('id', $tc->category_id);
-                                        $points = $points + ($tc->number_of_questions * $category->max_points);
+                                       if($tc->test_id == $test->id){
+                                        $category = $categories->where('id', $tc->category_id)->first();
+                                        $points = $points + ($tc->number_of_questions * ($category->max_points));
+                                        }
                                    }
                                    ?>
                                    {{$points}}
