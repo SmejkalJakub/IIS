@@ -25,6 +25,7 @@ Route::group([null], function(){
     Route::resource('categories.questions', 'QuestionController');
     Route::resource('question', 'QuestionController');
 });
+Route::get('categories', 'CategoryController@index')->name('categories');
 
 
 
@@ -43,7 +44,6 @@ Route::get('user-list', 'UsersListController@showUserList')->name('user-list');
 Route::delete('delete-user/{id}', 'UsersListController@deleteUser')->name('user.delete');
 Route::get('edit-user/{id}', 'UsersListController@editUser')->name('user.edit');
 
-Route::get('categories', 'CategoriesController@showCategories')->name('categories');
 
 Route::get('user_edit', function () {
     return view('users.user_edit');

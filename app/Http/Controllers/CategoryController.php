@@ -22,8 +22,11 @@ class CategoryController extends Controller
             return redirect()->route('home');
         }
         $categories = Category::all();
+        $questions_cids = Question::all()->pluck('category_id');
+        error_log('\n\n\n\n\n');
+        error_log($questions_cids);
 
-        return view('categories', compact('categories'));
+        return view('categories.index', compact('categories', 'questions_cids'));
     }
 
     public function show(Category $category)
