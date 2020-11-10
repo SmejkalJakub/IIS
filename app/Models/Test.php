@@ -19,9 +19,9 @@ class Test extends Model
     {
         return $this->hasMany(SignOnTestApply::class);
     }
-    public function test_categories()
+    public function categories()
     {
-        return $this->belongsToMany(TestCategory::class, 'test_categories');
+        return $this->belongsToMany(Category::class, 'test_categories');
     }
 
 }

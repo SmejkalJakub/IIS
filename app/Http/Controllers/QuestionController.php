@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
+use App\Models\Category;
+use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,19 +13,28 @@ use Illuminate\Support\Facades\Session;
 class QuestionController extends Controller
 {
 
-    public function create()
+    public function create($category_id)
     {
-        return view('questions.create');
+        error_log($category_id);
+        return view('questions.create')->with('category_id', $category_id);
+
+        //return view('questions.create', compact('category'));
     }
 
-    public function edit(Question $cquestion)
+    public function show(Category $category, Question $question)
     {
-        return view('questions.edit', compact('questions'));
+        return view('categories.show', compact( 'question'));
     }
 
-    public function store(Request $request)
+    public function edit( $category_id, Question $question)
     {
-        $this->validate(
+        return view('questions.edit', compact('question', 'category_id'));
+    }
+
+    public function store(Request $request, $category_id)
+    {
+
+       /* $this->validate(
             $request,
             [
                 'name' => 'required|unique:questions|max:128',
@@ -33,42 +43,43 @@ class QuestionController extends Controller
                 'right_answer' => 'required|max:512',
                 'type' => 'required',
 
-                'option_1' => 'max:255',
-                'option_2' => 'max:255',
-                'option_3' => 'max:255',
-                'option_4' => 'max:255',
+                'option_1' => ['nullable','max:255'],
+                'option_2' => ['nullable','max:255'],
+                'option_3' => ['nullable','max:255'],
+                'option_4' => ['nullable','max:255'],
             ],
             [
                 'name.required' => 'Enter name',
                 'name.unique' => 'Categories already exist',
+                'type.required' => 'Choose a file.',
+                'right_answer.required' => 'Fill up right answer.',
             ]
-        );
+        );*/
 
         $question = new Question();
+        $question->category_id = $category_id;
 
-        $question->user_id = Auth::id();
         $question->name = $request->name;
         $question->right_answer = $request->right_answer;
-        $question->type = $request->type;
+        $question->type_of_answer = $request->type_of_answer;
 
         $question->task = $request->task;
         $question->option_1 = $request->option_1;
         $question->option_2 = $request->option_2;
         $question->option_3 = $request->option_3;
         $question->option_4 = $request->option_4;
-        $question->image_path = '\no-image-100.png';
+        $question->image_path = $request->icon;
 
 
-        /*Pre-saving to get CATEGORY_ID required for creating folder structure by imageSave function*/
         $question->save();
 
         Session::flash('message', 'Question created successfully');
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.edit', $category_id);
     }
 
-    public function update(Request $request, Question $question)
+    public function update(Request $request, $category_id, Question $question)
     {
-        $this->validate(
+        /*$this->validate(
             $request,
             [
                 'name' => 'required|max:128|unique:questions,name,' . $question->id,
@@ -86,32 +97,32 @@ class QuestionController extends Controller
                 'name.required' => 'Enter name',
                 'name.unique' => 'Question already exist',
             ]
-        );
+        );*/
 
-        $question->user_id = Auth::id();
         $question->name = $request->name;
         $question->right_answer = $request->right_answer;
-        $question->type = $request->type;
+        $question->type_of_answer = $request->type_of_answer;
+        $question->category_id = $category_id;
 
         $question->task = $request->task;
         $question->option_1 = $request->option_1;
         $question->option_2 = $request->option_2;
         $question->option_3 = $request->option_3;
         $question->option_4 = $request->option_4;
-
+        $question->image_path = $request->icon;
 
         $question->save();
 
         Session::flash('message', 'Question updated successfully');
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.edit', $category_id);
     }
 
 
-    public function destroy(Question $question)
+    public function destroy($category_id, Question $question)
     {
-           $question->delete();
+        $question->delete();
 
         Session::flash('delete-message', 'Question deleted successfully');
-        return redirect()->route('questions.index');
+        return redirect()->route('categories.edit', $category_id);
     }
 }

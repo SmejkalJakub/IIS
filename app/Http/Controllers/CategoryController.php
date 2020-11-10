@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Item;
+use App\Models\Category;
+use App\Models\Test;
+use App\Models\TestCategory;
+use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,18 +23,25 @@ class CategoryController extends Controller
         }
         $categories = Category::all();
 
-        return view('categories.index', compact('categories'));
+        return view('categories', compact('categories'));
+    }
+
+    public function show(Category $category)
+    {
+        $questions = Question::all()->where('category_id', '=', 'id');
+        return view('categories.show', compact('category', 'questions'));
     }
 
     public function create()
     {
-        return view('category.create');
+        $questions = Question::all();
+        return view('categories.create', compact('questions'));
     }
 
     public function edit(Category $category)
     {
-        $questions = Question::all()->pluck('name', 'id');
-        return view('category.edit', compact('category', 'questions'));
+        $questions = Question::all();
+        return view('categories.edit', compact('category', 'questions'));
     }
 
     public function store(Request $request)
@@ -39,7 +50,7 @@ class CategoryController extends Controller
             $request,
             [
                 'name' => 'required|unique:categories|max:128',
-                'max_points' => 'required|min:1|max:100'
+                'max_points' => 'required|min:1|lt:101|gt:0'
             ],
             [
                 'name.required' => 'Enter name',
@@ -50,21 +61,19 @@ class CategoryController extends Controller
 
         $category = new Category();
 
-        $category->user_id = Auth::id();
 
         $category->name = $request->name;
         $category->max_points = $request->max_points;
 
         $category->save();
 
-        $category->questions()->sync($request->question_id, false);
-
         Session::flash('message', 'Category created successfully');
-        return redirect()->route('categories.index');
+        return redirect()->route('categories');
     }
 
     public function update(Request $request, Category $category)
     {
+        /*
         $this->validate(
             $request,
             [
@@ -79,16 +88,14 @@ class CategoryController extends Controller
 
             ]
         );
-
-        $category->user_id = Auth::id();
+*/
         $category->name = $request->name;
         $category->max_points = $request->max_points;
 
         $category->save();
-        $category->questions()->sync($request->question_id);
 
         Session::flash('message', 'Category updated successfully');
-        return redirect()->route('categories.index');
+        return redirect()->route('categories');
     }
 
 
@@ -96,6 +103,6 @@ class CategoryController extends Controller
     {
         $category->delete();
         Session::flash('delete-message', 'Category deleted successfully');
-        return redirect()->route('categories.index');
+        return redirect()->route('categories');
     }
 }

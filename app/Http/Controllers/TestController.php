@@ -13,7 +13,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        $tests= Test::all();
+        $tests = Test::all();
         $test_categories = TestCategory::all();
         $categories = Category::all();
         return view('tests.index', compact('tests', 'test_categories', 'categories'));
@@ -21,17 +21,15 @@ class TestController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
+
         return view('tests.create', compact('categories'));
     }
 
     public function edit(Test $test)
     {
-        error_log($test);
-        error_log('proc tu neni test?');
-
-        $categories = Category::all();
-        return view('tests.edit', compact( 'categories', 'test'));
+        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
+        return view('tests.edit', compact('categories', 'test'));
     }
 
     public function store(Request $request)
@@ -59,7 +57,7 @@ class TestController extends Controller
 
         $test->save();
 
-        $test->test_categories()->sync($request->category_id, false);
+        $test->categories()->sync($request->category_id, false);
 
         Session::flash('message', 'Test created successfully');
         return redirect()->route('tests.index');
@@ -90,7 +88,7 @@ class TestController extends Controller
 
         $test->save();
 
-        $test->test_categories()->sync($request->category_id);
+        $test->categories()->sync($request->category_id);
 
         Session::flash('message', 'Test updated successfully');
         return redirect()->route('tests.index');

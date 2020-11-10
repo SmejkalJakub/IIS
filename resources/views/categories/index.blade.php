@@ -17,7 +17,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="../tests">Tests</a></li>
+            <li><a href="tests">Tests</a></li>
             @if(Auth::user()->hasRole('admin'))
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
@@ -40,39 +40,82 @@
                     <label for="search"></label><input type="text" class="form-controller" id="search" name="search"/>
                 </div>
             </td>
-            <td align="right"><button type="button" class="btn btn-success" style="background-color: #4a5568"><b>+ Add Category</b></button></td>
         </tr>
     </table>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                @if(Session::has('message'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        {{ Session('message') }}
+                    </div>
+                @endif
 
-    <table class="table table-bordered table-hover">
-        <thead>
-          <th>Name</th>
-          <th>Points per question</th>
-          <!---<th></th>
-          <th></th>
-        </thead>--->
+                @if(Session::has('delete-message'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        {{ Session('delete-message') }}
+                    </div>
+                @endif
+            </div>
+        </div>
 
-        <tbody>
-            @foreach($categories as $category)
-                <tr>
-                    <td>{{$category->name}}</td>
-                    <td>{{$category->max_points}}</td>
-                    <!---<td>
-                        <form class="delete" action="{{ route('user.delete', [$user->id]) }}" method="DELETE">
-                        <input type="hidden" name="_method" value="DELETE">
-                        {{ csrf_field() }}
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                        </form>
-                        <form class="edit" action="{{ route('user.edit', [$user->id]) }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="submit" class="btn btn-info" value="Edit">
-                        </form>
-                    </td>--->
-                </tr>
-            @endforeach
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <header><h1>Categories
+                                <a
+                                    href="{{ route('categories.create') }}"
+                                    class="btn btn-lg btn-primary align-middle float-right">Add</a>
+                            </h1>
+                        </header>
+                    </div>
 
-        </tbody>
-    </table>
-</div>
+
+                    <div class="card-body">
+                        <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Category name</th>
+                                <th scope="col">Points per question</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach($categories as $category)
+                                <tr>
+                                    <td>
+                                        {{ $category->id }}
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a>
+                                    </td>
+
+                                    <td>
+                                        {{$category->max_points}}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('categories.edit', $category->id) }}"
+                                           class="btn btn-sm btn-primary">Edit</a>
+
+                                        {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

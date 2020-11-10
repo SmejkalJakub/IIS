@@ -22,7 +22,7 @@
                 <li class="active"><a href="{{route('user-list')}}">Users</a></li>
             @endif
             @if(Auth::user()->hasRole('profesor') || Auth::user()->hasRole('admin'))
-                <li><a href="{{route('tests.index')}}">Categories</a></li>
+                <li><a href="{{route('categories')}}">Categories</a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">

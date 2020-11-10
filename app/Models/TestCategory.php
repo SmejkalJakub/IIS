@@ -9,7 +9,7 @@ class TestCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['number_of_questions'];
+    protected $fillable = ['category_id', 'test_id'];
 
     public function test()
     {

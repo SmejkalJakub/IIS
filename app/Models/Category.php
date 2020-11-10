@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
 
-    protected $fillable = ['name', 'max_points'];
+    protected $fillable = ['name', 'max_points', 'number_of_questions'];
     use HasFactory;
 
-    public function test_categories()
+    public function tests()
     {
-        return $this->belongsToMany(TestCategory::class, 'test_categories');
+        return $this->belongsToMany(Test::class, 'test_categories');
     }
 
     public function questions()
     {
-        return $this->HasMany(Question::class);
+        return $this->belongsToMany(Question::class);
     }
 }
