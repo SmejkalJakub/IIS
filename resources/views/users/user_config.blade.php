@@ -10,27 +10,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{route('home')}}">Best Tests</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="{{route('home')}}">Home</a></li>
-            <li><a href="{{route('categories')}}">Tests</a></li>
-            @if(Auth::user()->hasRole('admin'))
-                <li class="active"><a href="{{route('user-list')}}">Users</a></li>
-            @endif
-            @if(Auth::user()->hasRole('profesor'))
-                <li><a href="{{route('categories')}}">Categories</a></li>
-            @endif
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{route('user')}}"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
-            <li><a href="{{route('logout')}}"><span></span> Logout</a></li>
-        </ul>
-    </div>
-</nav>
+@include('layouts.navbar', ['activeBar' => 'userSetting'])
 
 <div class="container">
     <h2>Settings</h2>
