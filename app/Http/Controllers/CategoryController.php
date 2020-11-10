@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        $questions = Question::all()->where('category_id', '=', 'id');
+        $questions = Question::all()->where('category_id', '=', $category->id);
         return view('categories.show', compact('category', 'questions'));
     }
 
@@ -40,7 +40,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $questions = Question::all();
+        $questions = Question::all()->where('category_id', '=', $category->id);
         return view('categories.edit', compact('category', 'questions'));
     }
 
