@@ -72,7 +72,7 @@
     <h2>
         <a href="{{ route('tests') }}"
            class="btn btn-sm btn-primary">Back</a>
-        {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
+        {!! Form::submit('Create', ['class' => 'btn btn-sm btn-warning']) !!}
         {!! Form::close() !!}
     </h2>
 </div>

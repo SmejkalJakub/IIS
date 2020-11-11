@@ -49,7 +49,8 @@
             <option value="admin" {{ ($user->role == 'admin') ? 'selected' : '' }}>Admin</option>
           </select>
     </div>
-      <button type="submit" class="btn btn-default">Save</button>
+        <a href="{{ route('user-list') }}" class="btn btn-sm btn-primary">Back</a>
+      <button type="submit" class="btn btn-sm btn-warning">Save</button>
     </form>
   </div>
 

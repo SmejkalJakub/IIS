@@ -87,7 +87,7 @@
                                        class="btn btn-sm btn-primary">Edit</a>
 
                                     {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                    {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this test?\')']) !!}
                                     {!! Form::close() !!}
                                 </td>
                             </tr>

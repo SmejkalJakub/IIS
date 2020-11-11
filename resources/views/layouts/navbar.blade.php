@@ -6,11 +6,11 @@
         <ul class="nav navbar-nav">
             <li class="{{ ($activeBar == 'home') ? 'active' : '' }}"><a href="{{route('home')}}">Home</a></li>
             <li class="{{ ($activeBar == 'tests') ? 'active' : '' }}"><a href="{{route('tests')}}">Tests</a></li>
-            @if(Auth::user()->hasRole('admin'))
-                <li class="{{ ($activeBar == 'users') ? 'active' : '' }}"><a href="{{route('user-list')}}">Users</a></li>
-            @endif
             @if(Auth::user()->hasRole('profesor'))
                 <li class="{{ ($activeBar == 'categories') ? 'active' : '' }}"><a href="{{route('categories')}}">Categories</a></li>
+            @endif
+            @if(Auth::user()->hasRole('admin'))
+                <li class="{{ ($activeBar == 'users') ? 'active' : '' }}"><a href="{{route('user-list')}}">Users</a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">
