@@ -13,6 +13,23 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container">
+    <div class="row">
+        <div class="col">
+            @if(Session::has('message'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                    {{ Session('message') }}
+                </div>
+            @endif
+
+            @if(Session::has('delete-message'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                    {{ Session('delete-message') }}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -37,15 +54,27 @@
                             <span class="help-block">{!! $errors->first('description') !!}</span>@endif
                     </div>
 
+                    <div class="form-group @if($errors->has('available_from')) has-error @endif">
 
-                    {!! Form::label('Available from') !!}
-                    {{ Form::input('dateTime-local', 'available_from', $test->available_from, ['id' => 'available_from', 'class' => 'form-control']) }}
+                        {!! Form::label('Available from') !!}
+                        {{ Form::input('dateTime-local', 'available_from', $test->available_from, ['id' => 'available_from', 'class' => 'form-control']) }}
+                        @if ($errors->has('available_from'))
+                            <span class="help-block">{!! $errors->first('available_from') !!}</span>@endif
+                    </div>
+                    <div class="form-group @if($errors->has('available_to')) has-error @endif">
 
-                    {!! Form::label('Available to') !!}
-                    {{ Form::input('dateTime-local', 'available_to', $test->available_to, ['id' => 'available_to', 'class' => 'form-control']) }}
+                        {!! Form::label('Available to') !!}
+                        {{ Form::input('dateTime-local', 'available_to', $test->available_to, ['id' => 'available_to', 'class' => 'form-control']) }}
+                        @if ($errors->has('available_to'))
+                            <span class="help-block">{!! $errors->first('available_to') !!}</span>@endif
+                    </div>
+                    <div class="form-group @if($errors->has('max_duration')) has-error @endif">
 
-                    {!! Form::label('Max Duration') !!}
-                    {{ Form::input('time', 'max_duration', $test->max_duration, ['id' => 'max_duration', 'class' => 'form-control']) }}
+                        {!! Form::label('Max Duration') !!}
+                        {{ Form::input('time', 'max_duration', $test->max_duration, ['id' => 'max_duration', 'class' => 'form-control']) }}
+                        @if ($errors->has('max_duration'))
+                            <span class="help-block">{!! $errors->first('max_duration') !!}</span>@endif
+                    </div>
                     <div>
                         <h2>
                             <a href="{{ route('tests.show', $test->id) }}"
@@ -78,7 +107,7 @@
 
                             <tbody>
                             <?php
-                            $total_max_test_points= 0;
+                            $total_max_test_points = 0;
                             ?>
                             @foreach($categories as $category)
                                 <tr>
@@ -118,7 +147,7 @@
                             </h2>
                         </header>
                         <h3>
-                        {{$total_max_test_points}}
+                            {{$total_max_test_points}}
                         </h3>
                     </div>
 

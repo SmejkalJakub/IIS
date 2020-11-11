@@ -19,7 +19,7 @@ Route::post('post-register', 'AuthController@postRegister');
 Route::get('logout', 'AuthController@logout')->name('logout');
 Route::get('home', 'AuthController@home')->name('home');
 
-Route::group([null], function(){
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
     Route::resource('categories', 'CategoryController');
     Route::resource('test.categories', 'TestCategoryController');

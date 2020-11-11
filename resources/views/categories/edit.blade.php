@@ -34,9 +34,11 @@
                             <span class="help-block">{!! $errors->first('name') !!}</span>@endif
                     </div>
 
-                    <div>
+                    <div class="form-group @if($errors->has('max_points')) has-error @endif">
                         {!! Form::label('Max points') !!}
                         {{ Form::input('number', 'max_points', $category->max_points, ['id' => 'max_points', 'class' => 'form-control']) }}
+                        @if ($errors->has('max_points'))
+                            <span class="help-block">{!! $errors->first('max_points') !!}</span>@endif
                     </div>
                     <div>
                         <tr><h2>

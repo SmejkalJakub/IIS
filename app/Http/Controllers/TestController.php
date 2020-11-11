@@ -31,6 +31,7 @@ class TestController extends Controller
 
     public function edit(Test $test)
     {
+        error_log($test->available_from);
         $categories = TestCategory::all()->where('test_id', '=', $test->id);
         return view('tests.edit', compact('test', 'categories'));
     }
@@ -42,12 +43,18 @@ class TestController extends Controller
             [
                 'name' => 'required|unique:tests|max:128',
                 'description' => 'required|max:1024',
-            ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Test already exists',
+                'available_from' => 'required',
+                'available_to' => 'required',
+                'max_duration' => 'required',
             ]
         );
+
+        if(strtotime($request->available_from) - strtotime($request->available_to) >= 0){
+            Session::flash('delete-message', 'Test available from must be before available to');
+            return redirect()->route('tests.create');
+        }
+
+
 
         $test = new Test();
         $test->creator_id = Auth::id();
@@ -60,7 +67,6 @@ class TestController extends Controller
 
         $test->save();
 
-        Session::flash('message', 'Test created successfully');
         return redirect()->route('tests');
     }
 
@@ -71,13 +77,17 @@ class TestController extends Controller
             [
                 'name' => 'required|max:128|unique:tests,name,' . $test->id,
                 'description' => 'required|max:1024',
-            ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Test already exists',
-
+                'available_from' => 'required',
+                'available_to' => 'required',
+                'max_duration' => 'required',
             ]
         );
+
+        if(strtotime($request->available_from) - strtotime($request->available_to) >= 0){
+            Session::flash('delete-message', 'Test available from must be before available to');
+            return redirect()->route('tests.edit', $test->id);
+        }
+
 
         $test->creator_id = Auth::id();
 

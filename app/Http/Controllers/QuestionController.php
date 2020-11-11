@@ -26,34 +26,26 @@ class QuestionController extends Controller
 
     public function edit( $category_id, Question $question)
     {
-        error_log("editit");
         return view('questions.edit', compact('question', 'category_id'));
     }
 
     public function store(Request $request, $category_id)
     {
 
-       /* $this->validate(
+        $this->validate(
             $request,
             [
-                'name' => 'required|unique:questions|max:128',
+                'name' => 'required|max:128|unique:questions,name,' ,
                 'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
                 'task' => 'required|max:512',
                 'right_answer' => 'required|max:512',
-                'type' => 'required',
-
-                'option_1' => ['nullable','max:255'],
-                'option_2' => ['nullable','max:255'],
-                'option_3' => ['nullable','max:255'],
-                'option_4' => ['nullable','max:255'],
+                'type_of_answer' => 'required',
+                'option_1' => 'nullable|max:255',
+                'option_2' => 'nullable|max:255',
+                'option_3' => 'nullable|max:255',
+                'option_4' => 'nullable|max:255',
             ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Categories already exist',
-                'type.required' => 'Choose a file.',
-                'right_answer.required' => 'Fill up right answer.',
-            ]
-        );*/
+        );
 
         $question = new Question();
         $question->category_id = $category_id;
@@ -78,25 +70,22 @@ class QuestionController extends Controller
 
     public function update(Request $request, $category_id, Question $question)
     {
-        /*$this->validate(
+        $this->validate(
             $request,
             [
                 'name' => 'required|max:128|unique:questions,name,' . $question->id,
                 'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
                 'task' => 'required|max:512',
                 'right_answer' => 'required|max:512',
-                'type' => 'required',
-
-                'option_1' => 'max:255',
-                'option_2' => 'max:255',
-                'option_3' => 'max:255',
-                'option_4' => 'max:255',
+                'type_of_answer' => 'required',
+                'option_1' => 'nullable|max:255',
+                'option_2' => 'nullable|max:255',
+                'option_3' => 'nullable|max:255',
+                'option_4' => 'nullable|max:255',
                 ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Question already exist',
-            ]
-        );*/
+
+        );
+        error_log("ulozeno");
 
         $question->name = $request->name;
         $question->right_answer = $request->right_answer;
@@ -112,7 +101,6 @@ class QuestionController extends Controller
 
         $question->save();
 
-        error_log("ulozeno");
 
         Session::flash('message', 'Question updated successfully');
         return redirect()->route('categories.questions.show', [$category_id, $question->id]);

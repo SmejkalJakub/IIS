@@ -13,6 +13,23 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container">
+    <div class="row">
+        <div class="col">
+            @if(Session::has('message'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                    {{ Session('message') }}
+                </div>
+            @endif
+
+            @if(Session::has('delete-message'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                    {{ Session('delete-message') }}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">

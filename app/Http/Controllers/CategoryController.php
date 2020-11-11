@@ -53,13 +53,8 @@ class CategoryController extends Controller
             $request,
             [
                 'name' => 'required|unique:categories|max:128',
-                'max_points' => 'required|min:1|lt:101|gt:0'
+                'max_points' => 'required|gte:1|lte:100'
             ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Category already exists',
-                'max_points.required' => 'Enter number of points!'
-            ]
         );
 
         $category = new Category();
@@ -76,22 +71,16 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        /*
+
         $this->validate(
             $request,
             [
                 'name' => 'required|max:128|unique:categories,name,' . $category->id,
-                'max_points' => 'required|min:1|max:100'
-
+                'max_points' => 'required|gte:1|lte:100'
             ],
-            [
-                'name.required' => 'Enter name',
-                'name.unique' => 'Category already exists',
-                'max_points.required' => 'Enter number of points!'
 
-            ]
         );
-*/
+
         $category->name = $request->name;
         $category->max_points = $request->max_points;
 
