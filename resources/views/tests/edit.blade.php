@@ -39,10 +39,12 @@
 
 
                     {!! Form::label('Available from') !!}
-                    {{ Form::input('dateTime-local', 'available_from', $test->available_from, ['id' => 'available_from', 'class' => 'form-control']) }}
+                    {{ Form::input('dateTime-local', 'available_from', date('Y-m-d\TH:i', strtotime($test->available_from)),
+                                    ['id' => 'available_from', 'class' => 'form-control']) }}
 
                     {!! Form::label('Available to') !!}
-                    {{ Form::input('dateTime-local', 'available_to', $test->available_to, ['id' => 'available_to', 'class' => 'form-control']) }}
+                    {{ Form::input('dateTime-local', 'available_to', date('Y-m-d\TH:i', strtotime($test->available_to)),
+                                    ['id' => 'available_to', 'class' => 'form-control']) }}
 
                     {!! Form::label('Max Duration') !!}
                     {{ Form::input('time', 'max_duration', $test->max_duration, ['id' => 'max_duration', 'class' => 'form-control']) }}
@@ -50,7 +52,7 @@
                         <h2>
                             <a href="{{ route('tests.show', $test->id) }}"
                                class="btn btn-sm btn-primary">Back</a>
-                            {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
+                            {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
                             {!! Form::close() !!}
                         </h2>
                     </div>
@@ -103,7 +105,7 @@
                                            class="btn btn-sm btn-primary">Edit</a>
 
                                         {!! Form::open(['route' => ['test.categories.destroy', [$test->id, $cat->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
+                                        {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category from test?\')']) !!}
                                         {!! Form::close() !!}
                                     </td>
                                 </tr>

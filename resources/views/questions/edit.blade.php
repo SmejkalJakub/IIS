@@ -127,7 +127,7 @@
                         </div>
                     </div>
 
-                    {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
+                    {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>

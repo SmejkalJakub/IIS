@@ -92,7 +92,7 @@
                                                class="btn btn-sm btn-primary">Edit</a>
 
                                             {!! Form::open(['route' => ['categories.questions.destroy', $category->id, $question->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                            {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
+                                            {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this question?\')']) !!}
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>
