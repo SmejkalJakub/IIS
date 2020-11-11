@@ -48,7 +48,8 @@
                     {{ Form::input('time', 'max_duration', $test->max_duration, ['id' => 'max_duration', 'class' => 'form-control']) }}
                     <div>
                         <h2>
-
+                            <a href="{{ route('tests.show', $test->id) }}"
+                               class="btn btn-sm btn-primary">Back</a>
                             {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
                             {!! Form::close() !!}
                         </h2>
@@ -56,7 +57,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <header><h3>Categories of test
+                        <header><h3>Categories in test
                                 <a
                                     href="{{ route('test.categories.create',  $test->id) }}"
                                     class="btn btn-lg btn-primary align-middle float-right">Add</a>
@@ -101,7 +102,7 @@
                                         <a href="{{ route('test.categories.edit', [$test->id, $cat->id]) }}"
                                            class="btn btn-sm btn-primary">Edit</a>
 
-                                        {!! Form::open(['route' => ['test.categories.destroy', $test->id, $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::open(['route' => ['test.categories.destroy', [$test->id, $cat->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                         {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
                                         {!! Form::close() !!}
                                     </td>

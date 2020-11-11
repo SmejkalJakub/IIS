@@ -39,9 +39,12 @@
                         {{ Form::input('number', 'max_points', $category->max_points, ['id' => 'max_points', 'class' => 'form-control']) }}
                     </div>
                     <div>
-                        <tr>
-                            {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
-                            {!! Form::close() !!}
+                        <tr><h2>
+                                <a href="{{ route('categories.show', $category->id) }}"
+                                   class="btn btn-sm btn-primary">Back</a>
+                                {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
+                                {!! Form::close() !!}
+                            </h2>
                         </tr>
                     </div>
 
@@ -59,7 +62,9 @@
                             <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
                                 <thead>
                                 <tr>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Type of answer</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -68,8 +73,18 @@
                                 @foreach($questions as $question)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('question.show', $question->id) }}">{{ $question->name }}</a>
+                                            <a href="{{ route('categories.questions.show', [$category->id, $question->id]) }}">{{ $question->id }}</a>
 
+                                        </td>
+                                        <td>
+                                            {{$question->name}}
+                                        </td>
+                                        <td>
+                                            @if($question->type_of_answer == 1)
+                                                open
+                                            @else
+                                                abcd
+                                            @endif
                                         </td>
                                         <td>
 

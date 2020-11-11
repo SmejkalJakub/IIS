@@ -17,7 +17,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div
-                    class="card-header"><h1>Question edit</h1></div>
+                    class="card-header"><h1>Number of questions from <b>{{$cat->name}}</b> category</h1></div>
 
                 <div class="card-body">
 
@@ -30,7 +30,8 @@
                         @if ($errors->has('number_of_questions'))
                             <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>
-
+                    <a href="{{ route('tests.show', $test_category->test_id) }}"
+                       class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Update',['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
                 </div>

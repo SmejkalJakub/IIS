@@ -64,7 +64,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ url('test/' . $test->id) }}">{{ $test->name }}</a>
+                                    <a href="{{ route('tests.show', $test->id) }}">{{ $test->name }}</a>
                                 </td>
                                 <td>
                                     {{ $test->creator->first_name }}

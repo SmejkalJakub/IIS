@@ -18,6 +18,11 @@ class TestController extends Controller
         $categories = Category::all();
         return view('tests.index', compact('tests', 'test_categories', 'categories'));
     }
+    public function show(Test $test)
+    {
+        $test_categories = TestCategory::all()->where('test_id', '=', $test->id);
+        return view('tests.show', compact('test', 'test_categories'));
+    }
 
     public function create()
     {
@@ -94,6 +99,6 @@ class TestController extends Controller
 
         $test->delete();
         Session::flash('delete-message', 'Test deleted successfully');
-        return redirect()->route('tests.index');
+        return redirect()->route('tests');
     }
 }

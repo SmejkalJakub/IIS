@@ -18,7 +18,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div
-                    class="card-header"><h1>Question add</h1></div>
+                    class="card-header"><h1>Add category to test</h1></div>
 
                 <div class="card-body">
 
@@ -38,11 +38,8 @@
                             <span class="help-block">{!! $errors->first('category_id') !!}</span>
                         @endif
                     </div>
-
-
-
-
-
+                    <a href="{{ route('tests.show', $test_id) }}"
+                       class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
                 </div>

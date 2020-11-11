@@ -36,9 +36,10 @@
                     </div>
                     <div>
                         <h1>
-
-                    {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
-                    {!! Form::close() !!}
+                            <a href="{{ route('categories') }}"
+                               class="btn btn-sm btn-primary">Back</a>
+                            {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
+                            {!! Form::close() !!}
                         </h1>
                     </div>
                 </div>

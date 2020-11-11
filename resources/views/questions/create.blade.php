@@ -110,9 +110,13 @@
                             </table>
                         </div>
                     </div>
+                    <h2>
 
+                    <a href="{{ route('categories.show', $category_id) }}"
+                       class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
+                    </h2>
                 </div>
             </div>
         </div>

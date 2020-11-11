@@ -18,72 +18,78 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <header>
-                        <h1>
-                            Category {{$category->name}}
-                            <a href="{{ route('categories.edit', $category->id) }}"
-                               class="btn btn-sm btn-primary">Edit</a>
-                        </h1>
-                        <h2>
-
-
-                        </h2>
-                    </header>
+                    <h1>
+                        Category: {{$category->name}}
+                        <a href="{{ route('categories.edit', $category->id) }}"
+                           class="btn btn-sm btn-primary">Edit</a>
+                    </h1>
                 </div>
-
-
                 <article>
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-8 col-md-10 mx-auto">
-                                <h1>
-                                    Description
-                                </h1>
-                                {{ $category->description }}
+
                                 <div>
-                                    <h2>
-                                        Max points
-                                    </h2>
-                                    {{$category->max_points}}
+                                    <h3>
+                                        Points per question
+                                    </h3>
+                                    <h4>
+                                        {{$category->max_points}}
+                                    </h4>
+
                                 </div>
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2>
+                                            Questions of category
+                                        </h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <table style="text-align:center"
+                                               class="sortable searchable table table-bordered mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Type of answer</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            @foreach($questions as $question)
+                                                <tr>
+                                                    <td>
+                                                        <a href="{{ route('categories.questions.show', [$category->id, $question->id]) }}">{{ $question->id }}</a>
+
+                                                    </td>
+                                                    <td>
+                                                        {{$question->name}}
+                                                    </td>
+                                                    <td>
+                                                        @if($question->type_of_answer == 1)
+                                                            open
+                                                        @else
+                                                            abcd
+                                                        @endif
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                             </div>
                         </div>
                     </div>
+                    </div>
                 </article>
-
-                <div class="card-body">
-                    <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @foreach($questions as $question)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('questions.show', $question->id) }}">{{ $question->id }}</a>
-
-                                </td>
-                                <td>
-                                    <a href="{{ route('questions.edit', $question->id) }}"
-                                       class="btn btn-sm btn-primary">Edit</a>
-
-                                    {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                    {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
-                                    {!! Form::close() !!}
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <a href="{{ route('categories') }}"
+                   class="btn btn-sm btn-primary">Back</a>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

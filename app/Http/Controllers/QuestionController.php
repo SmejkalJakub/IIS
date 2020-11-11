@@ -21,11 +21,12 @@ class QuestionController extends Controller
 
     public function show(Category $category, Question $question)
     {
-        return view('categories.show', compact( 'question'));
+        return view('questions.show', compact( 'question', 'category'));
     }
 
     public function edit( $category_id, Question $question)
     {
+        error_log("editit");
         return view('questions.edit', compact('question', 'category_id'));
     }
 
@@ -111,8 +112,10 @@ class QuestionController extends Controller
 
         $question->save();
 
+        error_log("ulozeno");
+
         Session::flash('message', 'Question updated successfully');
-        return back();
+        return redirect()->route('categories.questions.show', [$category_id, $question->id]);
     }
 
 
