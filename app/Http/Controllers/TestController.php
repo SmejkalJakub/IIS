@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Test;
-use App\Models\TestCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -13,25 +12,39 @@ class TestController extends Controller
 {
     public function index()
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('student'))
-        {
-            return redirect()->route('home');
-        }
+
         $tests = Test::all();
-        $test_categories = TestCategory::all();
-        $categories = Category::all();
-        return view('tests.index', compact('tests', 'test_categories', 'categories'));
+
+        foreach ($tests as $test) {
+
+            $points_per_test = 0;
+            $test_cats = $test->categories;
+            $test->setAttribute('max_points', $points_per_test);
+
+            foreach ($test_cats as $test_cat) {
+                $id_1 = $test_cat->pivot->category_id;
+                $category = Category::all()->where('id', '=', $id_1)->first();
+
+                if ($category != null) {
+                    $points_per_test += $category->max_points * $test_cat->pivot->number_of_questions;
+                }
+
+                $test->setAttribute('max_points', $points_per_test);
+            }
+
+        }
+
+        return view('tests.index', compact('tests'));
     }
+
     public function show(Test $test)
     {
-        $test_categories = TestCategory::all()->where('test_id', '=', $test->id);
-        return view('tests.show', compact('test', 'test_categories'));
+        return view('tests.show', compact('test'));
     }
 
     public function create()
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         return view('tests.create');
@@ -39,19 +52,15 @@ class TestController extends Controller
 
     public function edit(Test $test)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        error_log($test->available_from);
-        $categories = TestCategory::all()->where('test_id', '=', $test->id);
-        return view('tests.edit', compact('test', 'categories'));
+        return view('tests.edit', compact('test'));
     }
 
     public function store(Request $request)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $this->validate(
@@ -65,11 +74,10 @@ class TestController extends Controller
             ]
         );
 
-        if(strtotime($request->available_from) - strtotime($request->available_to) >= 0){
+        if (strtotime($request->available_from) - strtotime($request->available_to) >= 0) {
             Session::flash('delete-message', 'Test available from must be before available to');
             return redirect()->route('tests.create');
         }
-
 
 
         $test = new Test();
@@ -88,8 +96,7 @@ class TestController extends Controller
 
     public function update(Request $request, Test $test)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $this->validate(
@@ -103,7 +110,7 @@ class TestController extends Controller
             ]
         );
 
-        if(strtotime($request->available_from) - strtotime($request->available_to) >= 0){
+        if (strtotime($request->available_from) - strtotime($request->available_to) >= 0) {
             Session::flash('delete-message', 'Test available from must be before available to');
             return redirect()->route('tests.edit', $test->id);
         }
@@ -126,8 +133,7 @@ class TestController extends Controller
 
     public function destroy(Test $test)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
 
