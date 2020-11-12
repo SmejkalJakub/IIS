@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Tests</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Tests</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -36,9 +36,12 @@
             <div class="card">
                 <div class="card-header">
                     <header><h1>Tests
+                            @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
                             <a
-                                href="{{ route('tests.create') }}"
-                                class="btn btn-lg btn-primary align-middle float-right">Add</a>
+                            href = "{{ route('tests.create') }}"
+                            class="btn btn-lg btn-primary align-middle float-right" > Add</a >
+
+                            @endif
                         </h1>
                     </header>
                 </div>
@@ -70,25 +73,31 @@
                                     {{ $test->creator->first_name }}
                                     {{ $test->creator->surname }}
                                 </td>
-                               <td>
-                                   <?php
-                                   $points = 0;
-                                   foreach($test_categories as $tc){
-                                       if($tc->test_id == $test->id){
-                                        $category = $categories->where('id', $tc->category_id)->first();
-                                        $points = $points + ($tc->number_of_questions * ($category->max_points));
-                                        }
-                                   }
-                                   ?>
-                                   {{$points}}
-                               </td>
                                 <td>
+                                    <?php
+                                    $points = 0;
+                                    foreach ($test_categories as $tc) {
+                                        if ($tc->test_id == $test->id) {
+                                            $category = $categories->where('id', $tc->category_id)->first();
+                                            $points = $points + ($tc->number_of_questions * ($category->max_points));
+                                        }
+                                    }
+                                    ?>
+                                    {{$points}}
+                                </td>
+                                <td>
+
+                                    <a href="{{ route('sign_on_test.create', $test->id) }}"
+                                       class="btn btn-sm btn-primary">Sign on</a>
+                                    @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
+
                                     <a href="{{ route('tests.edit', $test->id) }}"
                                        class="btn btn-sm btn-primary">Edit</a>
 
                                     {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                     {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this test?\')']) !!}
                                     {!! Form::close() !!}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

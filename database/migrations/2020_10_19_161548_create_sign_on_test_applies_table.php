@@ -23,8 +23,10 @@ class CreateSignOnTestAppliesTable extends Migration
 
             $table->bigInteger('applier_id')->unsigned();
             $table->foreign('applier_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->bigInteger('authorizer_id')->unsigned();
             $table->foreign('authorizer_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->bigInteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
 

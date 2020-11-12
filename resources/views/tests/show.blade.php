@@ -36,9 +36,13 @@
             <div class="card">
                 <div class="card-header">
                     <h1>Test: {{$test->name}}
-                        <a
-                            href="{{ route('tests.edit', $test->id) }}"
-                            class="btn btn-lg btn-primary align-middle float-right">Edit</a>
+
+                        @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
+                            <a href="{{ route('tests.edit', $test->id) }}"
+                                class="btn btn-lg btn-primary align-middle float-right">Edit</a>
+                        @endif
+                        <a href="{{ route('sign_on_test.create', $test->id) }}"
+                           class="btn btn-sm btn-primary">Sign on</a>
                     </h1>
                 </div>
 
@@ -103,7 +107,7 @@
 
                                             <tbody>
                                             <?php
-                                            $total_max_test_points= 0;
+                                            $total_max_test_points = 0;
                                             ?>
                                             @foreach($test_categories as $test_category)
                                                 <tr>
@@ -138,9 +142,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                        <h3>
-                                            Maximum points per test
-                                        </h3>
+                                    <h3>
+                                        Maximum points per test
+                                    </h3>
                                     <h2>
                                         {{$total_max_test_points}}
                                     </h2>
