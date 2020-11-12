@@ -17,7 +17,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        if(!Auth::user()->hasRole('profesor'))
+        if(Auth::user() == null || !Auth::user()->hasRole('assistant'))
         {
             return redirect()->route('home');
         }
@@ -31,24 +31,42 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('assistant'))
+        {
+            return redirect()->route('home');
+        }
+
         $questions = Question::all()->where('category_id', '=', $category->id);
         return view('categories.show', compact('category', 'questions'));
     }
 
     public function create()
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
+
         $questions = Question::all()->where('questions');
         return view('categories.create', compact('questions'));
     }
 
     public function edit(Category $category)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $questions = Question::all()->where('category_id', '=', $category->id);
         return view('categories.edit', compact('category', 'questions'));
     }
 
     public function store(Request $request)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $this->validate(
             $request,
             [
@@ -71,6 +89,10 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
 
         $this->validate(
             $request,
@@ -93,6 +115,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $category->delete();
         Session::flash('delete-message', 'Category deleted successfully');
         return redirect()->route('categories');

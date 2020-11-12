@@ -13,6 +13,10 @@ class TestController extends Controller
 {
     public function index()
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('student'))
+        {
+            return redirect()->route('home');
+        }
         $tests = Test::all();
         $test_categories = TestCategory::all();
         $categories = Category::all();
@@ -26,11 +30,19 @@ class TestController extends Controller
 
     public function create()
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         return view('tests.create');
     }
 
     public function edit(Test $test)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         error_log($test->available_from);
         $categories = TestCategory::all()->where('test_id', '=', $test->id);
         return view('tests.edit', compact('test', 'categories'));
@@ -38,6 +50,10 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $this->validate(
             $request,
             [
@@ -72,6 +88,10 @@ class TestController extends Controller
 
     public function update(Request $request, Test $test)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $this->validate(
             $request,
             [
@@ -106,6 +126,10 @@ class TestController extends Controller
 
     public function destroy(Test $test)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
 
         $test->delete();
         Session::flash('delete-message', 'Test deleted successfully');

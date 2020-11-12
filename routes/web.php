@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'AuthController@index');
-Route::get('login', 'AuthController@index');
+Route::get('login', 'AuthController@index')->name('login');
 Route::post('post-login', 'AuthController@postLogin');
 Route::get('register', 'AuthController@register');
 Route::post('post-register', 'AuthController@postRegister');
@@ -21,6 +21,7 @@ Route::get('home', 'AuthController@home')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
+    Route::resource('sign_on_test', 'SignOnTestApply');
     Route::resource('categories', 'CategoryController');
     Route::resource('test.categories', 'TestCategoryController');
     Route::resource('question', 'QuestionController');

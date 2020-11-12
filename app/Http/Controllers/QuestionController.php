@@ -15,22 +15,39 @@ class QuestionController extends Controller
 
     public function create($category_id)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         return view('questions.create')->with('category_id', $category_id);
 
     }
 
     public function show(Category $category, Question $question)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('assistant'))
+        {
+            return redirect()->route('home');
+        }
         return view('questions.show', compact( 'question', 'category'));
     }
 
     public function edit( $category_id, Question $question)
     {
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         return view('questions.edit', compact('question', 'category_id'));
     }
 
     public function store(Request $request, $category_id)
     {
+
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
 
         $this->validate(
             $request,
@@ -70,6 +87,11 @@ class QuestionController extends Controller
 
     public function update(Request $request, $category_id, Question $question)
     {
+
+        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
+        {
+            return redirect()->route('home');
+        }
         $this->validate(
             $request,
             [
