@@ -11,11 +11,11 @@ class Question extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function instances_questions()
     {
-        return $this->HasMany(TestInstanceQuestion::class);
+        return $this->belongsToMany(TestInstance::class, 'test_instance_questions')->withPivot('answer', 'points');
     }
 }

@@ -21,7 +21,7 @@ class Test extends Model
     }
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'test_categories');
+        return $this->belongsToMany(Category::class, 'test_categories')->withPivot('number_of_questions');
     }
 
 }

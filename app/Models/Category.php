@@ -13,11 +13,11 @@ class Category extends Model
 
     public function tests()
     {
-        return $this->belongsToMany(Test::class, 'test_categories');
+        return $this->belongsToMany(Test::class, 'test_categories')->withPivot('number_of_questions');
     }
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class);
+        return $this->hasMany(Question::class);
     }
 }
