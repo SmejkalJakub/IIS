@@ -37,9 +37,9 @@
                 <div class="card-header">
                     <header><h1>Tests
                             @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
-                            <a
-                            href = "{{ route('tests.create') }}"
-                            class="btn btn-lg btn-primary align-middle float-right" > Add</a >
+                                <a
+                                    href="{{ route('tests.create') }}"
+                                    class="btn btn-lg btn-primary align-middle float-right"> Add</a>
 
                             @endif
                         </h1>
@@ -74,16 +74,7 @@
                                     {{ $test->creator->surname }}
                                 </td>
                                 <td>
-                                    <?php
-                                    $points = 0;
-                                    foreach ($test_categories as $tc) {
-                                        if ($tc->test_id == $test->id) {
-                                            $category = $categories->where('id', $tc->category_id)->first();
-                                            $points = $points + ($tc->number_of_questions * ($category->max_points));
-                                        }
-                                    }
-                                    ?>
-                                    {{$points}}
+                                    {{$test->max_points}}
                                 </td>
                                 <td>
 
@@ -91,12 +82,12 @@
                                        class="btn btn-sm btn-primary">Sign on</a>
                                     @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
 
-                                    <a href="{{ route('tests.edit', $test->id) }}"
-                                       class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="{{ route('tests.edit', $test->id) }}"
+                                           class="btn btn-sm btn-primary">Edit</a>
 
-                                    {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                    {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this test?\')']) !!}
-                                    {!! Form::close() !!}
+                                        {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this test?\')']) !!}
+                                        {!! Form::close() !!}
                                     @endif
                                 </td>
                             </tr>
