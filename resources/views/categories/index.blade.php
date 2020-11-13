@@ -82,16 +82,9 @@
                                 <td>
                                     {{$category->max_points}}
                                 </td>
-                                <?php
-                                $noq = 0;
-                                foreach ($questions_cids as $cid) {
-                                    if ($cid == $category->id) {
-                                        $noq++;
-                                    }
-                                }
-                                ?>
+
                                 <td>
-                                    {{$noq}}
+                                    {{$category->number_of_questions}}
                                 </td>
                                 <td>
                                     <a href="{{ route('categories.edit', $category->id) }}"

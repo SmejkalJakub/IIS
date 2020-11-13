@@ -17,22 +17,31 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('assistant'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
         $categories = Category::all();
-        $questions_cids = Question::all()->pluck('category_id');
-        error_log('\n\n\n\n\n');
-        error_log($questions_cids);
+        foreach ($categories as $category) {
+            $number_of_questions = 0;
 
-        return view('categories.index', compact('categories', 'questions_cids'));
+            $category->setAttribute('number_of_questions', $number_of_questions);
+
+            $questions = $category->questions;
+
+            foreach ($questions as $q){
+                $number_of_questions+= 1;
+            }
+
+            $category->setAttribute('number_of_questions', $number_of_questions);
+
+
+        }
+        return view('categories.index', compact('categories'));
     }
 
     public function show(Category $category)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('assistant'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
 
@@ -42,8 +51,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
 
@@ -53,18 +61,17 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        $questions = Question::all()->where('category_id', '=', $category->id);
+        $questions = $category->questions;
+
         return view('categories.edit', compact('category', 'questions'));
     }
 
     public function store(Request $request)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $this->validate(
@@ -89,8 +96,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
 
@@ -115,8 +121,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $category->delete();
