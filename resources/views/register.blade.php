@@ -1,61 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Register</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+@include('layouts.head', ['title' => 'Register'])
+<body style="background-color: #B6B6B6">
 
-<div class="container">
+@include('layouts.header')
 
-  <h2>Register</h2>
-  <form action="{{url('post-register')}}" method="POST" id="regForm">
-    {{ csrf_field() }}
-    <div class="form-group">
-        <label for="inputFirstName">Full Name</label>
-        <input type="text" class="form-control" id="inputFirstName" placeholder="Enter first name" name="first_name">
-        @if ($errors->has('name'))
-            <span class="error">{{ $errors->first('first_name') }}</span>
-        @endif
-    </div>
-    <div class="form-group">
-        <label for="inputSurname">Full Name</label>
-        <input type="text" class="form-control" id="inputSurname" placeholder="Enter surname" name="surname">
-        @if ($errors->has('name'))
-            <span class="error">{{ $errors->first('surname') }}</span>
-        @endif
-    </div>
-    <div class="form-group">
-        <label for="inputEmailAddress">Email:</label>
-        <input type="email" class="form-control" id="inputEmailAddress" placeholder="Enter email" name="email">
-        @if ($errors->has('email'))
-            <span class="error">{{ $errors->first('email') }}</span>
-        @endif
-    </div>
-    <div class="form-group">
-        <label for="inputPassword">Password:</label>
-        <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" name="password">
-        @if ($errors->has('password'))
-            <span class="error">{{ $errors->first('password') }}</span>
-        @endif
-    </div>
-    <div class="form-group">
-        <label for="inputPassword">Confirm Password:</label>
-        <input type="password" class="form-control" id="imputPasswordConfirmation" placeholder="Confirm password" name="passwordConfirmation">
-        @if ($errors->has('password'))
-            <span class="error">{{ $errors->first('password') }}</span>
-        @endif
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+<div class="container mt-5 p-3 bg-white rounded" style="max-width: 400px">
+    <h2 class="mb-3 text-center" style="color: #373737">Registration</h2>
+    <form action="{{url('post-register')}}" method="POST" id="regForm">
+        {{ csrf_field() }}
+        <div class="p-3">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="First name" name="first_name">
+                @if ($errors->has('name'))
+                    <span class="error">{{ $errors->first('first_name') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control"  placeholder="Surname" name="surname">
+                @if ($errors->has('name'))
+                    <span class="error">{{ $errors->first('surname') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="E-mail" name="email">
+                @if ($errors->has('email'))
+                    <span class="error">{{ $errors->first('email') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password">
+                @if ($errors->has('password'))
+                    <span class="error">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Confirm password" name="passwordConfirmation">
+                @if ($errors->has('password'))
+                    <span class="error">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
+            <button type="submit" class="btn btn-success btn-block font-weight-bold">Register</button>
+        </div>
+    </form>
 
-    <div class="card-footer text-center">
-        <div class="small"><a href="{{url('login')}}">Have an account? Go to login</a></div>
+    <hr>
+
+    <div class="p-3">
+        <a role="button" class="btn btn-block btn-secondary" href="{{url('login')}}">Have an account? Sign in</a>
     </div>
-  </form>
 </div>
 
 </body>

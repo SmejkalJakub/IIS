@@ -14,7 +14,6 @@ class CreateTestCategoriesTable extends Migration
     public function up()
     {
         Schema::create('test_categories', function (Blueprint $table) {
-            $table->id();
             $table->unique(['test_id', 'category_id']);
 
             $table->timestamps();
