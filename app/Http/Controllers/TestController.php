@@ -55,6 +55,7 @@ class TestController extends Controller
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
+        $test_categories = $test->categories;
         return view('tests.edit', compact('test'));
     }
 
