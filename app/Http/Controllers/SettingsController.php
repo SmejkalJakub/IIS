@@ -12,7 +12,14 @@ class SettingsController extends Controller
 {
     public function settings()
     {
-        return view('users.user_config');
+        if(Auth::user() != null)
+        {
+            return view('users.user_config');
+        }
+        else
+        {
+            return redirect()->route('home');
+        }
     }
 
     public function saveConfig(Request $request)

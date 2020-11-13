@@ -7,11 +7,21 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    @font-face {
+       font-family: good_times;
+       src: url('/fonts/good_times.ttf');
+    }
+
+    .custom_font {
+       font-family: good_times;
+    }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Login</h2>
+  <h2 class="custom_font" style="color: #4CAF50"><i>Login</i></h2>
   <form action="{{url('post-login')}}" method="POST" id="logForm">
     {{ csrf_field() }}
     <div class="form-group">
