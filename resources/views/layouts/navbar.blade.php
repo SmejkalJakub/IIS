@@ -1,21 +1,33 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{route('home')}}">Best Tests</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="{{ ($activeBar == 'home') ? 'active' : '' }}"><a href="{{route('home')}}">Home</a></li>
-            <li class="{{ ($activeBar == 'tests') ? 'active' : '' }}"><a href="{{route('tests')}}">Tests</a></li>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" style="padding: 0px">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item {{ ($activeBar == 'home') ? 'active bg-success' : '' }}">
+                <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('home')}}">HOME</a>
+            </li>
+            <li class="nav-item {{ ($activeBar == 'tests') ? 'active bg-success' : '' }}">
+                <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('tests')}}">TESTS</a>
+            </li>
+
             @if(Auth::user()->hasRole('profesor'))
-                <li class="{{ ($activeBar == 'categories') ? 'active' : '' }}"><a href="{{route('categories')}}">Categories</a></li>
+                <li class="nav-item {{ ($activeBar == 'categories') ? 'active bg-success' : '' }}">
+                    <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('categories')}}">CATEGORIES</a>
+                </li>
             @endif
+
             @if(Auth::user()->hasRole('admin'))
-                <li class="{{ ($activeBar == 'users') ? 'active' : '' }}"><a href="{{route('user-list')}}">Users</a></li>
+                <li class="nav-item {{ ($activeBar == 'users') ? 'active bg-success' : '' }}">
+                    <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('user-list')}}">USERS</a>
+                </li>
             @endif
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="{{ ($activeBar == 'userSetting') ? 'active' : '' }}"><a href="{{route('user')}}"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->first_name}} {{Auth::user()->surname}}</a></li>
-            <li><a href="{{route('logout')}}"><span></span> Logout</a></li>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item {{ ($activeBar == 'userSetting') ? 'active bg-success' : '' }}">
+                <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('user')}}">{{Auth::user()->first_name}} {{Auth::user()->surname}}</a>
+            </li>
         </ul>
     </div>
 </nav>
