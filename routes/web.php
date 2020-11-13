@@ -31,6 +31,10 @@ Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
 
 
+Route::get('reset-password', 'PasswordResetController@index')->name('reset-password');
+Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
+
+
 /*Route::get('tests.index', 'TestController@index')->name('tests.index');
 Route::get('tests.create', 'TestController@create')->name('tests.create');
 Route::get('tests.edit/{id}', 'TestController@edit')->name('tests.edit/{id}');
