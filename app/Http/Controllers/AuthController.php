@@ -22,6 +22,7 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
+        error_log("jsem tu, login prosel");
         request()->validate([
         'email' => 'required',
         'password' => 'required',

@@ -78,6 +78,16 @@
                             <span class="help-block">{!! $errors->first('max_duration') !!}</span>@endif
                     </div>
                     <div>
+                        <header>
+                            <h2>
+                                Maximum points per test
+                            </h2>
+                        </header>
+                        <h3>
+                            {{$test->max_points}}
+                        </h3>
+                    </div>
+                    <div>
                         <h2>
                             <a href="{{ route('tests.show', $test->id) }}"
                                class="btn btn-sm btn-primary">Back</a>
@@ -111,29 +121,25 @@
                             <?php
                             $total_max_test_points = 0;
                             ?>
-                            @foreach($categories as $category)
+                            @foreach($test_categories as $test_category)
                                 <tr>
                                     <td>
-                                        <?php
-                                        $cat = \App\Models\Category::where('id', '=', $category->category_id)->first();
 
-                                        $total_max_test_points = $total_max_test_points + ($cat->max_points * $category->number_of_questions);
-                                        ?>
-                                        {{ $cat->name }}
+                                        {{ $test_category->name }}
                                     </td>
                                     <td>
-                                        {{$category->number_of_questions}}
+                                        {{$test_category->pivot->number_of_questions}}
                                     </td>
                                     <td>
-                                        {{$cat->max_points}}
+                                        {{$test_category->max_points}}
                                     </td>
                                     <td>
 
 
-                                        <a href="{{ route('test.categories.edit', [$test->id, $cat->id]) }}"
+                                        <a href="{{ route('test.categories.edit', [$test->id, $test_category->pivot->category_id]) }}"
                                            class="btn btn-sm btn-primary">Edit</a>
 
-                                        {!! Form::open(['route' => ['test.categories.destroy', [$test->id, $cat->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::open(['route' => ['test.categories.destroy', [$test->id, $test_category->pivot->category_id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                         {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category from test?\')']) !!}
                                         {!! Form::close() !!}
                                     </td>
@@ -142,16 +148,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div>
-                        <header>
-                            <h2>
-                                Maximum points per test
-                            </h2>
-                        </header>
-                        <h3>
-                            {{$total_max_test_points}}
-                        </h3>
-                    </div>
+
 
                 </div>
 

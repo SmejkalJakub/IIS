@@ -12,8 +12,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        if(Auth::user() == null)
-        {
+        if (Auth::user() == null) {
             return redirect()->route('home');
         }
         $tests = Test::all();
@@ -25,15 +24,11 @@ class TestController extends Controller
             $test->setAttribute('max_points', $points_per_test);
 
             foreach ($test_cats as $test_cat) {
-                $id_1 = $test_cat->pivot->category_id;
-                $category = Category::all()->where('id', '=', $id_1)->first();
 
-                if ($category != null) {
-                    $points_per_test += $category->max_points * $test_cat->pivot->number_of_questions;
-                }
+                $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
 
-                $test->setAttribute('max_points', $points_per_test);
             }
+            $test->setAttribute('max_points', $points_per_test);
 
         }
 
@@ -42,8 +37,7 @@ class TestController extends Controller
 
     public function show(Test $test)
     {
-        if(Auth::user() == null)
-        {
+        if (Auth::user() == null) {
             return redirect()->route('home');
         }
         return view('tests.show', compact('test'));
@@ -59,10 +53,22 @@ class TestController extends Controller
 
     public function edit(Test $test)
     {
+        $points_per_test = 0;
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        return view('tests.edit', compact('test'));
+        $test_categories = $test->categories;
+
+        $test->setAttribute('max_points', $points_per_test);
+
+        foreach ($test_categories as $test_cat) {
+
+            $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
+        }
+        $test->setAttribute('max_points', $points_per_test);
+
+        error_log($test_categories);
+        return view('tests.edit', compact('test', 'test_categories'));
     }
 
     public function store(Request $request)
