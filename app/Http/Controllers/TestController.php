@@ -12,7 +12,10 @@ class TestController extends Controller
 {
     public function index()
     {
-
+        if(Auth::user() == null)
+        {
+            return redirect()->route('home');
+        }
         $tests = Test::all();
 
         foreach ($tests as $test) {
@@ -39,6 +42,10 @@ class TestController extends Controller
 
     public function show(Test $test)
     {
+        if(Auth::user() == null)
+        {
+            return redirect()->route('home');
+        }
         return view('tests.show', compact('test'));
     }
 
