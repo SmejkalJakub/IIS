@@ -14,9 +14,6 @@ class CreateTestInstanceQuestionsTable extends Migration
     public function up()
     {
         Schema::create('test_instance_questions', function (Blueprint $table) {
-
-            $table->id();
-
             $table->unique(['test_instance_id', 'question_id']);
 
             $table->timestamps();
