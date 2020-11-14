@@ -6,7 +6,7 @@
 @include('layouts.header')
 
 <div class="container mt-5 p-3 bg-white rounded" style="max-width: 400px">
-    <h2 class="mb-3 text-center" style="color: #373737">Test yourself...</h2>
+    <h2 class="mb-3 text-center" style="color: #373737">Login issues?</h2>
     <form action="{{url('reset-password-request')}}" method="POST" id="logForm">
         {{ csrf_field() }}
         <div class="p-3">

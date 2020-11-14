@@ -25,8 +25,9 @@
             <button type="submit" class="btn btn-success btn-block font-weight-bold">Log in</button>
         </div>
     </form>
-    <div class="p-3">
-        <a role="button" class="btn btn-success btn-block font-weight-bold" href="{{ route('reset-password') }}">Did you forgot your password?</a>
+
+    <div class="text-center">
+        <a class="text-success" href="{{ route('reset-password') }}">Forgotten password?</a>
     </div>
 
     <hr>
