@@ -18,6 +18,12 @@
             </div>
             <button type="submit" class="btn btn-success btn-block font-weight-bold">Reset Password</button>
         </div>
+
+        <hr>
+
+        <div class="p-3">
+            <a role="button" class="btn btn-block btn-secondary" href="{{url('login')}}">Back to login</a>
+        </div>
     </form>
 </div>
 
