@@ -26,6 +26,10 @@
         </div>
     </form>
 
+    <div class="text-center">
+        <a class="text-success" href="{{ route('reset-password') }}">Forgotten password?</a>
+    </div>
+
     <hr>
 
     <div class="p-3">
