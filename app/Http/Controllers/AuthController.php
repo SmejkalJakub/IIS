@@ -22,7 +22,6 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-        error_log("jsem tu, login prosel");
         request()->validate([
         'email' => 'required',
         'password' => 'required',
@@ -30,10 +29,10 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
             return redirect()->intended('home');
         }
-        return Redirect::to("login")->withErrors('Oppes! You have entered invalid credentials');
+        Session::flash('error-message', 'Oppes! You have entered invalid credentials');
+        return redirect()->route('login');
     }
 
     public function postRegister(Request $request)
@@ -50,15 +49,19 @@ class AuthController extends Controller
 
         $check = $this->create($data);
 
-        return Redirect::to("home")->withSuccess('Great! You have Successfully loggedin');
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('home');
+        }
     }
 
     public function home()
     {
-      if(Auth::check()){
-        return view('home');
-      }
-       return Redirect::to("login")->withSuccess('Opps! You do not have access');
+        if(Auth::check()){
+            return view('home');
+        }
+        Session::flash('error-message', 'Oppes! You have entered invalid credentials');
+        return redirect()->route('login');
     }
 
     public function create(array $data)
@@ -75,7 +78,8 @@ class AuthController extends Controller
     public function logout() {
         Session::flush();
         Auth::logout();
-        return Redirect('login');
+        Session::flash('suc-message', 'Logout successful');
+        return redirect()->route('login');
     }
 }
 ?>
