@@ -50,7 +50,7 @@ class AuthController extends Controller
 
         $check = $this->create($data);
 
-        return Redirect::to("home")->withSuccess('Great! You have Successfully loggedin');
+        return Redirect::to("home")->withSuccess('Great! You have Successfully logged in');
     }
 
     public function home()
