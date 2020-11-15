@@ -17,14 +17,14 @@ class CreateSignOnTestAppliesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->datetime('applied_datetime');
-            $table->datetime('confirmed_datetime');
+            $table->datetime('confirmed_datetime')->nullable();
 
             $table->boolean('correction');
 
             $table->bigInteger('applier_id')->unsigned();
             $table->foreign('applier_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->bigInteger('authorizer_id')->unsigned();
+            $table->bigInteger('authorizer_id')->unsigned()->nullable();
             $table->foreign('authorizer_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->bigInteger('test_id')->unsigned();
