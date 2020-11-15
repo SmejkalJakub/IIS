@@ -12,31 +12,31 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" name="first_name" value={{Auth::user()->first_name}}>
+                <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{Auth::user()->first_name}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" name="surname" value={{Auth::user()->surname}}>
+                <input type="text" class="form-control"  placeholder="Surname" name="surname" value="{{Auth::user()->surname}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email" value={{ Auth::user()->email}}>
+                <input type="email" class="form-control" placeholder="E-mail" name="email" value="{{ Auth::user()->email}}" required>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="New password" name="password">
+                <input type="password" class="form-control" placeholder="New password" name="newPassword">
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Confirm new password" name="passwordConfirmation">
+                <input type="password" class="form-control" placeholder="Confirm new password" name="newPasswordConfirm">
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif

@@ -23,16 +23,21 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email">
+                <input type="email" class="form-control" placeholder="E-mail" name="email" required>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" name="password">
+                <input type="password" class="form-control" placeholder="Password" name="password" required>
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> Remember me
+                </label>
             </div>
             <button type="submit" class="btn btn-success btn-block font-weight-bold">Log in</button>
         </div>

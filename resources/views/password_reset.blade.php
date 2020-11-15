@@ -11,7 +11,7 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email">
+                <input type="email" class="form-control" placeholder="E-mail" name="email" required>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif

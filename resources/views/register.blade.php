@@ -11,31 +11,22 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" name="first_name">
-                @if ($errors->has('name'))
-                    <span class="error">{{ $errors->first('first_name') }}</span>
-                @endif
+                <input type="text" class="form-control" placeholder="First name" name="first_name" required>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" name="surname">
-                @if ($errors->has('name'))
-                    <span class="error">{{ $errors->first('surname') }}</span>
-                @endif
+                <input type="text" class="form-control"  placeholder="Surname" name="surname" required>
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email">
+                <input type="email" class="form-control" placeholder="E-mail" name="email" required>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" name="password">
-                @if ($errors->has('password'))
-                    <span class="error">{{ $errors->first('password') }}</span>
-                @endif
+                <input type="password" class="form-control" placeholder="Password" name="password" minlength="6">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Confirm password" name="passwordConfirmation">
+                <input type="password" class="form-control" placeholder="Confirm password" name="passwordConfirmation" required>
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif
