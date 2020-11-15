@@ -17,20 +17,26 @@
         <div class="col-md-12">
             <div class="card">
                 <div
-                    class="card-header"><h1>Number of questions from <b>{{$cat->name}}</b> category</h1></div>
+                    class="card-header"><h1>Number of questions from <b>{{$test_category->name}}</b> category</h1></div>
 
                 <div class="card-body">
 
-                    {!! Form::open(['route' => ['test.categories.update',  $test_category->category_id, $test_id], 'method' => 'put']) !!}
+                    {!! Form::open(['route' => ['test.categories.update',  $test_category], 'method' => 'put']) !!}
 
-
+                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
+                        {!! Form::label('Categories') !!}
+                        {!! Form::select('category_id', $categories, $test_category->pivot->category_id, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
+                        @if ($errors->has('category_id'))
+                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
+                        @endif
+                    </div>
                     <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
                         {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', $test_category->number_of_questions, ['class' => 'form-control', 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
+                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
                         @if ($errors->has('number_of_questions'))
                             <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>
-                    <a href="{{ route('tests.show', $test_category->test_id) }}"
+                    <a href="{{ route('tests.edit', $test_category->test_id) }}"
                        class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}

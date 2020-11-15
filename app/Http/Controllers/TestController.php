@@ -40,7 +40,9 @@ class TestController extends Controller
         if (Auth::user() == null) {
             return redirect()->route('home');
         }
-        return view('tests.show', compact('test'));
+
+        $test_categories = $test->categories;
+        return view('tests.show', compact('test', 'test_categories'));
     }
 
     public function create()
@@ -48,11 +50,15 @@ class TestController extends Controller
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
+
+
+
         return view('tests.create');
     }
 
     public function edit(Test $test)
     {
+
         $points_per_test = 0;
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
@@ -67,7 +73,7 @@ class TestController extends Controller
         }
         $test->setAttribute('max_points', $points_per_test);
 
-        error_log($test_categories);
+        //error_log($test_categories);
         return view('tests.edit', compact('test', 'test_categories'));
     }
 

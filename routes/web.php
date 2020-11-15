@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
     Route::resource('sign_on_test', 'SignOnTestApply');
     Route::resource('categories', 'CategoryController');
-    Route::resource('test.categories', 'TestCategoryController');
+    Route::resource('test.category', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
     Route::resource('categories.questions', 'QuestionController');
 });
