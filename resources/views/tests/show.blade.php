@@ -118,7 +118,7 @@
 
                                                     <td>
                                                         <?php
-                                                        $cat = \App\Models\Category::where('id', '=', $test_category->category_id)->first();
+                                                        $cat = \App\Models\Category::where('id', '=', $test_category->id)->first();
 
                                                         $total_max_test_points = $total_max_test_points + ($cat->max_points * $test_category->number_of_questions);
                                                         ?>
@@ -160,6 +160,7 @@
             </div>
         </div>
     </div>
+</div>
 
 </body>
 </html>

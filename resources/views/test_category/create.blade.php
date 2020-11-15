@@ -22,7 +22,8 @@
 
                 <div class="card-body">
 
-                    {{ Form::open(array('route' => array('test.categories.store', $test_id))) }}
+
+                    {{ Form::open(array('route' => array('test.category.store', $test))) }}
 
                     <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
                         {!! Form::label('Number of questions') !!}
@@ -38,7 +39,9 @@
                             <span class="help-block">{!! $errors->first('category_id') !!}</span>
                         @endif
                     </div>
-                    <a href="{{ route('tests.show', $test_id) }}"
+
+
+                    <a href="{{ route('tests.edit', $test) }}"
                        class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Create', ['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\TestCategory;
+use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -12,79 +13,71 @@ use Illuminate\Support\Facades\Session;
 class TestCategoryController extends Controller
 {
 
-    public function create($test_id)
+    public function create(Test $test)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        error_log("test in testcat create");
+        error_log($test);
+
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $categories = Category::all()->pluck('name', 'id');
 
-        return view('test_category.create', compact('test_id', 'categories'));
+
+        return view('test_category.create', compact('test', 'categories'));
     }
 
     public function show(Category $category, Question $question)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        return view('categories.show', compact( 'question'));
+        return view('categories.show', compact('question'));
     }
 
-    public function edit($test_id, $category_id)
+    public function edit($test_category)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-
-        $test_category = TestCategory::all()->where('test_id', '=', $test_id)->where('category_id', '=', $category_id)->first();
         $categories = Category::all();
-        $cat = $categories->where('id', '=', $test_category->category_id)->first();
-        return view('test_category.edit', compact('test_id', 'category_id', 'test_category', 'categories', 'cat'));
+        error_log("here");
+        error_log($test_category);
+
+        return view('test_category.edit', compact('test_category', 'categories'));
     }
 
-    public function store(Request $request, $test_id)
+    public function store(Request $request, Test $test)
     {
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        $test_category = new TestCategory();
+        $test->categories()->attach($request->category_id, ['number_of_questions' => $request->number_of_questions]);
 
-        $test_category->category_id = $request->category_id;
-        $test_category->test_id = $test_id;
-
-        $test_category->number_of_questions = $request->number_of_questions;
-        $test_category->save();
         Session::flash('message', 'Category questions created1 successfully');
 
-        return redirect()->route('tests.edit', $test_id);
+        return redirect()->route('tests.edit', $test->id);
     }
 
-    public function update(Request $request, $category_id, $test_id)
+    public function update(Request $request, $test)
     {
 
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
 
-        $test_category = TestCategory::all()->where('category_id', '=', $category_id)->where('test_id', '=', $test_id)->first();
-        $test_category->number_of_questions = $request->number_of_questions;
-        $test_category->update();
+        $test->categories()->sync($request->category_id, ['number_of_questions' => $request->number_of_questions]);
+
 
         Session::flash('message', 'Category questions updated successfully');
-        return redirect()->route('tests.edit', $test_id);
+        return redirect()->route('tests.edit', $test->id);
     }
 
 
-    public function destroy( $test_id, $category_id)
+    public function destroy($test_id, $category_id)
     {
 
-        if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
-        {
+        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $test_category = TestCategory::all()->where('test_id', '=', $test_id)->where('category_id', '=', $category_id)->first();

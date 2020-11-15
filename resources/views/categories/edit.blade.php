@@ -59,6 +59,7 @@
                                 </h3>
                             </header>
                         </div>
+                        <hr>
 
                         <div class="card-body">
                             <table style="text-align:center" class="sortable searchable table table-bordered mb-0">

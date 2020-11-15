@@ -21,7 +21,7 @@
             <th scope="col"></th>
             </thead>
 
-        <tbody>
+            <tbody>
             <script type="text/javascript">
                 $('#search').on('keyup', search);
                 $(document).ready(search);
@@ -29,27 +29,28 @@
                 function search() {
                     let $value = $(this).val();
                     $.ajax({
-                            type : 'get',
-                            url : '{{URL::to('search')}}',
-                            data:{'search':$value},
-                            success:function(data) {
-                                $('tbody').html(data);
-                            }
+                        type: 'get',
+                        url: '{{URL::to('search')}}',
+                        data: {'search': $value},
+                        success: function (data) {
+                            $('tbody').html(data);
+                        }
                     });
                 }
             </script>
             <script type="text/javascript">
-                $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+                $.ajaxSetup({headers: {'csrftoken': '{{ csrf_token() }}'}});
             </script>
-        </tbody>
+            </tbody>
 
         </table>
 
-    <script>
-        $(".delete").on("submit", function(){
-            return confirm("Are you sure?");
-        });
-    </script>
+        <script>
+            $(".delete").on("submit", function () {
+                return confirm("Are you sure?");
+            });
+        </script>
+    </div>
 </div>
 </body>
 </html>

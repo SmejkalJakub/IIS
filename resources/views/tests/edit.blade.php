@@ -89,10 +89,14 @@
                     </div>
                     <div>
                         <h2>
-                            <a href="{{ route('tests.show', $test->id) }}"
-                               class="btn btn-sm btn-primary">Back</a>
+
+
+
                             {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
                             {!! Form::close() !!}
+
+                            <a href="{{ route('tests.show', $test->id) }}"
+                               class="btn btn-sm btn-primary">Back</a>
                         </h2>
                     </div>
                 </div>
@@ -100,7 +104,7 @@
                     <div class="card-header">
                         <header><h3>Categories in test
                                 <a
-                                    href="{{ route('test.categories.create',  $test->id) }}"
+                                    href="{{ route('test.category.create',  $test->id )}}"
                                     class="btn btn-lg btn-primary align-middle float-right">Add</a>
                             </h3>
                         </header>
@@ -134,12 +138,10 @@
                                         {{$test_category->max_points}}
                                     </td>
                                     <td>
-
-
-                                        <a href="{{ route('test.categories.edit', [$test->id, $test_category->pivot->category_id]) }}"
+                                        <a href="{{ route('test.category.edit',  [$test->id, $test_category->id]) }}"
                                            class="btn btn-sm btn-primary">Edit</a>
 
-                                        {!! Form::open(['route' => ['test.categories.destroy', [$test->id, $test_category->pivot->category_id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::open(['route' => ['test.category.destroy', [$test->id, $test_category->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                         {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category from test?\')']) !!}
                                         {!! Form::close() !!}
                                     </td>
