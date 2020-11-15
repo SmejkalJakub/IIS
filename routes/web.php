@@ -21,7 +21,7 @@ Route::get('home', 'AuthController@home')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
-    Route::resource('sign_on_test', 'SignOnTestApply');
+    Route::resource('sign_on_test', 'SignOnTestApplyController');
     Route::resource('categories', 'CategoryController');
     Route::resource('test.category', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
+Route::get('new/{id}/sign', 'SignOnTestApplyController@create')->name('new.sign');
 
 
 Route::get('reset-password', 'PasswordResetController@index')->name('reset-password');

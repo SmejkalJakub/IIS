@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\SignApplyHelper;
 use App\Models\Category;
 use App\Models\Test;
 use Illuminate\Http\Request;
@@ -41,8 +42,10 @@ class TestController extends Controller
             return redirect()->route('home');
         }
 
+        $test_applies = $test->applies;
+
         $test_categories = $test->categories;
-        return view('tests.show', compact('test', 'test_categories'));
+        return view('tests.show', compact('test', 'test_categories', 'test_applies'));
     }
 
     public function create()

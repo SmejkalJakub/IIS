@@ -71,9 +71,26 @@
                                     {{$test->max_points}}
                                 </td>
                                 <td>
+                                    @if ((\Illuminate\Support\Facades\Auth::user() != null) && !(\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test)))
 
-                                    <a href="{{ route('sign_on_test.create', $test->id) }}"
-                                       class="btn btn-sm btn-primary">Sign on</a>
+                                        <a
+                                            href="{{ route('new.sign', [$test->id]) }}"
+                                            @if(Auth::user()->hasRole('assistant'))
+
+                                            class="btn btn-sm btn-success "> Sign on correction</a>
+                                    @else
+                                        class="btn btn-sm btn-success "> Sign on</a>
+                                    @endif
+
+                                    @else
+
+                                        {!! Form::open(['route' => ['sign_on_test.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Sign off', ['class' => 'btn btn-sm btn-warning', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
+                                        {!! Form::close() !!}
+
+                                    @endif
+
+
                                     @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
 
                                         <a href="{{ route('tests.edit', $test->id) }}"
