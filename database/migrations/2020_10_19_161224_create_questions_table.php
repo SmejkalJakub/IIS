@@ -22,7 +22,9 @@ class CreateQuestionsTable extends Migration
             $table->string('image_path')->nullable();
             $table->enum('type_of_answer', ['1', '0']); //1 open, 0 abcd
 
-            $table->string('right_answer');
+            $table->enum('right_option', ['1', '2', '3', '4'])->nullable();
+            $table->string('right_text_answer')->nullable();
+
             //Otazka jak namodelovat moznosti u otazek abcd...?
             $table->string('option_1')->nullable();
             $table->string('option_2')->nullable();
