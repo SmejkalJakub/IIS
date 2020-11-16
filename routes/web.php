@@ -32,9 +32,10 @@ Route::get('categories', 'CategoryController@index')->name('categories');
 Route::get('new/{id}/sign', 'SignOnTestApplyController@create')->name('new.sign');
 
 
-Route::get('reset-password', 'PasswordResetController@index')->name('reset-password');
+Route::get('reset-password-form', 'PasswordResetController@index')->name('reset-password-form');
 Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
-
+Route::get('password/reset/{token}', 'PasswordResetController@resetPasswordForm');
+Route::post('reset-password', 'PasswordResetController@resetPassword');
 
 /*Route::get('tests.index', 'TestController@index')->name('tests.index');
 Route::get('tests.create', 'TestController@create')->name('tests.create');

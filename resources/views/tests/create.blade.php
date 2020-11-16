@@ -48,7 +48,7 @@
                     $test->description = "";
                     $test->available_from = now();
                     $test->available_to = now();
-                    $test->max_duration = "";
+                    $test->max_duration = now();
                     $test->save();
                     $test_categories = $test->categories;
                     ?>
