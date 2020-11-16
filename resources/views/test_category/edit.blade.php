@@ -21,11 +21,11 @@
 
                 <div class="card-body">
 
-                    {!! Form::open(['route' => ['test.categories.update',  $test_category], 'method' => 'put']) !!}
+                    {!! Form::open(['route' => ['test.category.update',  [$test->id, $test_category->id]], 'method' => 'put']) !!}
 
                     <div class="form-group @if($errors->has('category_id')) has-error @endif">
                         {!! Form::label('Categories') !!}
-                        {!! Form::select('category_id', $categories, $test_category->pivot->category_id, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
+                        {!! Form::select('category_id', $categories->pluck('name', 'id'), $test_category->id, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
                         @if ($errors->has('category_id'))
                             <span class="help-block">{!! $errors->first('category_id') !!}</span>
                         @endif
@@ -36,7 +36,7 @@
                         @if ($errors->has('number_of_questions'))
                             <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>
-                    <a href="{{ route('tests.edit', $test_category->test_id) }}"
+                    <a href="{{ route('tests.edit', $test->id) }}"
                        class="btn btn-sm btn-primary">Back</a>
                     {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
                     {!! Form::close() !!}
