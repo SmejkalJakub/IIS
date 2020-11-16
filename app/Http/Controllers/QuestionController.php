@@ -98,7 +98,6 @@ class QuestionController extends Controller
 
     public function update(Request $request, $category_id, Question $question)
     {
-
         if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
         {
             return redirect()->route('home');
