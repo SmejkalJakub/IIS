@@ -35,16 +35,18 @@ class TestCategoryController extends Controller
         return view('categories.show', compact('question'));
     }
 
-    public function edit($test_category)
+    public function edit(Test $test, Category $category)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $categories = Category::all();
-        error_log("here");
+        error_log($category->id);
+        $test_category = $test->categories->whereIn('id', $category->id)->first();
         error_log($test_category);
 
-        return view('test_category.edit', compact('test_category', 'categories'));
+
+        return view('test_category.edit', compact('test_category', 'categories', 'test'));
     }
 
     public function store(Request $request, Test $test)
@@ -59,14 +61,19 @@ class TestCategoryController extends Controller
         return redirect()->route('tests.edit', $test->id);
     }
 
-    public function update(Request $request, $test)
+    public function update(Request $request, Test $test, $category_id)
     {
+
+        error_log($request->number_of_questions);
+        error_log($request->number_of_questions);
+        error_log($request->number_of_questions);
 
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
 
-        $test->categories()->sync($request->category_id, ['number_of_questions' => $request->number_of_questions]);
+        $test->categories()->detach($category_id);
+        $test->categories()->attach($request->category_id, ['number_of_questions'=>$request->number_of_questions]);
 
 
         Session::flash('message', 'Category questions updated successfully');

@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Tests</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+@include('layouts.head', ['title' => 'Tests'])
 <body>
 
+@include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container">
@@ -153,65 +147,65 @@
                         </div>
                     </div>
 
-
-                    <div class="card-body">
-                        <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
-                            <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Type of apply</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-
-                            @foreach($test_applies as $apply)
+                    @if(Auth::user()->hasRole('assistant'))
+                        <div class="card-body">
+                            <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+                                <thead>
                                 <tr>
-                                    <?php
-                                    $user = App\Models\User::all()->where('id', '=', $apply->applier_id)->first();
-                                    ?>
-                                    <td>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Type of apply</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
 
-                                        {{ $user->first_name}}
-                                        {{ $user->surname}}
-                                    </td>
+                                <tbody>
 
-                                    <td>
-                                        {{ $user->role}}
-                                    </td>
+                                @foreach($test_applies as $apply)
+                                    <tr>
+                                        <?php
+                                        $user = App\Models\User::all()->where('id', '=', $apply->applier_id)->first();
+                                        ?>
+                                        <td>
 
-                                    <td>
-                                        @if($apply->correction)
-                                            on correction
-                                        @else
-                                            on taking test
-                                        @endif
-                                    </td>
-                                    <td>
+                                            {{ $user->first_name}}
+                                            {{ $user->surname}}
+                                        </td>
 
+                                        <td>
+                                            {{ $user->role}}
+                                        </td>
 
-                                        @if($apply->authorizer_id != null)
-                                            <a href="{{ route('sign_on.test.un_confirm',  [$test->id, $user->id]) }}"
-                                               class="btn btn-sm btn-warning">Unconfirm</a>
-                                        @else
-                                            <a href="{{ route('sign_on.test.confirm',  [$test->id, $user->id]) }}"
-                                               class="btn btn-sm btn-success">Confirm</a>
-                                        @endif
+                                        <td>
+                                            @if($apply->correction)
+                                                on correction
+                                            @else
+                                                on taking test
+                                            @endif
+                                        </td>
+                                        <td>
+
+                                            @if($apply->authorizer_id != null)
+                                                <a href="{{ route('sign_on.test.un_confirm',  [$test->id, $user->id]) }}"
+                                                   class="btn btn-sm btn-warning">Unconfirm</a>
+                                            @else
+                                                <a href="{{ route('sign_on.test.confirm',  [$test->id, $user->id]) }}"
+                                                   class="btn btn-sm btn-success">Confirm</a>
+                                            @endif
 
                                             {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, $user->id]], 'method' => 'get', 'style' => 'display:inline']) !!}
                                             {!! Form::submit('Reject', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
                                             {!! Form::close() !!}
 
 
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    @endif
 
 
                 </article>

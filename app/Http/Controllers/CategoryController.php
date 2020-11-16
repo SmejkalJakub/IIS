@@ -22,14 +22,19 @@ class CategoryController extends Controller
         }
         $categories = Category::all();
         foreach ($categories as $category) {
+
+            if ($category->name == "") {
+                $category->delete();
+                continue;
+            }
             $number_of_questions = 0;
 
             $category->setAttribute('number_of_questions', $number_of_questions);
 
             $questions = $category->questions;
 
-            foreach ($questions as $q){
-                $number_of_questions+= 1;
+            foreach ($questions as $q) {
+                $number_of_questions += 1;
             }
 
             $category->setAttribute('number_of_questions', $number_of_questions);
