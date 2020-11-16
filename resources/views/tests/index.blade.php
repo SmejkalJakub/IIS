@@ -49,6 +49,7 @@
                             <th scope="col">Test name</th>
                             <th scope="col">Created by</th>
                             <th scope="col">Max points</th>
+                            <th scope="col">State</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -71,9 +72,39 @@
                                     {{$test->max_points}}
                                 </td>
                                 <td>
+                                    @if(\App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test))
+                                        signed, confirmed
+                                    @elseif(\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test))
+                                        signed, not confirmed
+                                    @else
+                                        none
 
-                                    <a href="{{ route('sign_on_test.create', $test->id) }}"
-                                       class="btn btn-sm btn-primary">Sign on</a>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ((\Illuminate\Support\Facades\Auth::user() != null) && !(\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test)))
+
+                                        <a
+                                            href="{{ route('new.sign', [$test->id]) }}"
+                                            @if(Auth::user()->hasRole('assistant'))
+
+                                            class="btn btn-sm btn-success "> Sign on correction</a>
+                                    @else
+                                        class="btn btn-sm btn-success "> Sign on</a>
+                                    @endif
+
+                                    @else
+
+
+
+
+                                        {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, Auth::id()]], 'method' => 'get', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Sign off', ['class' => 'btn btn-sm btn-warning', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
+                                        {!! Form::close() !!}
+
+                                    @endif
+
+
                                     @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
 
                                         <a href="{{ route('tests.edit', $test->id) }}"

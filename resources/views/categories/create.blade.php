@@ -23,7 +23,7 @@
 
                     <?php
                     $category = new \App\Models\Category();
-                    $category->max_points = "";
+                    $category->max_points = -1;
                     $category->name = "";
                     $category->save();
 

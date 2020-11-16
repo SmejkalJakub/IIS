@@ -44,7 +44,7 @@
     </form>
 
     <div class="text-center">
-        <a class="text-success" href="{{ route('reset-password') }}">Forgotten password?</a>
+        <a class="text-success" href="{{ route('reset-password-form') }}">Forgotten password?</a>
     </div>
 
     <hr>

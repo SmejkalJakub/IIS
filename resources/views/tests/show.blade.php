@@ -39,7 +39,7 @@
 
                         @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
                             <a href="{{ route('tests.edit', $test->id) }}"
-                                class="btn btn-lg btn-primary align-middle float-right">Edit</a>
+                               class="btn btn-lg btn-primary align-middle float-right">Edit</a>
                         @endif
                         <a href="{{ route('sign_on_test.create', $test->id) }}"
                            class="btn btn-sm btn-primary">Sign on</a>
@@ -152,6 +152,68 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="card-body">
+                        <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Type of apply</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            @foreach($test_applies as $apply)
+                                <tr>
+                                    <?php
+                                    $user = App\Models\User::all()->where('id', '=', $apply->applier_id)->first();
+                                    ?>
+                                    <td>
+
+                                        {{ $user->first_name}}
+                                        {{ $user->surname}}
+                                    </td>
+
+                                    <td>
+                                        {{ $user->role}}
+                                    </td>
+
+                                    <td>
+                                        @if($apply->correction)
+                                            on correction
+                                        @else
+                                            on taking test
+                                        @endif
+                                    </td>
+                                    <td>
+
+
+                                        @if($apply->authorizer_id != null)
+                                            <a href="{{ route('sign_on.test.un_confirm',  [$test->id, $user->id]) }}"
+                                               class="btn btn-sm btn-warning">Unconfirm</a>
+                                        @else
+                                            <a href="{{ route('sign_on.test.confirm',  [$test->id, $user->id]) }}"
+                                               class="btn btn-sm btn-success">Confirm</a>
+                                        @endif
+
+                                            {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, $user->id]], 'method' => 'get', 'style' => 'display:inline']) !!}
+                                            {!! Form::submit('Reject', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
+                                            {!! Form::close() !!}
+
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </article>
 
                 <a href="{{ route('tests') }}"

@@ -21,7 +21,7 @@ Route::get('home', 'AuthController@home')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
-    Route::resource('sign_on_test', 'SignOnTestApply');
+    Route::resource('sign_on_test', 'SignOnTestApplyController');
     Route::resource('categories', 'CategoryController');
     Route::resource('test.category', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
@@ -29,11 +29,16 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
+Route::get('new/{id}/sign', 'SignOnTestApplyController@create')->name('new.sign');
+Route::get('sign_on/{test_id}/test/{user_id}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test.confirm');
+Route::get('sign_on/{test_id}/test/{user_id}/un_confirm', 'SignOnTestApplyController@un_confirm')->name('sign_on.test.un_confirm');
+Route::get('sign_on/{test_id}/test/{user_id}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test.destroy');
 
 
-Route::get('reset-password', 'PasswordResetController@index')->name('reset-password');
+Route::get('reset-password-form', 'PasswordResetController@index')->name('reset-password-form');
 Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
-
+Route::get('password/reset/{token}', 'PasswordResetController@resetPasswordForm');
+Route::post('reset-password', 'PasswordResetController@resetPassword');
 
 /*Route::get('tests.index', 'TestController@index')->name('tests.index');
 Route::get('tests.create', 'TestController@create')->name('tests.create');

@@ -30,6 +30,12 @@
                 @endif
             </div>
             <div class="form-group">
+                <input type="password" class="form-control" placeholder="Current password" name="currentPassword">
+                @if ($errors->has('wrongCurrentPass'))
+                    <span class="error">{{ $errors->first('wrongCurrentPass') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
                 <input type="password" class="form-control" placeholder="New password" name="newPassword">
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
