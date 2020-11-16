@@ -181,9 +181,7 @@
     // Warning before leaving the page (back button, or outgoinglink)
     window.onbeforeunload = function () {
 
-        {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-        {!! Form::submit('Delete') !!}
-        {!! Form::close() !!}
+       return "Do you really want to discard changes?"
 
 
     };

@@ -34,7 +34,8 @@ class SignOnTestApplyController extends Controller
 
     }
 
-    public function confirm($test_id, $user_id){
+    public function confirm($test_id, $user_id)
+    {
         if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
@@ -47,7 +48,9 @@ class SignOnTestApplyController extends Controller
         return redirect()->back();
 
     }
-    public function un_confirm($test_id, $user_id){
+
+    public function un_confirm($test_id, $user_id)
+    {
         if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
@@ -62,19 +65,26 @@ class SignOnTestApplyController extends Controller
 
     public function destroy($test_id, $user_id)
     {
-
+        //neprihlaseny user
         if (Auth::user() == null) {
-            return redirect()->route('home');
+            return redirect()->back();
         }
-        $sign1 = SignOnTestApply::all()->where('applier_id', '=', $user_id)->where('test_id', '=', $test_id)->first();
-        //$sign2 = SignOnTestApply::all()->where('authorizer_id', '=', Auth::id())->where('test_id', '=', $test_id)->first();
-        if ($sign1) {
-            $sign1->delete();
+
+        $sign = SignOnTestApply::all()->where('applier_id', '=', $user_id)->where('test_id', '=', $test_id)->first();
+
+        //neni profesor a zaroven nici zadost, ktera mu nepatri, ktera je na opravu testu
+        if ((!Auth::user()->hasRole('profesor')) && (Auth::id() != $user_id) && $sign->correction) {
+            return redirect()->back();
+        } elseif
+        ((!Auth::user()->hasRole('assistant')) && (Auth::id() != $user_id) ) {
+            return redirect()->back();
+        }
+
+        if ($sign) {
+            $sign->delete();
 
         }
-        /*elseif ($sign2){
-            $sign2->delete();
-        }*/
+
         return redirect()->back();
 
     }
