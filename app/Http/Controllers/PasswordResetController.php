@@ -41,7 +41,7 @@ class PasswordResetController extends Controller
             'token' => 'required' ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors(['email' => 'Please complete the form']);
+            return redirect()->back()->withErrors(['error' => 'Please complete the form']);
         }
 
         $password = $request->password;
@@ -52,14 +52,14 @@ class PasswordResetController extends Controller
 
         if (!$tokenData)
         {
-            return view('login');
+            return redirect()->back()->withErrors(['error' => 'Token does not exist']);
         }
 
         $user = User::where('email', $tokenData->email)->first();
 
         if (!$user)
         {
-            return redirect()->back()->withErrors(['email' => 'Email not found']);
+            return redirect()->back()->withErrors(['error' => 'Email not found']);
         }
 
         $user->password = \Hash::make($password);
@@ -78,7 +78,7 @@ class PasswordResetController extends Controller
 
         if($user == null)
         {
-            return redirect()->back()->withErrors(['email' => 'User does not exist']);
+            return redirect()->back()->withErrors(['error' => 'User does not exist']);
         }
 
         DB::table('password_resets')->insert([

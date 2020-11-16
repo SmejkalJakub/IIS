@@ -49,16 +49,10 @@ class SettingsController extends Controller
 
             if($request->filled('newPassword'))
             {
-                if($data['newPassword'] != $data['newPasswordConfirm'])
-                {
-                    return Redirect::back()->withErrors(['notMatching' => 'Passwords not matching']);
-                }
-                else
-                {
-                    $validation_array = array_merge($validation_array, [
-                        'newPassword' => 'required|min:6',
-                        ]);
-                }
+                $validation_array = array_merge($validation_array, [
+                    'newPassword' => 'required|min:6|confirmed',
+                    ]);
+
                 $user->password = Hash::make($data['newPassword']);
             }
             request()->validate($validation_array);

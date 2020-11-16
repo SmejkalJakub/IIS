@@ -37,14 +37,14 @@
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="New password" name="newPassword">
-                @if ($errors->has('password'))
-                    <span class="error">{{ $errors->first('password') }}</span>
+                @if ($errors->has('newPassword'))
+                    <span class="error">{{ $errors->first('newPassword') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Confirm new password" name="newPasswordConfirm">
-                @if ($errors->has('password'))
-                    <span class="error">{{ $errors->first('password') }}</span>
+                <input type="password" class="form-control" placeholder="Confirm new password" name="newPassword_confirmation">
+                @if ($errors->has('newPassword_confirmatio'))
+                    <span class="error">{{ $errors->first('newPassword_confirmatio') }}</span>
                 @endif
             </div>
             <button type="submit" class="btn btn-success btn-block font-weight-bold">Save</button>
