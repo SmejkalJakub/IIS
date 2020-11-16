@@ -186,10 +186,10 @@
                                         <td>
 
                                             @if($apply->authorizer_id != null)
-                                                <a href="{{ route('sign_on.test.un_confirm',  [$test->id, $user->id, $apply->correction]) }}"
+                                                <a href="{{ route('sign_on.test..un_confirm',  [$test->id, $user->id, $apply->correction]) }}"
                                                    class="btn btn-sm btn-warning">Unconfirm</a>
                                             @else
-                                                <a href="{{ route('sign_on.test.confirm',  [$test->id, $user->id, $apply->correction]) }}"
+                                                <a href="{{ route('sign_on.test..confirm',  [$test->id, $user->id, $apply->correction]) }}"
                                                    class="btn btn-sm btn-success">Confirm</a>
                                             @endif
 

@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
 Route::get('new/{id}/{correction}/sign', 'SignOnTestApplyController@create')->name('new..sign');
-Route::get('sign_on/{test_id}/test/{user_id}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test.confirm');
-Route::get('sign_on/{test_id}/test/{user_id}/un_confirm', 'SignOnTestApplyController@un_confirm')->name('sign_on.test.un_confirm');
+Route::get('sign_on/{test_id}/test/{user_id}/{correction}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test..confirm');
+Route::get('sign_on/{test_id}/test/{user_id}/{correction}/un_confirm', 'SignOnTestApplyController@un_confirm')->name('sign_on.test..un_confirm');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test..destroy');
 
 Route::get('category-search','CategoryController@search');
