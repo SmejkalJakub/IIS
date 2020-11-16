@@ -66,7 +66,11 @@
                             Right answer
                         </h3>
                         <h4>
-                            {{$question->right_answer}}
+                            @if($question->type_of_answer == 1)
+                                {{$question->right_text_answer}}
+                            @else
+                                Option {{$question->right_option}}
+                            @endif
                         </h4>
                     </div>
                     @if($question->type_of_answer == 0)

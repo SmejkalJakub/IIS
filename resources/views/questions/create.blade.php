@@ -16,7 +16,7 @@
 
     </style>
 </head>
-<body>
+<body onload="showDiv('hidden_div', 'openAnswer', 'closedAnswer', 'type_of_answer')">
 
 
 
@@ -61,13 +61,23 @@
 
                     <div class="form-group">
                         {!! Form::label('Type') !!}
-                        {!! Form::select('type_of_answer', [1 => 'open', 0 => 'abcd'], 1, ['class' => 'form-control', 'onchange' => 'showDiv(\'hidden_div\', this)']) !!}
+                        {!! Form::select('type_of_answer', [1 => 'open', 0 => 'abcd'], 1, ['id' => 'type_of_answer', 'class' => 'form-control', 'onchange' => 'showDiv(\'hidden_div\', \'openAnswer\', \'closedAnswer\', \'type_of_answer\')']) !!}
                     </div>
                     <div class="form-group @if($errors->has('right_answer')) has-error @endif">
                         {!! Form::label('Right answer') !!}
-                        {!! Form::textarea('right_answer', null, ['class' => 'form-control', 'placeholder' => 'Right answer', 'maxlength'=>128]) !!}
-                        @if ($errors->has('right_answer'))
-                            <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
+                        <div id="openAnswer">
+                            {!! Form::textarea('right_answer', null, ['class' => 'form-control', 'placeholder' => 'Right answer', 'maxlength'=>128]) !!}
+                            @if ($errors->has('right_answer'))
+                                <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
+                        </div>
+                        <div id="closedAnswer">
+                            {!! Form::radio('right_option', '1') !!} {!! Form::label('a)') !!}<br>
+                            {!! Form::radio('right_option', '2') !!} {!! Form::label('b)') !!}<br>
+                            {!! Form::radio('right_option', '3') !!} {!! Form::label('c)') !!}<br>
+                            {!! Form::radio('right_option', '4') !!} {!! Form::label('d)') !!}<br>
+                            @if ($errors->has('right_option'))
+                                <span class="help-block">{!! $errors->first('right_option') !!}</span>@endif
+                        </div>
                     </div>
 
                     <div id="hidden_div">
@@ -148,10 +158,21 @@
             document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
         };
     }
-    function showDiv(divId, element)
+    function showDiv(openAnswerId, rightAnswerOpen, rightAnswerClose, element)
     {
-        document.getElementById(divId).style.display = element.value == 0 ? 'block' : 'none';
+        element = document.getElementById(element);
+        if(element.value == 0)
+        {
+            document.getElementById(openAnswerId).style.display = 'block';
+            document.getElementById(rightAnswerOpen).style.display = 'none';
+            document.getElementById(rightAnswerClose).style.display = 'block';
+        }
+        else
+        {
+            document.getElementById(openAnswerId).style.display = 'none';
+            document.getElementById(rightAnswerOpen).style.display = 'block';
+            document.getElementById(rightAnswerClose).style.display = 'none';
+        }
     }
-
 </script>
 
