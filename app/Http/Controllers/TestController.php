@@ -20,6 +20,12 @@ class TestController extends Controller
 
         foreach ($tests as $test) {
 
+            if($test->name == ""){
+                $test->delete();
+                continue;
+            }
+
+
             $points_per_test = 0;
             $test_cats = $test->categories;
             $test->setAttribute('max_points', $points_per_test);
@@ -42,7 +48,15 @@ class TestController extends Controller
             return redirect()->route('home');
         }
 
-        $test_applies = $test->applies;
+        if (Auth::user()->hasRole('profesor')) {
+            $test_applies = $test->applies;
+        } elseif (Auth::user()->hasRole('assistant')) {
+            $test_applies = $test->applies()->where('correction', '=', false);
+
+        } else {
+            $test_applies = [];
+        }
+
 
         $test_categories = $test->categories;
         return view('tests.show', compact('test', 'test_categories', 'test_applies'));
@@ -54,6 +68,10 @@ class TestController extends Controller
             return redirect()->route('home');
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 591353807022c80c95f25cf0c351c3b715e69f70
         return view('tests.create');
     }
 
