@@ -17,9 +17,7 @@ class UsersListController extends Controller
         {
             return redirect()->route('home');
         }
-        $users = User::all();
-
-        return view('users.index', compact('users'));
+        return view('users.index');
     }
 
     public function search(Request $request)
@@ -27,7 +25,7 @@ class UsersListController extends Controller
         if($request->ajax())
         {
             $output="";
-            $users=DB::table('users')
+            $users=User::query()
                             ->where('first_name','LIKE','%'.$request->search."%")
                             ->orWhere('surname','LIKE','%'.$request->search."%")
                             ->orWhere('email','LIKE','%'.$request->search."%")

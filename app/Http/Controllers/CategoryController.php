@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use DB;
+
 
 class CategoryController extends Controller
 {
@@ -97,6 +99,57 @@ class CategoryController extends Controller
 
         Session::flash('message', 'Category created successfully');
         return redirect()->route('categories');
+    }
+
+
+    public function search(Request $request)
+    {
+        if($request->ajax())
+        {
+            $output="";
+            $categories=Category::query('categories')
+                ->where('name','LIKE','%'.$request->search."%")
+                ->orWhere('max_points','LIKE','%'.$request->search."%")
+                ->get();
+            if($categories)
+            {
+                foreach ($categories as $category)
+                {
+                    if ($category->name == "") {
+                        $category->delete();
+                        continue;
+                    }
+                    $number_of_questions = 0;
+
+                    $category->setAttribute('number_of_questions', $number_of_questions);
+
+                    $questions = $category->questions;
+
+                    foreach ($questions as $q) {
+                        $number_of_questions += 1;
+                    }
+
+                    $category->setAttribute('number_of_questions', $number_of_questions);
+
+                    $output.= '<tr>'.
+                        '<td style="vertical-align: middle">'.$category->name.'</td>'.
+                        '<td style="vertical-align: middle">'.$category->max_points.'</td>'.
+                        '<td style="vertical-align: middle">'.$category->number_of_questions.'</td>'.
+                        '<td>'.
+                            '<div class="d-flex justify-content-end">'.
+                                '<a href="'.route('categories.edit', $category->id).'" role="button" class="btn btn-sm btn-success mr-2">Edit</a>'.
+                                '<form class="delete" action="'.route('categories.destroy', $category->id).'" method="POST" style="display:inline">'.
+                                '<input type="hidden" name="_method" value="DELETE">'.
+                                '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this category?\')" class="btn btn-sm btn-danger">Delete</button>'.
+                                    csrf_field().
+                                '</form>'.
+                            '</div>'.
+                        '</td>'.
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
     }
 
     public function update(Request $request, Category $category)

@@ -46,28 +46,25 @@
             </thead>
 
             <tbody>
-                @foreach($categories as $category)
-                    <tr>
-                        <td>
-                            {{ $category->name }}
-                        </td>
-                        <td>
-                            {{$category->max_points}}
-                        </td>
-                        <td>
-                            {{$category->number_of_questions}}
-                        </td>
-                        <td>
-                            <div class="d-flex justify-content-end">
-                                <a role="button" class="btn btn-sm btn-success mr-2" href="{{ route('categories.edit', $category->id) }}">Edit</a>
+                <script type="text/javascript">
+                    $('#search').on('keyup', search);
+                    $(document).ready(search);
 
-                                {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category?\')']) !!}
-                                {!! Form::close() !!}
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
+                    function search() {
+                        let $value = $(this).val();
+                        $.ajax({
+                            type: 'get',
+                            url: '{{URL::to('category-search')}}',
+                            data: {'search': $value},
+                            success: function (data) {
+                                $('tbody').html(data);
+                            }
+                        });
+                    }
+                </script>
+                <script type="text/javascript">
+                    $.ajaxSetup({headers: {'csrftoken': '{{ csrf_token() }}'}});
+                </script>
             </tbody>
         </table>
     </div>

@@ -30,7 +30,7 @@
                         let $value = $(this).val();
                         $.ajax({
                             type: 'get',
-                            url: '{{URL::to('search')}}',
+                            url: '{{URL::to('user-search')}}',
                             data: {'search': $value},
                             success: function (data) {
                                 $('tbody').html(data);
@@ -44,12 +44,6 @@
             </tbody>
         </table>
     </div>
-
-    <script>
-        $(".delete").on("submit", function () {
-            return confirm("Are you sure?");
-        });
-    </script>
 </div>
 
 </body>

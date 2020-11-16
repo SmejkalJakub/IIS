@@ -34,6 +34,8 @@ Route::get('sign_on/{test_id}/test/{user_id}/confirm', 'SignOnTestApplyControlle
 Route::get('sign_on/{test_id}/test/{user_id}/un_confirm', 'SignOnTestApplyController@un_confirm')->name('sign_on.test.un_confirm');
 Route::get('sign_on/{test_id}/test/{user_id}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test.destroy');
 
+Route::get('category-search','CategoryController@search');
+
 
 Route::get('reset-password-form', 'PasswordResetController@index')->name('reset-password-form');
 Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
@@ -50,7 +52,7 @@ Route::put('tests.update', 'TestController@update')->name('tests.update');*/
 Route::get('user', 'SettingsController@settings')->name('user');
 Route::post('save-config', 'SettingsController@saveConfig');
 
-Route::get('search','UsersListController@search');
+Route::get('user-search','UsersListController@search');
 Route::get('user-list', 'UsersListController@showUserList')->name('user-list');
 Route::delete('delete-user/{id}', 'UsersListController@deleteUser')->name('user.delete');
 Route::get('edit-user/{id}', 'UsersListController@editUser')->name('user.edit');
