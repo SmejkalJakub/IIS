@@ -49,6 +49,7 @@
                             <th scope="col">Test name</th>
                             <th scope="col">Created by</th>
                             <th scope="col">Max points</th>
+                            <th scope="col">State</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -71,6 +72,16 @@
                                     {{$test->max_points}}
                                 </td>
                                 <td>
+                                    @if(\App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test))
+                                        signed, confirmed
+                                    @elseif(\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test))
+                                        signed, not confirmed
+                                    @else
+                                        none
+
+                                    @endif
+                                </td>
+                                <td>
                                     @if ((\Illuminate\Support\Facades\Auth::user() != null) && !(\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test)))
 
                                         <a
@@ -83,6 +94,8 @@
                                     @endif
 
                                     @else
+
+
 
 
                                         {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, Auth::id()]], 'method' => 'get', 'style' => 'display:inline']) !!}
