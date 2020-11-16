@@ -164,7 +164,7 @@
                                 @foreach($test_applies as $apply)
                                     <tr>
                                         <?php
-                                        $user = App\Models\User::all()->where('id', '=', $apply->applier_id)->first();
+                                        $user = App\Models\User::all()->whereIn('id', $apply->applier_id)->first();
                                         ?>
                                         <td>
 
@@ -193,7 +193,7 @@
                                                    class="btn btn-sm btn-success">Confirm</a>
                                             @endif
 
-                                            {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, $user->id]], 'method' => 'get', 'style' => 'display:inline']) !!}
+                                            {!! Form::open(['route' => ['sign_on.test..destroy', [$test->id, $user->id, $apply->correction]], 'method' => 'get', 'style' => 'display:inline']) !!}
                                             {!! Form::submit('Reject', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
                                             {!! Form::close() !!}
 

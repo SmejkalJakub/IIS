@@ -26,16 +26,16 @@ class SignApplyHelper
         }
         return false;
     }
-    public static function my_sign_is_signed(Test $test){
-        $apply = $test->applies->where('test_id', '=', $test->id)->where('applier_id', '=', Auth::user()->id)->first();
+    public static function my_sign_is_signed(Test $test, bool $correction){
+        $apply = $test->applies->where('test_id', '=', $test->id)->where('applier_id', '=', Auth::user()->id)->where('correction', '=', $correction)->first();
         if ($apply != null){
             return true;
         }
         return false;
     }
 
-    public static function my_sign_is_confirmed(Test $test){
-        $apply = $test->applies->where('test_id', '=', $test->id)->where('authorizer_id', '!=', null)->where('applier_id', '=', Auth::user()->id)->first();
+    public static function my_sign_is_confirmed(Test $test, $correction){
+        $apply = $test->applies->where('test_id', '=', $test->id)->where('authorizer_id', '!=', null)->where('correction', '=', $correction)->where('applier_id', '=', Auth::user()->id)->first();
         if ($apply != null){
             return true;
         }
