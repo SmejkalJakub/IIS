@@ -37,21 +37,21 @@ class UsersListController extends Controller
             {
                 foreach ($users as $user)
                 {
-                    $output.='<tr>'.
-                    '<td>'.$user->first_name. ' ' .$user->surname.'</td>'.
-                    '<td>'.$user->email.'</td>'.
-                    '<td>'.$user->role.'</td>'.
-                    '<td>'.
-                       '<a href="'.route('user.edit', $user->id).'" class="btn btn-sm btn-primary">Edit</a>'.
-                    '</td>'.
-                    '<td>'.
-                       '<form class="delete" action="'.route('user.delete', $user->id).'" method="POST">'.
-                       '<input type="hidden" name="_method" value="DELETE">'.
-                       '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this user?\')" class="btn btn-danger">Delete</button>'.
-                           csrf_field().
-                       '</form>'.
-                    '</td>'.
-                    '</tr>';
+                    $output.= '<tr>'.
+                        '<td style="vertical-align: middle">'.$user->first_name. ' ' .$user->surname.'</td>'.
+                        '<td style="vertical-align: middle">'.$user->email.'</td>'.
+                        '<td style="vertical-align: middle">'.$user->role.'</td>'.
+                        '<td>'.
+                            '<div class="d-flex justify-content-center">'.
+                                '<a href="'.route('user.edit', $user->id).'" role="button" class="btn btn-success mr-2">Edit</a>'.
+                                '<form class="delete" action="'.route('user.delete', $user->id).'" method="POST">'.
+                                '<input type="hidden" name="_method" value="DELETE">'.
+                                '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this user?\')" class="btn btn-danger">Delete</button>'.
+                                    csrf_field().
+                                '</form>'.
+                            '</div>'.
+                        '</td>'.
+                        '</tr>';
                 }
                 return Response($output);
             }
