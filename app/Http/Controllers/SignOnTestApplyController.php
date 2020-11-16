@@ -9,38 +9,40 @@ use Illuminate\Support\Facades\Auth;
 
 class SignOnTestApplyController extends Controller
 {
-    public function create($test_id)
+    public function create($test_id, bool $correction)
     {
         if (Auth::user() == null) {
             return redirect()->route('home');
         }
 
-        error_log($test_id);
+        if(SignOnTestApply::all()
+            ->whereIn('applier_id', Auth::id())
+            ->whereIn('test_id', $test_id)
+            ->whereIn('correction', $correction)
+            ->first()){
+            return redirect()->back();
+        }
+
         $sign = new SignOnTestApply();
         $sign->applier_id = Auth::id();
         $sign->test_id = $test_id;
 
         $sign->applied_datetime = now();
 
-
-        if (Auth::user()->hasRole('assistant')) {
-            $sign->correction = true;
-        } else {
-            $sign->correction = false;
-        }
+       $sign->correction = $correction;
 
         $sign->save();
         return redirect()->back();
 
     }
 
-    public function confirm($test_id, $user_id)
+    public function confirm($test_id, $user_id, bool $correction)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
 
-        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->where('applier_id', '=', $user_id)->first();
+        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->whereIn('applier_id',$user_id)->whereIn('correction', $correction)->first();
         $apply->authorizer_id = Auth::id();
         $apply->confirmed_datetime = now();
         $apply->save();
@@ -49,13 +51,13 @@ class SignOnTestApplyController extends Controller
 
     }
 
-    public function un_confirm($test_id, $user_id)
+    public function un_confirm($test_id, $user_id, $correction)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
             return redirect()->route('home');
         }
 
-        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->where('applier_id', '=', $user_id)->first();
+        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->whereIn('applier_id', $user_id)->whereIn('correction', $correction)->first();
         $apply->authorizer_id = null;
         $apply->confirmed_datetime = null;
 
@@ -63,14 +65,14 @@ class SignOnTestApplyController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($test_id, $user_id)
+    public function destroy($test_id, $user_id, $correction)
     {
         //neprihlaseny user
         if (Auth::user() == null) {
             return redirect()->back();
         }
 
-        $sign = SignOnTestApply::all()->where('applier_id', '=', $user_id)->where('test_id', '=', $test_id)->first();
+        $sign = SignOnTestApply::all()->whereIn('applier_id',  $user_id)->whereIn('correction', $correction)->whereIn('test_id', $test_id)->first();
 
         //neni profesor a zaroven nici zadost, ktera mu nepatri, ktera je na opravu testu
         if ((!Auth::user()->hasRole('profesor')) && (Auth::id() != $user_id) && $sign->correction) {
