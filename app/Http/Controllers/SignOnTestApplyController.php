@@ -34,21 +34,47 @@ class SignOnTestApplyController extends Controller
 
     }
 
-    public function destroy(Request $request, $test_id)
+    public function confirm($test_id, $user_id){
+        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+            return redirect()->route('home');
+        }
+
+        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->where('applier_id', '=', $user_id)->first();
+        $apply->authorizer_id = Auth::id();
+        $apply->confirmed_datetime = now();
+        $apply->save();
+
+        return redirect()->back();
+
+    }
+    public function un_confirm($test_id, $user_id){
+        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+            return redirect()->route('home');
+        }
+
+        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->where('applier_id', '=', $user_id)->first();
+        $apply->authorizer_id = null;
+        $apply->confirmed_datetime = null;
+
+        $apply->save();
+        return redirect()->back();
+    }
+
+    public function destroy($test_id, $user_id)
     {
 
         if (Auth::user() == null) {
             return redirect()->route('home');
         }
-        $sign1 = SignOnTestApply::all()->where('applier_id', '=', Auth::id())->where('test_id', '=', $test_id)->first();
-        $sign2 = SignOnTestApply::all()->where('authorizer_id', '=', Auth::id())->where('test_id', '=', $test_id)->first();
+        $sign1 = SignOnTestApply::all()->where('applier_id', '=', $user_id)->where('test_id', '=', $test_id)->first();
+        //$sign2 = SignOnTestApply::all()->where('authorizer_id', '=', Auth::id())->where('test_id', '=', $test_id)->first();
         if ($sign1) {
             $sign1->delete();
 
         }
-        elseif ($sign2){
+        /*elseif ($sign2){
             $sign2->delete();
-        }
+        }*/
         return redirect()->back();
 
     }
