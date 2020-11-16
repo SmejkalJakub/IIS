@@ -6,106 +6,56 @@
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'categories'])
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div
-                    class="card-header"><h1>Category create</h1></div>
+<div class="container bg-white rounded mt-5 p-4">
+    <?php
+    $category = new \App\Models\Category();
+    $category->max_points = -1;
+    $category->name = "";
+    $category->save();
+    ?>
 
-                <div class="card-body">
+    <div class="mb-3 row">
+        <div class="col-sm-4">
+            {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+            {!! Form::submit('Back', ['class' => 'btn btn-secondary', 'onclick' => 'return confirm(\'Are you sure you want to discard this category?\')']) !!}
+            {!! Form::close() !!}
+        </div>
+        <div class="col-sm-4">
+            <h2 class="text-center mb-4" style="color: #373737">Create category</h2>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
 
-                    <?php
-                    $category = new \App\Models\Category();
-                    $category->max_points = -1;
-                    $category->name = "";
-                    $category->save();
+        {!! Form::open(['route' => ['categories.update', $category], 'method' => 'put']) !!}
 
-                    ?>
-                        {!! Form::open(['route' => ['categories.update', $category], 'method' => 'put']) !!}
-
-                        <div class="form-group @if($errors->has('name')) has-error @endif">
-                        {!! Form::label('Name') !!}
-                        {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name', 'maxlength'=>128]) !!}
-                        @if ($errors->has('name'))
-                            <span class="help-block">{!! $errors->first('name') !!}</span>@endif
-                    </div>
-
-                    <div>
-                        {!! Form::label('Max points') !!}
-                        {{ Form::input('number', 'max_points', null, ['id' => 'max_points', 'class' => 'form-control']) }}
-                    </div>
-                    <div>
-                        <h1>
-
-                            {!! Form::submit('Create',['class' => 'btn btn-sm btn-warning']) !!}
-                            {!! Form::close() !!}
-
-
-                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                            {!! Form::submit('Back', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to discard this category?\')']) !!}
-                            {!! Form::close() !!}
-                        </h1>
-                    </div>
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="mb-3 input-group @if($errors->has('name')) has-error @endif">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Name</label>
                 </div>
+                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Enter name', 'maxlength'=>128]) !!}
+                @if ($errors->has('name'))
+                    <span class="help-block">{!! $errors->first('name') !!}</span>@endif
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="card">
-        <div class="card-header">
-            <header><h3>Questions of category
-                    <a
-                        href="{{ route('categories.questions.create', $category->id) }}"
-                        class="btn btn-lg btn-primary align-middle float-right">Add</a>
-                </h3>
-            </header>
+        <div class="col-sm-3">
+            <div class="input-group @if($errors->has('max_points')) has-error @endif">
+                <div class="mb-3 input-group-prepend">
+                    <label class="input-group-text">Points per question</label>
+                </div>
+                {{ Form::input('number', 'max_points', null, ['id' => 'max_points', 'class' => 'form-control']) }}
+                @if ($errors->has('max_points'))
+                    <span class="help-block">{!! $errors->first('max_points') !!}</span>@endif
+            </div>
         </div>
-
-        <div class="card-body">
-            <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type of answer</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                @foreach($questions as $question)
-                    <tr>
-                        <td>
-                            <a href="{{ route('categories.questions.show', [$category->id, $question->id]) }}">{{ $question->id }}</a>
-
-                        </td>
-                        <td>
-                            {{$question->name}}
-                        </td>
-                        <td>
-                            @if($question->type_of_answer == 1)
-                                open
-                            @else
-                                abcd
-                            @endif
-                        </td>
-                        <td>
-
-                            <a href="{{ route('categories.questions.edit', [$category->id, $question]) }}"
-                               class="btn btn-sm btn-primary">Edit</a>
-
-                            {!! Form::open(['route' => ['categories.questions.destroy', $category->id, $question->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this question?\')']) !!}
-                            {!! Form::close() !!}
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="col-sm-2">
+            {!! Form::submit('Create',['class' => 'btn btn-block btn-success']) !!}
+            {!! Form::close() !!}
         </div>
-
     </div>
+
+    @include('questions.show')
 </div>
 
 </body>

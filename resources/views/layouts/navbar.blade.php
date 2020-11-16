@@ -8,8 +8,22 @@
             <li class="nav-item {{ ($activeBar == 'home') ? 'active bg-success' : '' }}">
                 <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('home')}}">HOME</a>
             </li>
-            <li class="nav-item {{ ($activeBar == 'tests') ? 'active bg-success' : '' }}">
-                <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('tests')}}">TESTS</a>
+            <li class="nav-item dropdown {{ ($activeBar == 'tests') ? 'active bg-success' : '' }}">
+                <a class="nav-link dropdown-toggle" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" data-toggle="dropdown">TESTS </a>
+                <div class="dropdown-menu">
+                    <h5 class="dropdown-header">Registration</h5>
+                    <a class="dropdown-item" href="{{route('tests')}}">Available</a>
+                    <a class="dropdown-item" href="#">Signed on</a>
+                    <a class="dropdown-item" href="#">Approved</a>
+                    <a class="dropdown-item" href="#">Active</a>
+                    <h5 class="dropdown-header">Correction</h5>
+                    <a class="dropdown-item" href="#">Available</a>
+                    <a class="dropdown-item" href="#">Signed on</a>
+                    <a class="dropdown-item" href="#">Approved</a>
+                    <a class="dropdown-item" href="#">Active</a>
+                    <h5 class="dropdown-header">Creation</h5>
+                    <a class="dropdown-item" href="#">My tests</a>
+                </div>
             </li>
 
             @if(Auth::user()->hasRole('profesor'))

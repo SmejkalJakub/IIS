@@ -1,128 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-@include('layouts.head', ['title' => 'Categories'])
-<body>
-
-@include('layouts.header')
-@include('layouts.navbar', ['activeBar' => 'categories'])
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div>
-                    <div>
-                        <h3>
-                            Name
-                        </h3>
-                        <h4>
-                            {{ $question->name }}
-                        </h4>
-                    </div>
-                    <div>
-                        <h3>
-                            Task
-                        </h3>
-                        <h4>
-                            {{$question->task}}
-                        </h4>
-                    </div>
-                    <div>
-                        <h3>
-                            Image
-                        </h3>
-                    </div>
-
-                    <div>
-                        <img
-                            src="{{'http://localhost/' . $question->image}}"
-                            onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOYeuoelhM2iWeIjc--_YW3ZlqrFaIHOCqyQ&usqp=CAU';"
-                            style="max-height: 150px; max-width: 150px">
-                    </div>
-
-
-                    <div>
-                        <h3>
-                            Type
-                        </h3>
-                        <h4>
-                            @if($question->type_of_answer == 1)
-                                open
-                            @else
-                                abcd
-                            @endif
-                        </h4>
-                    </div>
-                    <div>
-                        <h3>
-                            Right answer
-                        </h3>
-                        <h4>
-                            @if($question->type_of_answer == 1)
-                                {{$question->right_text_answer}}
-                            @else
-                                Option {{$question->right_option}}
-                            @endif
-                        </h4>
-                    </div>
-                    @if($question->type_of_answer == 0)
-                        <div>
-                            <h3>
-                                Option 1
-                            </h3>
-                            <h4>
-                                {{$question->option_1}}
-                            </h4>
-                        </div>
-                        <div>
-                            <h3>
-                                Option 2
-                            </h3>
-                            <h4>
-                                {{$question->option_2}}
-                            </h4>
-                        </div>
-                        <div>
-                            <h3>
-                                Option 3
-                            </h3>
-                            <h4>
-                                {{$question->option_3}}
-                            </h4>
-                        </div>
-                        <div>
-                            <h3>
-                                Option 4
-                            </h3>
-                            <h4>
-                                {{$question->option_4}}
-                            </h4>
-                        </div>
-
-                    @endif
-                    <a href="{{ route('categories.show', $category->id) }}"
-                       class="btn btn-sm btn-primary">Back</a>
-                    <a href="{{ route('categories.questions.edit', [$category->id, $question->id]) }}"
-                       class="btn btn-sm btn-primary">Edit</a>
-                </div>
-            </div>
+<div class="border rounded mt-4 p-3">
+    <h3 class="text-center mb-3" style="color: #373737">Questions</h3>
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" id="search" style="max-width: 400px" placeholder="Search" name="search"/>
+        </div>
+        <div class="col-auto">
+            <a href="{{ route('categories.questions.create', $category->id) }}" class="btn btn-success">Add</a>
         </div>
     </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach($questions as $question)
+                <tr>
+                    <td>
+                        {{$question->name}}
+                    </td>
+                    <td>
+                        @if($question->type_of_answer == 1)
+                            fulltext
+                        @else
+                            test
+                        @endif
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('categories.questions.edit', [$category->id, $question]) }}" class="btn btn-sm btn-success mr-2">Edit</a>
+
+                            {!! Form::open(['route' => ['categories.questions.destroy', $category->id, $question->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this question?\')']) !!}
+                            {!! Form::close() !!}
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
-
-</body>
-</html>
-
-<script type="text/javascript">
-
-    function PreviewImage(orderOfImage, uploadPreviewOrder) {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById(orderOfImage).files[0]);
-
-        oFReader.onload = function (oFREvent) {
-            document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
-        };
-    }
-
-</script>
 
