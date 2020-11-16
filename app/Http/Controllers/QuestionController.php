@@ -43,41 +43,52 @@ class QuestionController extends Controller
 
     public function store(Request $request, $category_id)
     {
-
         if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
         {
             return redirect()->route('home');
         }
 
-        $this->validate(
-            $request,
+        $validation_array =
             [
                 'name' => 'required|max:128|unique:questions,name,' ,
                 'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
                 'task' => 'required|max:512',
-                'right_answer' => 'required|max:512',
+                'right_answer' => 'max:512',
                 'type_of_answer' => 'required',
                 'option_1' => 'nullable|max:255',
                 'option_2' => 'nullable|max:255',
                 'option_3' => 'nullable|max:255',
                 'option_4' => 'nullable|max:255',
-            ],
-        );
+            ];
 
         $question = new Question();
         $question->category_id = $category_id;
 
         $question->name = $request->name;
-        $question->right_answer = $request->right_answer;
         $question->type_of_answer = $request->type_of_answer;
 
+        if($request->type_of_answer == 1)
+        {
+            $question->right_text_answer = $request->right_answer;
+        }
+        else
+        {
+            error_log($request->right_option);
+            $validation_array = array_merge($validation_array, [
+                'right_option' => 'required',
+                ]);
+            $question->option_1 = $request->option_1;
+            $question->option_2 = $request->option_2;
+            $question->option_3 = $request->option_3;
+            $question->option_4 = $request->option_4;
+            $question->right_option = $request->right_option;
+        }
+
+
         $question->task = $request->task;
-        $question->option_1 = $request->option_1;
-        $question->option_2 = $request->option_2;
-        $question->option_3 = $request->option_3;
-        $question->option_4 = $request->option_4;
         $question->image_path = $request->icon;
 
+        request()->validate($validation_array);
 
         $question->save();
 
@@ -87,40 +98,47 @@ class QuestionController extends Controller
 
     public function update(Request $request, $category_id, Question $question)
     {
-
         if(Auth::user() == null || !Auth::user()->hasRole('profesor'))
         {
             return redirect()->route('home');
         }
-        $this->validate(
-            $request,
+        $validation_array =
             [
                 'name' => 'required|max:128|unique:questions,name,' . $question->id,
                 'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
                 'task' => 'required|max:512',
-                'right_answer' => 'required|max:512',
+                'right_answer' => 'max:512',
                 'type_of_answer' => 'required',
                 'option_1' => 'nullable|max:255',
                 'option_2' => 'nullable|max:255',
                 'option_3' => 'nullable|max:255',
                 'option_4' => 'nullable|max:255',
-                ],
-
-        );
-        error_log("ulozeno");
+            ];
 
         $question->name = $request->name;
-        $question->right_answer = $request->right_answer;
         $question->type_of_answer = $request->type_of_answer;
-        $question->category_id = $category_id;
+
+        if($request->type_of_answer == 1)
+        {
+            $question->right_text_answer = $request->right_answer;
+        }
+        else
+        {
+            $validation_array = array_merge($validation_array, [
+                'right_option' => 'required',
+                ]);
+            $question->option_1 = $request->option_1;
+            $question->option_2 = $request->option_2;
+            $question->option_3 = $request->option_3;
+            $question->option_4 = $request->option_4;
+            $question->right_option = $request->right_option;
+        }
+
 
         $question->task = $request->task;
-        $question->option_1 = $request->option_1;
-        $question->option_2 = $request->option_2;
-        $question->option_3 = $request->option_3;
-        $question->option_4 = $request->option_4;
         $question->image_path = $request->icon;
 
+        request()->validate($validation_array);
         $question->save();
 
 

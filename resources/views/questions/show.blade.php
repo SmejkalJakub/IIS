@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Categories</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+@include('layouts.head', ['title' => 'Categories'])
 <body>
 
-
+@include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'categories'])
-
 
 <div class="container">
     <div class="row justify-content-center">
@@ -66,7 +58,11 @@
                             Right answer
                         </h3>
                         <h4>
-                            {{$question->right_answer}}
+                            @if($question->type_of_answer == 1)
+                                {{$question->right_text_answer}}
+                            @else
+                                Option {{$question->right_option}}
+                            @endif
                         </h4>
                     </div>
                     @if($question->type_of_answer == 0)
