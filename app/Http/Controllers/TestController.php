@@ -68,10 +68,6 @@ class TestController extends Controller
             return redirect()->route('home');
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 591353807022c80c95f25cf0c351c3b715e69f70
         return view('tests.create');
     }
 
