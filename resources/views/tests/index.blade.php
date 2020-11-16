@@ -84,7 +84,8 @@
 
                                     @else
 
-                                        {!! Form::open(['route' => ['sign_on_test.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}
+
+                                        {!! Form::open(['route' => ['sign_on.test.destroy', [$test->id, Auth::id()]], 'method' => 'get', 'style' => 'display:inline']) !!}
                                         {!! Form::submit('Sign off', ['class' => 'btn btn-sm btn-warning', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
                                         {!! Form::close() !!}
 
