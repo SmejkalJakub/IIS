@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+
+        #hidden_div {
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
+
+
 
 @include('layouts.navbar', ['activeBar' => 'categories'])
 
@@ -51,7 +61,7 @@
 
                     <div class="form-group">
                         {!! Form::label('Type') !!}
-                        {!! Form::select('type_of_answer', [1 => 'open',0 => 'abcd'],1, ['class' => 'form-control']) !!}
+                        {!! Form::select('type_of_answer', [1 => 'open', 0 => 'abcd'], 1, ['class' => 'form-control', 'onchange' => 'showDiv(\'hidden_div\', this)']) !!}
                     </div>
                     <div class="form-group @if($errors->has('right_answer')) has-error @endif">
                         {!! Form::label('Right answer') !!}
@@ -60,54 +70,56 @@
                             <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <header>
-                                <h4>
-                                    <b>Options</b>
-                                </h4>
-                            </header>
-                        </div>
+                    <div id="hidden_div">
+                        <div class="card">
+                            <div class="card-header">
+                                <header>
+                                    <h4>
+                                        <b>Options</b>
+                                    </h4>
+                                </header>
+                            </div>
 
-                        <div class="card-body">
-                            <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
-                                <thead>
+                            <div class="card-body">
+                                <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Answer</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
                                     <tr>
-                                        <th scope="col">Answer</th>
+                                        <td>
+                                            <div class="form-group @if($errors->has('option_1')) has-error @endif">
+                                                {!! Form::label('First option') !!}
+                                                {!! Form::text('option_1', null, ['class' => 'form-control', 'placeholder' => 'First option', 'maxlength'=>128]) !!}
+                                                @if ($errors->has('option_1'))
+                                                    <span class="help-block">{!! $errors->first('option_1') !!}</span>@endif
+                                            </div>
+                                            <div class="form-group @if($errors->has('option_2')) has-error @endif">
+                                                {!! Form::label('Second option') !!}
+                                                {!! Form::text('option_2', null, ['class' => 'form-control', 'placeholder' => 'Second option', 'maxlength'=>128]) !!}
+                                                @if ($errors->has('option_2'))
+                                                    <span class="help-block">{!! $errors->first('option_2') !!}</span>@endif
+                                            </div>
+                                            <div class="form-group @if($errors->has('option_2')) has-error @endif">
+                                                {!! Form::label('Third option') !!}
+                                                {!! Form::text('option_3', null, ['class' => 'form-control', 'placeholder' => 'Third option', 'maxlength'=>128]) !!}
+                                                @if ($errors->has('option_3'))
+                                                    <span class="help-block">{!! $errors->first('option_3') !!}</span>@endif
+                                            </div>
+                                            <div class="form-group @if($errors->has('option_4')) has-error @endif">
+                                                {!! Form::label('Fourth option') !!}
+                                                {!! Form::text('option_4', null, ['class' => 'form-control', 'placeholder' => 'Fourth option', 'maxlength'=>128]) !!}
+                                                @if ($errors->has('option_4'))
+                                                    <span class="help-block">{!! $errors->first('option_4') !!}</span>@endif
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-group @if($errors->has('option_1')) has-error @endif">
-                                            {!! Form::label('First option') !!}
-                                            {!! Form::text('option_1', null, ['class' => 'form-control', 'placeholder' => 'First option', 'maxlength'=>128]) !!}
-                                            @if ($errors->has('option_1'))
-                                                <span class="help-block">{!! $errors->first('option_1') !!}</span>@endif
-                                        </div>
-                                        <div class="form-group @if($errors->has('option_2')) has-error @endif">
-                                            {!! Form::label('Second option') !!}
-                                            {!! Form::text('option_2', null, ['class' => 'form-control', 'placeholder' => 'Second option', 'maxlength'=>128]) !!}
-                                            @if ($errors->has('option_2'))
-                                                <span class="help-block">{!! $errors->first('option_2') !!}</span>@endif
-                                        </div>
-                                        <div class="form-group @if($errors->has('option_2')) has-error @endif">
-                                            {!! Form::label('Third option') !!}
-                                            {!! Form::text('option_3', null, ['class' => 'form-control', 'placeholder' => 'Third option', 'maxlength'=>128]) !!}
-                                            @if ($errors->has('option_3'))
-                                                <span class="help-block">{!! $errors->first('option_3') !!}</span>@endif
-                                        </div>
-                                        <div class="form-group @if($errors->has('option_4')) has-error @endif">
-                                            {!! Form::label('Fourth option') !!}
-                                            {!! Form::text('option_4', null, ['class' => 'form-control', 'placeholder' => 'Fourth option', 'maxlength'=>128]) !!}
-                                            @if ($errors->has('option_4'))
-                                                <span class="help-block">{!! $errors->first('option_4') !!}</span>@endif
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <h2>
@@ -135,6 +147,10 @@
         oFReader.onload = function (oFREvent) {
             document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
         };
+    }
+    function showDiv(divId, element)
+    {
+        document.getElementById(divId).style.display = element.value == 0 ? 'block' : 'none';
     }
 
 </script>
