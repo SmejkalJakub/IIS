@@ -54,8 +54,6 @@ class TestController extends Controller
             return redirect()->route('home');
         }
 
-
-
         return view('tests.create');
     }
 

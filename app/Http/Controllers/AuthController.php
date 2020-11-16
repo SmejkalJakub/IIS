@@ -7,11 +7,17 @@ Use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Session;
+use Cookie;
 
 class AuthController extends Controller
 {
     public function index()
     {
+        if(Auth::user() != null)
+        {
+            return redirect()->intended('home');
+        }
+
         return view('login');
     }
 
@@ -27,8 +33,15 @@ class AuthController extends Controller
         'password' => 'required',
         ]);
 
+        $remember_me  = ( !empty( $request->remember_me ) )? TRUE : FALSE;
+
+
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            $user = User::where(["email" => $request->email])->first();
+
+            Auth::login($user, $remember_me);
+
             return redirect()->intended('home');
         }
         Session::flash('error-message', 'Oppes! You have entered invalid credentials');
