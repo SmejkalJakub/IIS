@@ -17,7 +17,7 @@ Route::post('post-login', 'AuthController@postLogin');
 Route::get('register', 'AuthController@register');
 Route::post('post-register', 'AuthController@postRegister');
 Route::get('logout', 'AuthController@logout')->name('logout');
-Route::get('home', 'AuthController@home')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
@@ -27,12 +27,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('question', 'QuestionController');
     Route::resource('categories.questions', 'QuestionController');
 });
+
 Route::get('tests', 'TestController@index')->name('tests');
 Route::get('categories', 'CategoryController@index')->name('categories');
 Route::get('new/{id}/{correction}/sign', 'SignOnTestApplyController@create')->name('new..sign');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test..confirm');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/un_confirm', 'SignOnTestApplyController@un_confirm')->name('sign_on.test..un_confirm');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test..destroy');
+
+Route::get('test/{test_id}/create', 'TestInstanceController@create')->name('test.create');
+Route::get('test/{test_id}/end', 'TestInstanceController@endTest')->name('test.end');
+
+
+Route::get('test/fill/{instance_id}/{question_index}', 'TestInstanceController@question')->name('test-fill..');
+Route::post('question/save/{instance_id}{question_index}', 'TestInstanceController@saveQuestion')->name('question-save..');
 
 Route::get('category-search','CategoryController@search');
 Route::get('test-search','TestController@search');

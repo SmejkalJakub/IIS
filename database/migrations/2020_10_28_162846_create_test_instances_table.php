@@ -23,7 +23,7 @@ class CreateTestInstancesTable extends Migration
             $table->bigInteger('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('assistant_id')->unsigned();
-            $table->foreign('assistant_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('assistant_id')->references('id')->on('users')->onDelete('cascade')->nullable();
 
         });
     }

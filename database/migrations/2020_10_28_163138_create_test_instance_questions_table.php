@@ -17,7 +17,7 @@ class CreateTestInstanceQuestionsTable extends Migration
             $table->unique(['test_instance_id', 'question_id']);
 
             $table->timestamps();
-            $table->string('answer');
+            $table->string('answer')->nullable();
             $table->unsignedDouble('points');
 
             $table->bigInteger('test_instance_id')->unsigned();
