@@ -23,7 +23,7 @@
 </div>
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="mb-3 text-center" style="color: #373737">Categories</h2>
+    <h2 class="mb-3 text-center" style="    color: #373737">Categories</h2>
 
     <div class="row">
         <div class="col">
