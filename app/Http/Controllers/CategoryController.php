@@ -107,7 +107,7 @@ class CategoryController extends Controller
         if($request->ajax())
         {
             $output="";
-            $categories=Category::query('categories')
+            $categories=Category::query()
                 ->where('name','LIKE','%'.$request->search."%")
                 ->orWhere('max_points','LIKE','%'.$request->search."%")
                 ->get();

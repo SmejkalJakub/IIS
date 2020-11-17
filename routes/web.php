@@ -35,7 +35,7 @@ Route::get('sign_on/{test_id}/test/{user_id}/{correction}/un_confirm', 'SignOnTe
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test..destroy');
 
 Route::get('category-search','CategoryController@search');
-
+Route::get('test-search','TestController@search');
 
 Route::get('reset-password-form', 'PasswordResetController@index')->name('reset-password-form');
 Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
