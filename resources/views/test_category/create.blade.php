@@ -6,7 +6,12 @@
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
-
+@if($errors->has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+    {{ $errors->first('error') }}
+</div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">

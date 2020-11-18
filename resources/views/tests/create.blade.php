@@ -98,7 +98,7 @@
                     </div>
                     <div>
                         <h2>
-                            {!! Form::submit('Create', ['class' => 'btn btn-sm btn-warning']) !!}
+                            {!! Form::submit('Create    ', ['class' => 'btn btn-sm btn-warning']) !!}
                             {!! Form::close() !!}
 
                             {!! Form::open(['route' => ['tests.destroy', $test->id], 'method' => 'delete', 'style' => 'display:inline']) !!}

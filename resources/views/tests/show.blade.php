@@ -218,6 +218,24 @@
     </div>
 </div>
 
+<hr>
+<hr>
+<hr>
+<hr>
+<br>
+
+@foreach ($test_instances as $instance)
+
+{{$instance->id}}
+{{$instance->student->first_name}} {{$instance->student->surname}}
+
+<a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Correct the test</a>
+@endforeach
+<hr>
+<hr>
+<hr>
+<hr>
+<br>
 </body>
 </html>
 

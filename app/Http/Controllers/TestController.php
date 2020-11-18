@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\SignApplyHelper;
 use App\Models\Category;
 use App\Models\Test;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -36,9 +35,11 @@ class TestController extends Controller
             $test_applies = [];
         }
 
+        $test_instances = $test->instances;
+
 
         $test_categories = $test->categories;
-        return view('tests.show', compact('test', 'test_categories', 'test_applies'));
+        return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances'));
     }
 
     public function create()
@@ -416,11 +417,19 @@ class TestController extends Controller
             ]
         );
 
-        if (strtotime($request->available_from) - strtotime($request->available_to) >= 0) {
+        sscanf($request->max_duration, "%d:%d", $hours, $minutes);
+        $duration = isset($hours) ? $hours * 3600 + $minutes * 60  : $minutes * 60 ;
+
+        $time_between_from_to = strtotime($request->available_to) - strtotime($request->available_from);
+
+        if ($time_between_from_to <= 0) {
             Session::flash('delete-message', 'Test available from must be before available to');
             return redirect()->route('tests.edit', $test->id);
         }
-
+        if ($time_between_from_to < $duration) {
+            Session::flash('delete-message', 'Test duration must fit between available times');
+            return redirect()->route('tests.edit', $test->id);
+        }
 
         $test->creator_id = Auth::id();
 

@@ -42,7 +42,7 @@ class SignOnTestApplyController extends Controller
             return redirect()->route('home');
         }
 
-        $apply = SignOnTestApply::all()->where('test_id', '=', $test_id)->whereIn('applier_id',$user_id)->whereIn('correction', $correction)->first();
+        $apply = SignOnTestApply::all()->whereIn('test_id', $test_id)->whereIn('applier_id',$user_id)->whereIn('correction', $correction)->first();
         $apply->authorizer_id = Auth::id();
         $apply->confirmed_datetime = now();
         $apply->save();
