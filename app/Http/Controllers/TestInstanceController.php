@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class TestInstanceController extends Controller
 {
-    public function create(Test $test)
+    public function create( $test_id)
     {
-        if((now() > $test->available_to) || now() < $test->available_from){
-            return view('home');
+        $now = strtotime(now());
+        $test = Test::all()->whereIn('id', $test_id)->first();
+        error_log(strtotime($test->available_to));
+
+        if(($now > strtotime($test->available_to)) || $now < strtotime($test->available_from)){
+            return redirect()->back();
         }
 
         $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
