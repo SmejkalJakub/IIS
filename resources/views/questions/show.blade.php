@@ -5,7 +5,8 @@
             <input type="text" class="form-control" id="search" style="max-width: 400px" placeholder="Search" name="search"/>
         </div>
         <div class="col-auto">
-            <a href="{{ route('categories.questions.create', $category->id) }}" class="btn btn-success">Add</a>
+            {!! Form::submit('Add',['class' => 'btn btn-block btn-success', 'onclick'=>'return confirm(\'Category creditials will be saved!\')']) !!}
+            {!! Form::close() !!}
         </div>
     </div>
 

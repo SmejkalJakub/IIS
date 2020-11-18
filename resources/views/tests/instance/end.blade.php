@@ -48,9 +48,29 @@
                         ?>
                         {{$number_of_questions}}
                         <div>
-                            <a href="{{route('home')}}" role="button" class="btn btn-sm btn-success mr-2">End the test</a>
-                            <a href="{{route('test-fill..', [$instance->id, 0])}}" role="button" class="btn btn-sm btn-success mr-2">Return to the test</a>
+                            <a href="{{route('home')}}" role="button" class="btn btn-sm btn-success mr-2">End the
+                                test</a>
 
+                            <?php
+                            $now = strtotime(now());
+                            $show_get_back = false;
+
+                            if ($instance != null) {
+
+                                sscanf($instance->test->max_duration, "%d:%d", $hours, $minutes);
+                                $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
+
+                                $time_between_now_start = $now - strtotime($instance->opened_at);
+                                error_log($duration - $time_between_now_start);
+                                if ($duration - $time_between_now_start > 0) {
+                                    $show_get_back = true;
+                                }
+                            }
+                            ?>
+                            @if($show_get_back)
+                                <a href="{{route('test-fill..', [$instance->id, 0])}}" role="button"
+                                   class="btn btn-sm btn-success mr-2">Return to the test</a>
+                            @endif
                         </div>
 
 

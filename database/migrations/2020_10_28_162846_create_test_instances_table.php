@@ -17,6 +17,7 @@ class CreateTestInstancesTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->dateTime('opened_at')->nullable();
 
             $table->bigInteger('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
