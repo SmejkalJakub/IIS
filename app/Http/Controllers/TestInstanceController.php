@@ -119,7 +119,6 @@ class TestInstanceController extends Controller
             return view('home');
         }
 
-        $question = $instance->instances_questions[$question_index];
         if ($instance != null) {
 
             sscanf($instance->test->max_duration, "%d:%d", $hours, $minutes);
