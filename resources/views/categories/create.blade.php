@@ -12,6 +12,7 @@
     $category->max_points = -1;
     $category->name = "";
     $category->save();
+    $questions = \App\Models\Question::all()->where('category_id', $category->id);
     ?>
 
     <div class="mb-3 row">
@@ -50,7 +51,7 @@
             </div>
         </div>
         <div class="col-sm-2">
-            {!! Form::submit('Create',['class' => 'btn btn-block btn-success']) !!}
+            {!! Form::submit('Save and create',['class' => 'btn btn-block btn-success']) !!}
             {!! Form::close() !!}
         </div>
     </div>

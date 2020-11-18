@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 Use App\Models\TestInstance;
 Use App\Models\User;
+Use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
 
 class TestInstanceController extends Controller
 {
-    public function create($test_id)
+    public function create( $test_id)
     {
-        $instance = TestInstance::query()->where([
+        /*$instance = TestInstance::query()->where([
             ['test_id', '=', $test_id],
             ['student_id', '=', Auth::id()],
             ])->first();
@@ -19,10 +20,25 @@ class TestInstanceController extends Controller
         if($instance)
         {
             return $this->question($instance->id, 0);
+        }*/
+
+        $now = strtotime(now());
+        $test = Test::all()->whereIn('id', $test_id)->first();
+        error_log(strtotime($test->available_to));
+
+        if(($now > strtotime($test->available_to)) || $now < strtotime($test->available_from)){
+            return redirect()->back();
         }
 
+        $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
+        if($instance != null){
+            return $this->question($instance->id, 0);
+            //return view('tests.instance.index', compact('instance'));
+        }
+
+
         $instance = new TestInstance();
-        $instance->test_id = $test_id;
+        $instance->test_id = $test->id;
         $instance->student_id = Auth::id();
         $instance->assistant_id = null;
         $instance->save();

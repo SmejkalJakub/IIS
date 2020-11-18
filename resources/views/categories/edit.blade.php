@@ -16,6 +16,7 @@
         </div>
         <div class="col-sm-4"></div>
     </div>
+    {!! Form::open(['route' => ['categories.update', $category], 'method' => 'put']) !!}
 
     <div class="row">
         <div class="col-sm-7">
