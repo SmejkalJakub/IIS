@@ -62,8 +62,7 @@ class CategoryController extends Controller
             return redirect()->route('home');
         }
 
-        $questions = Question::all();
-        return view('categories.create', compact('questions'));
+        return view('categories.create');
     }
 
     public function edit(Category $category)
@@ -98,7 +97,7 @@ class CategoryController extends Controller
         $category->save();
 
         Session::flash('message', 'Category created successfully');
-        return redirect()->route('categories');
+        return redirect()->back();
     }
 
 
@@ -119,17 +118,12 @@ class CategoryController extends Controller
                         $category->delete();
                         continue;
                     }
-                    $number_of_questions = 0;
-
-                    $category->setAttribute('number_of_questions', $number_of_questions);
 
                     $questions = $category->questions;
-
-                    foreach ($questions as $q) {
-                        $number_of_questions += 1;
-                    }
-
+                    $number_of_questions = count($questions);
                     $category->setAttribute('number_of_questions', $number_of_questions);
+
+
 
                     $output.= '<tr>'.
                         '<td style="vertical-align: middle">'.$category->name.'</td>'.

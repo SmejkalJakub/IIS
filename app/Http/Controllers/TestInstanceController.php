@@ -5,14 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 Use App\Models\TestInstance;
 Use App\Models\User;
+Use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
 
 class TestInstanceController extends Controller
 {
-    public function create($test_id)
+    public function create(Test $test)
     {
+        if((now() > $test->available_to) || now() < $test->available_from){
+            return view('home');
+        }
+
+        $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
+        if($instance != null){
+            return view('tests.instance.index', compact('instance'));
+        }
+
+
         $instance = new TestInstance();
-        $instance->test_id = $test_id;
+        $instance->test_id = $test->id;
         $instance->student_id = Auth::id();
         $instance->assistant_id = null;
         $instance->save();

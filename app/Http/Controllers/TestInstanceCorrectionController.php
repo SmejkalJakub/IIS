@@ -10,13 +10,13 @@ class TestInstanceCorrectionController extends Controller
 {
     public function index($instance_id)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
         return view('tests.instance.correction.index', compact('instance'));
     }
 
     public function question($instance_id, $question_index)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
         $question = $instance->instances_questions[$question_index];
 
@@ -28,7 +28,7 @@ class TestInstanceCorrectionController extends Controller
 
     public function saveCorrection(Request $request, $instance_id, $question_index)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
         $question = $instance->instances_questions[$question_index];
 
