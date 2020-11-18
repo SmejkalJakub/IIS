@@ -10,8 +10,27 @@ use Illuminate\Support\Facades\Auth;
 
 class TestInstanceController extends Controller
 {
+
+    function checkAuth($student_id)
+    {
+        if($student_id != Auth::id())
+        {
+            return false;
+        }
+        return true;
+    }
     public function create( $test_id)
     {
+        /*$instance = TestInstance::query()->where([
+            ['test_id', '=', $test_id],
+            ['student_id', '=', Auth::id()],
+            ])->first();
+
+        if($instance)
+        {
+            return $this->question($instance->id, 0);
+        }*/
+
         $now = strtotime(now());
         $test = Test::all()->whereIn('id', $test_id)->first();
         error_log(strtotime($test->available_to));
@@ -22,7 +41,8 @@ class TestInstanceController extends Controller
 
         $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
         if($instance != null){
-            return view('tests.instance.index', compact('instance'));
+            return $this->question($instance->id, 0);
+            //return view('tests.instance.index', compact('instance'));
         }
 
 
@@ -52,6 +72,11 @@ class TestInstanceController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
+
         $question = $instance->instances_questions[$question_index];
 
         $instance->instances_questions()->updateExistingPivot($question->id, ['answer' => $request->answer]);
@@ -72,12 +97,22 @@ class TestInstanceController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
+
         return view('tests.instance.end', compact('instance'));
     }
 
     public function question($instance_id, $question_index)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
+
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
 
         $question = $instance->instances_questions[$question_index];
 
