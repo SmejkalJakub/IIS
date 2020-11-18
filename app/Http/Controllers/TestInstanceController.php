@@ -14,7 +14,7 @@ class TestInstanceController extends Controller
         $instance = new TestInstance();
         $instance->test_id = $test_id;
         $instance->student_id = Auth::user()->id;
-        $instance->assistant_id = 1;
+        $instance->assistant_id = null;
         $instance->save();
 
         $categories = $instance->test->categories;
@@ -26,7 +26,7 @@ class TestInstanceController extends Controller
 
             for($i = 0; $i < $category->pivot->number_of_questions; $i++)
             {
-                $instance->instances_questions()->attach($allQuestions[$i], ['answer' => '', 'points' => 0]);
+                $instance->instances_questions()->attach($allQuestions[$i], ['answer' => '', 'points' => null]);
             }
         }
 
@@ -43,7 +43,7 @@ class TestInstanceController extends Controller
 
         switch($request->input('action')) {
             case 'Save':
-                return redirect()->back();
+                return $this->question($instance_id, $question_index);
                 break;
             case 'Save and Next':
                 return $this->question($instance_id, $question_index + 1);

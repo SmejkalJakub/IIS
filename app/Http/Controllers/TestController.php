@@ -35,9 +35,11 @@ class TestController extends Controller
             $test_applies = [];
         }
 
+        $test_instances = $test->instances;
+
 
         $test_categories = $test->categories;
-        return view('tests.show', compact('test', 'test_categories', 'test_applies'));
+        return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances'));
     }
 
     public function create()
@@ -188,6 +190,7 @@ class TestController extends Controller
                             '<div class="d-flex justify-content-end">'.
                                 $correction.
                                 $fillSignOn.
+                                '<a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm btn-success mr-2">Show</a>'.
                                 '<a href="'.route('tests.edit', $test->id).'" role="button" class="btn btn-sm btn-success mr-2">Edit</a>'.
                                 '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
                                 '<input type="hidden" name="_method" value="DELETE">'.
