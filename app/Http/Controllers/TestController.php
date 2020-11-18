@@ -129,17 +129,7 @@ class TestController extends Controller
                         continue;
                     }
 
-                    /*$points_per_test = 0;
-                    $test_cats = $test->categories;
-                    $test->setAttribute('max_points', $points_per_test);
-
-                    foreach ($test_cats as $test_cat) {
-
-                        $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
-
-                    }
-                    $test->setAttribute('max_points', $points_per_test);
-
+                    /*
                     if(Auth::user()->hasRole('assistant') )
                     {
                         if(!\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, true))
@@ -391,7 +381,58 @@ class TestController extends Controller
                         }
                     }
 
-                    $row .= '<td><a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm btn-info">Detail</a></td>';
+                    $row .= '<td><div class="d-flex justify-content-end">';
+
+                    if($request->role == 'student')
+                    {
+                        if($request->filter == 'available')
+                        {
+                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, '0']).'" class="btn btn-sm btn-success ">Sign on</a>';
+                        }
+                        elseif($request->filter == 'registered')
+                        {
+                            $row .= '<a role="button" href="'.route('sign_on.test..destroy', [$test->id, Auth::id(), '0']).'" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-danger">Sign off</a>';
+                        }
+                        elseif($request->filter == 'active')
+                        {
+                            $row .= '<a href="'.route('test.create', $test->id).'" role="button" class="btn btn-sm btn-success">Start</a>';
+                        }
+                        else
+                        {
+                            $row .= '<a role="button" class="btn btn-sm btn-success">View result</a>';
+                        }
+                    }
+                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    {
+                        if($request->filter == 'available')
+                        {
+                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success "> Sign on as assistant</a>';
+                        }
+                        elseif($request->filter == 'registered')
+                        {
+                            $row .= '<a role="button" href="'.route('sign_on.test..destroy', [$test->id, Auth::id(), true]).'" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-danger">Sign off</a>';
+                        }
+                        elseif($request->filter == 'active')
+                        {
+                            $row .= '<a role="button" class="btn btn-sm btn-success">Revision</a>';
+                        }
+                        else
+                        {
+                            $row .= '<a role="button" class="btn btn-sm btn-success">My revisions</a>';
+                        }
+                    }
+                    elseif(Auth::user()->hasRole('profesor'))
+                    {
+                        $row .= '<a href="'.route('tests.edit', $test->id).'" role="button" class="btn btn-sm btn-success">Edit</a>';
+                        $row .= '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
+                            '<input type="hidden" name="_method" value="DELETE">'.
+                            '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this test?\')" class="btn btn-sm btn-danger ml-2">Delete</button>'.
+                            csrf_field().
+                            '</form>';
+                    }
+
+                    $row .= '<a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm ml-2 btn-info">Detail</a>';
+                    $row .= '</div></td>';
                     $row .= '</tr>';
 
                     $body .= $row;
@@ -455,6 +496,6 @@ class TestController extends Controller
 
         $test->delete();
         Session::flash('delete-message', 'Test deleted successfully');
-        return redirect()->route('tests');
+        return redirect()->route('tests..', ['professor', 'myTests']);
     }
 }
