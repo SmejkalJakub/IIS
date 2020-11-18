@@ -220,11 +220,19 @@ class TestController extends Controller
             ]
         );
 
-        if (strtotime($request->available_from) - strtotime($request->available_to) >= 0) {
+        sscanf($request->max_duration, "%d:%d", $hours, $minutes);
+        $duration = isset($hours) ? $hours * 3600 + $minutes * 60  : $minutes * 60 ;
+
+        $time_between_from_to = strtotime($request->available_to) - strtotime($request->available_from);
+
+        if ($time_between_from_to <= 0) {
             Session::flash('delete-message', 'Test available from must be before available to');
             return redirect()->route('tests.edit', $test->id);
         }
-
+        if ($time_between_from_to < $duration) {
+            Session::flash('delete-message', 'Test duration must fit between available times');
+            return redirect()->route('tests.edit', $test->id);
+        }
 
         $test->creator_id = Auth::id();
 
