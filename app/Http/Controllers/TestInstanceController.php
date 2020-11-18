@@ -23,34 +23,47 @@ class TestInstanceController extends Controller
     {
         $now = strtotime(now());
         $test = Test::all()->whereIn('id', $test_id)->first();
-        error_log(strtotime($test->available_to));
 
-        if(($now > strtotime($test->available_to)) || $now < strtotime($test->available_from)){
+
+        if (($now > strtotime($test->available_to)) || $now < strtotime($test->available_from)) {
+
             return redirect()->back();
         }
 
         $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
-        if($instance != null){
-            return $this->question($instance->id, 0);
-            //return view('tests.instance.index', compact('instance'));
+
+
+        if ($instance != null) {
+
+            sscanf($test->max_duration, "%d:%d", $hours, $minutes);
+            $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
+
+            $time_between_now_start = $now - strtotime($instance->opened_at);
+            error_log($duration - $time_between_now_start);
+            if ($duration - $time_between_now_start > 0) {
+                return $this->question($instance->id, 0);
+            } else {
+                return redirect()->back();
+            }
         }
 
 
         $instance = new TestInstance();
         $instance->test_id = $test->id;
         $instance->student_id = Auth::id();
+        $instance->opened_at = now();
         $instance->assistant_id = null;
         $instance->save();
 
         $categories = $instance->test->categories;
 
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category) {
             $allQuestions = $category->questions;
             $allQuestions = $allQuestions->shuffle();
 
-            for($i = 0; $i < $category->pivot->number_of_questions; $i++)
-            {
+            for ($i = 0;
+                 $i < $category->pivot->number_of_questions;
+                 $i++) {
                 $instance->instances_questions()->attach($allQuestions[$i], ['answer' => '', 'points' => null]);
             }
         }
@@ -98,6 +111,8 @@ class TestInstanceController extends Controller
     public function question($instance_id, $question_index)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
+        $now = strtotime(now());
+
 
         if(!$this->checkAuth($instance->student_id))
         {
@@ -105,10 +120,29 @@ class TestInstanceController extends Controller
         }
 
         $question = $instance->instances_questions[$question_index];
+        if ($instance != null) {
 
-        $currentQuestion = $question_index;
+            sscanf($instance->test->max_duration, "%d:%d", $hours, $minutes);
+            $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
-        return view('tests.instance.question', compact('question', 'instance', 'currentQuestion'));
+            $time_between_now_start = $now - strtotime($instance->opened_at);
+            error_log($duration - $time_between_now_start);
+            if ($duration - $time_between_now_start <= 0) {
+                return view('tests.instance.end', compact('instance'));
+            }
+        }
+
+        $instance_questions = $instance->instances_questions;
+
+        if (count($instance_questions) > 0) {
+
+            $question = $instance_questions[$question_index];
+            $currentQuestion = $question_index;
+
+            return view('tests.instance.question', compact('question', 'instance', 'currentQuestion'));
+        } else {
+            return view('tests.index');
+        }
 
     }
 }

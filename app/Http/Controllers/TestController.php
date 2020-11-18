@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Session;
 
 class TestController extends Controller
 {
-    public function index()
+    public function index($role, $filter)
     {
         if (Auth::user() == null) {
             return redirect()->route('home');
         }
 
-        return view('tests.index');
+        return view('tests.index', compact('role', 'filter'));
     }
 
     public function show(Test $test)
@@ -29,7 +29,7 @@ class TestController extends Controller
         if (Auth::user()->hasRole('profesor')) {
             $test_applies = $test->applies;
         } elseif (Auth::user()->hasRole('assistant')) {
-            $test_applies = $test->applies()->whereIn('correction', false);
+            $test_applies = $test->applies()->where('correction', '=', false);
 
         } else {
             $test_applies = [];
@@ -60,12 +60,11 @@ class TestController extends Controller
         }
         $test_categories = $test->categories;
 
-        $test->setAttribute('max_points', $points_per_test);
-
         foreach ($test_categories as $test_cat) {
 
             $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
         }
+
         $test->setAttribute('max_points', $points_per_test);
 
         //error_log($test_categories);
@@ -112,23 +111,25 @@ class TestController extends Controller
     {
         if($request->ajax())
         {
-            $output="";
-            $tests=Test::query()
+            $tests = Test::query()
                 ->where('name','LIKE','%'.$request->search."%")
                 ->orWhere('description','LIKE','%'.$request->search."%")
                 ->orWhere('id','LIKE','%'.$request->search."%")
                 ->get();
 
+            $body="";
+
             if($tests)
             {
                 foreach ($tests as $test)
                 {
-                    if($test->name == ""){
+                    if($test->name == "")
+                    {
                         $test->delete();
                         continue;
                     }
 
-                    $points_per_test = 0;
+                    /*$points_per_test = 0;
                     $test_cats = $test->categories;
                     $test->setAttribute('max_points', $points_per_test);
 
@@ -180,6 +181,8 @@ class TestController extends Controller
                             '</form>';
                     }
 
+
+
                     $output.= '<tr>'.
                         '<td style="vertical-align: middle">'.$test->name.'</td>'.
                         '<td style="vertical-align: middle">'.$test->creator->first_name.' '.$test->creator->surname.'</td>'.
@@ -188,7 +191,6 @@ class TestController extends Controller
                             '<div class="d-flex justify-content-end">'.
                                 $correction.
                                 $fillSignOn.
-                                '<a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm btn-success mr-2">Show</a>'.
                                 '<a href="'.route('tests.edit', $test->id).'" role="button" class="btn btn-sm btn-success mr-2">Edit</a>'.
                                 '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
                                 '<input type="hidden" name="_method" value="DELETE">'.
@@ -197,9 +199,204 @@ class TestController extends Controller
                                 '</form>'.
                             '</div>'.
                         '</td>'.
-                        '</tr>';
+                        '</tr>';*/
+
+                    if($request->role == 'student')
+                    {
+                        if($request->filter == 'available')
+                        {
+                            if($test->applies->where('correction', '==', '0')->where('applier_id', '==', Auth::id())->first())
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            $now = strtotime(now());
+                            $test_start = strtotime($test->available_from);
+                            $test_end = strtotime($test->available_to);
+
+                            if($request->filter == 'registered')
+                            {
+                                if(($test->applies->where('correction', '==', '0')
+                                        ->where('applier_id', '==', Auth::id())
+                                        ->whereNull('authorizer_id')->first() == null or $now >= $test_end)
+                                    and ($test->applies->where('correction', '==', '0')
+                                            ->where('applier_id', '==', Auth::id())
+                                            ->whereNotNull('authorizer_id')->first() == null or $now >= $test_start))
+                                {
+                                    continue;
+                                }
+                            }
+                            elseif($request->filter == 'active')
+                            {
+                                if($test->applies->where('correction', '==', '0')
+                                        ->where('applier_id', '==', Auth::id())
+                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_start or $now >= $test_end)
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if($test->applies->where('correction', '==', '0')
+                                        ->where('applier_id', '==', Auth::id())
+                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    {
+                        if($request->filter == 'available')
+                        {
+                            if($test->applies->where('correction', '==', '1')->where('applier_id', '==', Auth::id())->first())
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            $now = strtotime(now());
+                            $test_end = strtotime($test->available_to);
+
+                            if($request->filter == 'registered')
+                            {
+                                if(($test->applies->where('correction', '==', '1')
+                                            ->where('applier_id', '==', Auth::id())
+                                            ->whereNull('authorizer_id')->first() == null)
+                                    and ($test->applies->where('correction', '==', '1')
+                                            ->where('applier_id', '==', Auth::id())
+                                            ->whereNotNull('authorizer_id')->first() == null or $now >= $test_end))
+                                {
+                                    continue;
+                                }
+                            }
+                            elseif($request->filter == 'active')
+                            {
+                                if($test->applies->where('correction', '==', '1')
+                                        ->where('applier_id', '==', Auth::id())
+                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if($test->applies->where('correction', '==', '1')
+                                        ->where('applier_id', '==', Auth::id())
+                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    elseif(Auth::user()->hasRole('profesor'))
+                    {
+                        if($test->creator_id != Auth::id())
+                        {
+                            continue;
+                        }
+                    }
+
+                    $row = '';
+
+                    $row .= '<tr><td style="vertical-align: middle">' . $test->name . '</td>';
+
+                    if($request->role != 'professor')
+                    {
+                        $row .= '<td style="vertical-align: middle">' . $test->creator->first_name . ' ' . $test->creator->surname . '</td>';
+                    }
+
+                    if($request->role != 'assistant')
+                    {
+                        $points_per_test = 0;
+                        $test_cats = $test->categories;
+
+                        foreach ($test_cats as $test_cat)
+                        {
+                            $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
+                        }
+
+                        $row .= '<td style="vertical-align: middle">' . $points_per_test . '</td>';
+                    }
+
+                    if($request->role == 'student')
+                    {
+                        if($request->filter == 'active')
+                        {
+                            $row .= '<td style="vertical-align: middle">' . $test->max_duration . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . $test->available_to . '</td>';
+                        }
+                        elseif($request->filter == 'history')
+                        {
+                            $test_instance = $test->instances->whereIn('student_id', Auth::id())->first();
+                            $result = 0;
+
+                            if($test_instance)
+                            {
+                                $test_questions = $test_instance->instances_questions;
+
+                                foreach($test_questions as $question)
+                                {
+                                    $result += $question->pivot->max_points;
+                                }
+                            }
+
+                            $row .= '<td style="vertical-align: middle">' . $result . '</td>';
+                        }
+                    }
+                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    {
+                        if($request->filter == 'active')
+                        {
+                            $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
+                        }
+                        elseif($request->filter == 'history')
+                        {
+                            $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
+                        }
+                    }
+                    elseif(Auth::user()->hasRole('profesor'))
+                    {
+                        $row .= '<td style="vertical-align: middle">' . $test->updated_at . '</td>';
+                        $row .= '<td style="vertical-align: middle">' . count($test->applies->whereNotNull('confirmed_datetime')->whereIn('correction', '0')) . '</td>';
+                        $row .= '<td style="vertical-align: middle">' . count($test->applies->whereNotNull('confirmed_datetime')->whereIn('correction', '1')) . '</td>';
+                    }
+
+                    if($request->filter == 'registered')
+                    {
+                        if($request->role == 'student')
+                        {
+                            $apply = \App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, false);
+                        }
+                        else
+                        {
+                            $apply = \App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, true);
+                        }
+
+                        if($apply)
+                        {
+                            $row .= '<td class="text-success font-weight-bold" style="vertical-align: middle">Approved</td>';
+                        }
+                        else
+                        {
+                            $row .= '<td class="text-secondary font-weight-bold" style="vertical-align: middle">Pending...</td>';
+                        }
+                    }
+
+                    $row .= '<td><a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm btn-info">Detail</a></td>';
+                    $row .= '</tr>';
+
+                    $body .= $row;
                 }
-                return Response($output);
+                return Response($body);
             }
         }
     }
@@ -220,11 +417,19 @@ class TestController extends Controller
             ]
         );
 
-        if (strtotime($request->available_from) - strtotime($request->available_to) >= 0) {
+        sscanf($request->max_duration, "%d:%d", $hours, $minutes);
+        $duration = isset($hours) ? $hours * 3600 + $minutes * 60  : $minutes * 60 ;
+
+        $time_between_from_to = strtotime($request->available_to) - strtotime($request->available_from);
+
+        if ($time_between_from_to <= 0) {
             Session::flash('delete-message', 'Test available from must be before available to');
             return redirect()->route('tests.edit', $test->id);
         }
-
+        if ($time_between_from_to < $duration) {
+            Session::flash('delete-message', 'Test duration must fit between available times');
+            return redirect()->route('tests.edit', $test->id);
+        }
 
         $test->creator_id = Auth::id();
 
@@ -237,7 +442,8 @@ class TestController extends Controller
         $test->save();
 
         Session::flash('message', 'Test updated successfully');
-        return redirect()->route('tests');
+
+        return redirect()->route('tests..', ['professor', 'myTests']);
     }
 
 

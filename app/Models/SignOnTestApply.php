@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SignOnTestApply extends Model
 {
-    public $fillable = ['applier_id', 'authorizer_id','applied_datetime', 'confirmed', 'confirmed_datetime', 'correction'];
+    public $fillable = ['applier_id', 'authorizer_id','applied_datetime', 'confirmed_datetime', 'correction'];
 
     public function applier()
     {
