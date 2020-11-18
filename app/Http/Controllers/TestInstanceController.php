@@ -21,16 +21,6 @@ class TestInstanceController extends Controller
     }
     public function create( $test_id)
     {
-        /*$instance = TestInstance::query()->where([
-            ['test_id', '=', $test_id],
-            ['student_id', '=', Auth::id()],
-            ])->first();
-
-        if($instance)
-        {
-            return $this->question($instance->id, 0);
-        }*/
-
         $now = strtotime(now());
         $test = Test::all()->whereIn('id', $test_id)->first();
         error_log(strtotime($test->available_to));
