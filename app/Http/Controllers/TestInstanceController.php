@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class TestInstanceController extends Controller
 {
+
+    function checkAuth($student_id)
+    {
+        if($student_id != Auth::id())
+        {
+            return false;
+        }
+        return true;
+    }
     public function create( $test_id)
     {
         /*$instance = TestInstance::query()->where([
@@ -63,6 +72,11 @@ class TestInstanceController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
+
         $question = $instance->instances_questions[$question_index];
 
         $instance->instances_questions()->updateExistingPivot($question->id, ['answer' => $request->answer]);
@@ -83,12 +97,22 @@ class TestInstanceController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
+
         return view('tests.instance.end', compact('instance'));
     }
 
     public function question($instance_id, $question_index)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
+
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
 
         $question = $instance->instances_questions[$question_index];
 

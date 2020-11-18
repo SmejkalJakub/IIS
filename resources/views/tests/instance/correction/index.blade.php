@@ -54,7 +54,7 @@
                         </h3>
                         {{$instance->student->first_name}} {{$instance->student->surname}}
                         <div>
-                            <a href="{{route('question-correct..', [$instance->id, 0])}}" role="button"
+                            <a href="{{route('test-correct-sign.', $instance->id)}}" role="button"
                                class="btn btn-sm btn-success mr-2">Correct the test</a>
 
                         </div>
