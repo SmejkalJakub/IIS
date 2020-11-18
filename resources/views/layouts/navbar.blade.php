@@ -9,28 +9,28 @@
                 <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('home')}}">HOME</a>
             </li>
             <li class="nav-item dropdown {{ ($activeBar == 'tests') ? 'active bg-success' : '' }}">
-                <a class="nav-link dropdown-toggle" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" data-toggle="dropdown">TESTS </a>
+                <a class="nav-link dropdown-toggle" href="#" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" data-toggle="dropdown">TESTS </a>
                 <div class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                    <a class="dropdown-item" href="{{route('tests')}}">Available</a>
-                    <a class="dropdown-item" href="#">Signed on</a>
-                    <a class="dropdown-item" href="#">Approved</a>
-                    <a class="dropdown-item" href="#">Active</a>
+                    <a class="dropdown-item" href="{{route('tests..', ['student', 'available'])}}">Available</a>
+                    <a class="dropdown-item" href="{{route('tests..', ['student', 'registered'])}}">Registered</a>
+                    <a class="dropdown-item" href="{{route('tests..', ['student', 'active'])}}">Active</a>
+                    <a class="dropdown-item" href="{{route('tests..', ['student', 'history'])}}">History</a>
 
                     @if(Auth::user()->hasRole('assistant'))
                         <div class="dropdown-divider"></div>
                         <h5 class="dropdown-header text-center">Correction</h5>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Available</a>
-                        <a class="dropdown-item" href="#">Signed on</a>
-                        <a class="dropdown-item" href="#">Approved</a>
-                        <a class="dropdown-item" href="#">Active</a>
+                        <a class="dropdown-item" href="{{route('tests..', ['assistant', 'available'])}}">Available</a>
+                        <a class="dropdown-item" href="{{route('tests..', ['assistant', 'registered'])}}">Registered</a>
+                        <a class="dropdown-item" href="{{route('tests..', ['assistant', 'active'])}}">Active</a>
+                        <a class="dropdown-item" href="{{route('tests..', ['assistant', 'history'])}}">History</a>
                     @endif
 
                     @if(Auth::user()->hasRole('profesor'))
                         <div class="dropdown-divider"></div>
                         <h5 class="dropdown-header text-center">Creation</h5>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">My tests</a>
+                        <a class="dropdown-item" href="{{route('tests..', ['professor', 'myTests'])}}">My tests</a>
                     @endif
                 </div>
             </li>

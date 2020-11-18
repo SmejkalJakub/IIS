@@ -1,6 +1,6 @@
 <tbody>
     <?php
-        $searchType = $searchType . "-search"
+        $searchType .= "-search"
     ?>
 
     <script type="text/javascript">
@@ -12,7 +12,7 @@
             $.ajax({
                 type: 'get',
                 url: "{{URL::to($searchType)}}",
-                data: {'search': $value},
+                data: {'search': $value, 'role' : '{{$role ?? ''}}', 'filter' : '{{$filter ?? ''}}'},
                 success: function (data) {
                     $('tbody').html(data);
                 }

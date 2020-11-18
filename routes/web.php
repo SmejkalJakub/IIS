@@ -27,7 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('question', 'QuestionController');
     Route::resource('categories.questions', 'QuestionController');
 });
+
 Route::get('tests', 'TestController@index')->name('tests');
+Route::get('tests/{role}/{filter}', 'TestController@index')->name('tests..');
 Route::get('categories', 'CategoryController@index')->name('categories');
 Route::get('new/{id}/{correction}/sign', 'SignOnTestApplyController@create')->name('new..sign');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test..confirm');

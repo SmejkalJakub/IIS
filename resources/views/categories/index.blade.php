@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('layouts.head', ['title' => 'Categories'])
+
 <body style="background-color: #B6B6B6">
 
 @include('layouts.header')
