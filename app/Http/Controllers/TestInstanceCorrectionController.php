@@ -26,6 +26,11 @@ class TestInstanceCorrectionController extends Controller
 
     }
 
+    public function startCorrection($instance_id)
+    {
+        $instance = TestInstance::where('id', $instance_id)->first();
+    }
+
     public function saveCorrection(Request $request, $instance_id, $question_index)
     {
         $instance = TestInstance::where('id', $instance_id)->first();

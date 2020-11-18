@@ -36,8 +36,6 @@ Route::get('sign_on/{test_id}/test/{user_id}/{correction}/un_confirm', 'SignOnTe
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test..destroy');
 
 
-
-
 Route::get('test/correct/{instance_id}', 'TestInstanceCorrectionController@index')->name('test-correct.');
 Route::get('test/correct/{instance_id}/{question_id}', 'TestInstanceCorrectionController@question')->name('question-correct..');
 Route::post('question/correct/{instance_id}{question_index}', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save..');

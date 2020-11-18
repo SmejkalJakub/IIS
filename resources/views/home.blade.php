@@ -9,8 +9,8 @@
 
 @foreach ($tests as $test)
 
-{{$test->name}}
-<a href="{{route('test.create', $test->id)}}" role="button" class="btn btn-sm btn-success mr-2">Fill the test</a>
+    {{$test->name}}
+    <a href="{{route('test.create', $test->id)}}" role="button" class="btn btn-sm btn-success mr-2">Fill the test</a>
 
 @endforeach
 

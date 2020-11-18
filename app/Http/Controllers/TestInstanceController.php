@@ -11,6 +11,16 @@ class TestInstanceController extends Controller
 {
     public function create($test_id)
     {
+        $instance = TestInstance::query()->where([
+            ['test_id', '=', $test_id],
+            ['student_id', '=', Auth::id()],
+            ])->first();
+
+        if($instance)
+        {
+            return $this->question($instance->id, 0);
+        }
+
         $instance = new TestInstance();
         $instance->test_id = $test_id;
         $instance->student_id = Auth::id();
