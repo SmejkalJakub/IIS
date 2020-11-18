@@ -29,7 +29,7 @@ class TestController extends Controller
         if (Auth::user()->hasRole('profesor')) {
             $test_applies = $test->applies;
         } elseif (Auth::user()->hasRole('assistant')) {
-            $test_applies = $test->applies()->where('correction', '=', false);
+            $test_applies = $test->applies()->whereIn('correction', false);
 
         } else {
             $test_applies = [];
@@ -179,8 +179,6 @@ class TestController extends Controller
                                 csrf_field().
                             '</form>';
                     }
-
-
 
                     $output.= '<tr>'.
                         '<td style="vertical-align: middle">'.$test->name.'</td>'.

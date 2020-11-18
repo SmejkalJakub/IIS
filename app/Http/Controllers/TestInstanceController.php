@@ -13,7 +13,7 @@ class TestInstanceController extends Controller
     {
         $instance = new TestInstance();
         $instance->test_id = $test_id;
-        $instance->student_id = Auth::user()->id;
+        $instance->student_id = Auth::id();
         $instance->assistant_id = null;
         $instance->save();
 
@@ -35,7 +35,7 @@ class TestInstanceController extends Controller
 
     public function saveQuestion(Request $request, $instance_id, $question_index)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
         $question = $instance->instances_questions[$question_index];
 
@@ -44,29 +44,25 @@ class TestInstanceController extends Controller
         switch($request->input('action')) {
             case 'Save':
                 return $this->question($instance_id, $question_index);
-                break;
             case 'Save and Next':
                 return $this->question($instance_id, $question_index + 1);
-                break;
             case 'Save and Previous':
                 return $this->question($instance_id, $question_index - 1);
-                break;
             case 'Save and End Test':
                 return $this->endTest($instance_id);
-                break;
         }
     }
 
     public function endTest($instance_id)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
         return view('tests.instance.end', compact('instance'));
     }
 
     public function question($instance_id, $question_index)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
         $question = $instance->instances_questions[$question_index];
 

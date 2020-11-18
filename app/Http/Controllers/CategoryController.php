@@ -52,7 +52,7 @@ class CategoryController extends Controller
             return redirect()->route('home');
         }
 
-        $questions = Question::all()->where('category_id', '=', $category->id);
+        $questions = Question::all()->whereIn('category_id',$category->id);
         return view('categories.show', compact('category', 'questions'));
     }
 
@@ -62,7 +62,7 @@ class CategoryController extends Controller
             return redirect()->route('home');
         }
 
-        $questions = Question::all()->where('questions');
+        $questions = Question::all();
         return view('categories.create', compact('questions'));
     }
 
