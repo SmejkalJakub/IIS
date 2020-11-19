@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\SignApplyHelper;
 use App\Models\Category;
 use App\Models\Test;
+use App\Models\TestInstance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -42,13 +43,30 @@ class TestController extends Controller
         return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances'));
     }
 
-    public function showInstances($test_id)
+    public function showInstances($test_id, $assistant_id)
     {
-        $test = Test::all()->whereIn('id', $test_id)->first();
+        if($assistant_id == 0) {
+            $test = Test::all()->whereIn('id', $test_id)->first();
 
-        $instances = $test->instances;
+            $instances = $test->instances;
 
-        return view('tests.instance.list', compact('instances'));
+            $listType = 'testInstances';
+
+            return view('tests.instance.list', compact('instances', 'listType'));
+        }
+        else
+        {
+            return $this->showMyInstances($test_id, $assistant_id);
+        }
+    }
+
+    public function showMyInstances($test_id, $assistant_id)
+    {
+        $instances = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('assistant_id', $assistant_id);
+
+        $listType = 'myInstances';
+
+        return view('tests.instance.list', compact('instances', 'listType'));
     }
 
     public function create()
@@ -408,7 +426,7 @@ class TestController extends Controller
                         }
                         else
                         {
-                            $row .= '<a role="button" href="'.route('test.results', $test->id).'" class="btn btn-sm btn-success">View result</a>';
+                            $row .= '<a role="button" href="'.route('test..results', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">View result</a>';
                         }
                     }
                     elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
@@ -423,11 +441,11 @@ class TestController extends Controller
                         }
                         elseif($request->filter == 'active')
                         {
-                            $row .= '<a role="button" href="'.route('test.instances', $test->id).'" class="btn btn-sm btn-success">Revision</a>';
+                            $row .= '<a role="button" href="'.route('test.instances.', [$test->id, '0']).'" class="btn btn-sm btn-success">Revision</a>';
                         }
                         else
                         {
-                            $row .= '<a role="button" class="btn btn-sm btn-success">My revisions</a>';
+                            $row .= '<a role="button" href="'.route('test.instances.', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">My revisions</a>';
                         }
                     }
                     elseif(Auth::user()->hasRole('profesor'))

@@ -8,14 +8,11 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="mb-3 text-center" style="    color: #373737">Categories</h2>
+    <h2 class="mb-3 text-center" style="color: #373737">Test Instances</h2>
 
     <div class="row">
         <div class="col">
             <input type="text" class="form-control" id="search" style="max-width: 400px" placeholder="Search" name="search"/>
-        </div>
-        <div class="col-auto">
-            <a role="button" class="btn btn-success" href="{{ route('categories.create') }}">Add</a>
         </div>
     </div>
 
@@ -39,8 +36,13 @@
                     0
                 </td>
                 <td>
-                    <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
+                @if($listType == 'testInstances')
+                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
+                    @elseif($listType == 'myInstances')
+                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-success mr-2">Detail</a>
+                    @endif
                 </td>
+
                 </tr>
             @endforeach
             </tbody>
