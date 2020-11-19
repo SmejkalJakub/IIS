@@ -31,7 +31,7 @@
                         Not yet reviewed.
                     @else
                         Points: {{$question->pivot->points}} out of {{$question->category->max_points}}<br>
-                        Reviewer comment:
+                        Reviewer comment: {{$question->pivot->comment}}
                     @endif
                 </div>
             @endforeach

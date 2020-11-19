@@ -15,19 +15,19 @@
         </div>
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{Auth::user()->first_name}}" required>
+                <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{$user->first_name}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" name="surname" value="{{Auth::user()->surname}}" required>
+                <input type="text" class="form-control"  placeholder="Surname" name="surname" value="{{$user->surname}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email" value="{{ Auth::user()->email}}" reqiured>
+                <input type="email" class="form-control" placeholder="E-mail" name="email" value="{{ $user->email}}" reqiured>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif

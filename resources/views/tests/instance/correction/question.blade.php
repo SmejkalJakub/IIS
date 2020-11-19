@@ -68,6 +68,9 @@
 
                     {!! Form::number('points', $question->pivot->points, ['class' => 'form-control', 'step'=>'any', 'placeholder' => 'Points', 'maxlength'=>128, 'min' => '0', 'max' => $question->category->max_points]) !!}
                     <br>
+                    {!! Form::textarea('comment', $question->pivot->comment, ['class' => 'form-control', 'placeholder' => 'Comment', 'maxlength'=>256]) !!}
+                    <br>
+
                     @if($currentQuestion != 0)
                         <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button"
                            class="btn btn-sm btn-primary mr-2">Previous</a>

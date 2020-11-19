@@ -68,7 +68,7 @@ class TestInstanceController extends Controller
         $instance->student_id = Auth::id();
         $instance->opened_at = now();
         $instance->assistant_id = null;
-        $instance->correctad = false;
+        $instance->corrected = false;
         $instance->save();
 
         $categories = $instance->test->categories;

@@ -25,8 +25,12 @@ class TestInstanceCorrectionController extends Controller
         if ($instance->assistant == null) {
             return view('tests.instance.correction.index', compact('instance'));
         }
-        if ($instance->assistant->id == Auth::id()) {
+        else if ($instance->assistant->id == Auth::id()) {
             return $this->question($instance_id, 0);
+        }
+        else
+        {
+            return redirect()->back();
         }
 
     }
@@ -54,9 +58,10 @@ class TestInstanceCorrectionController extends Controller
         $instance = TestInstance::where('id', $instance_id)->first();
 
         $instance->corrected = true;
+        $instance->update();
 
         $test_id = $instance->test->id;
-        return redirect()->route('test.instances', ['test_id' => $test_id]);
+        return redirect()->route('test.instances.', ['test_id' => $test_id, 'assistant_id' => 0]);
     }
 
     public function startCorrection($instance_id)

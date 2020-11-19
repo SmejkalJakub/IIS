@@ -50,6 +50,22 @@ class TestController extends Controller
 
             $instances = $test->instances;
 
+
+            foreach ($instances as $test_instance)
+            {
+                $result = 0;
+                if($test_instance)
+                {
+                    $test_questions = $test_instance->instances_questions;
+
+                    foreach($test_questions as $question)
+                    {
+                        $result += $question->pivot->points;
+                    }
+                }
+                $test_instance->setAttribute('points', $result);
+            }
+
             $listType = 'testInstances';
 
             return view('tests.instance.list', compact('instances', 'listType'));
@@ -94,7 +110,6 @@ class TestController extends Controller
 
         $test->setAttribute('max_points', $points_per_test);
 
-        //error_log($test_categories);
         return view('tests.edit', compact('test', 'test_categories'));
     }
 
@@ -338,6 +353,10 @@ class TestController extends Controller
                             $points_per_test += $test_cat->max_points * $test_cat->pivot->number_of_questions;
                         }
 
+                        if($points_per_test == 0 && $request->role != 'professor')
+                        {
+                            continue;
+                        }
                         $row .= '<td style="vertical-align: middle">' . $points_per_test . '</td>';
                     }
 
@@ -359,7 +378,7 @@ class TestController extends Controller
 
                                 foreach($test_questions as $question)
                                 {
-                                    $result += $question->pivot->max_points;
+                                    $result += $question->pivot->points;
                                 }
                             }
 
@@ -370,14 +389,18 @@ class TestController extends Controller
                     {
                         if($request->filter == 'active')
                         {
+                            $correctedByMe = TestInstance::all()->where('assistant_id', Auth::id())->where('corrected', '1');
+                            $corrected = TestInstance::all()->where('corrected', '1');
                             $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
-                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
-                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . count($corrected) . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . count($correctedByMe) . '</td>';
                         }
                         elseif($request->filter == 'history')
                         {
+                            $correctedByMe = TestInstance::all()->where('assistant_id', Auth::id())->where('corrected', '1');
+
                             $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
-                            $row .= '<td style="vertical-align: middle">' . 'Not implemented' . '</td>';
+                            $row .= '<td style="vertical-align: middle">' . count($correctedByMe) . '</td>';
                         }
                     }
                     elseif(Auth::user()->hasRole('profesor'))
