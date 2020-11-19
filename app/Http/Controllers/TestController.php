@@ -138,68 +138,6 @@ class TestController extends Controller
                         continue;
                     }
 
-                    /*
-                    if(Auth::user()->hasRole('assistant') )
-                    {
-                        if(!\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, true))
-                        {
-                            $correction = '<a href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success "> Sign on correction</a>';
-                        }
-                        elseif(\App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, true))
-                        {
-                            $correction = '<form action="'.route('sign_on.test..destroy', [$test->id, Auth::id(), true]).'" method="GET" style="display:inline">'.
-                            '<button type="submit" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-warning">Sign off correction</button>'.
-                                csrf_field().
-                            '</form>';
-                        }
-                        else
-                        {
-                            $correction = '<form action="'.route('sign_on.test..destroy', [$test->id, Auth::id(), true]).'" method="GET" style="display:inline">'.
-                            '<button type="submit" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-secondary">Pending...</button>'.
-                                csrf_field().
-                            '</form>';
-                        }
-                    }
-
-                    if(!\App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, false))
-                    {
-                        $fillSignOn = '<a href="'.route('new..sign', [$test->id, '0']).'" class="btn btn-sm btn-success "> Sign on test</a>';
-                    }
-                    elseif(\App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, false))
-                    {
-                        $fillSignOn = '<form action="'.route('sign_on.test..destroy', [$test->id, Auth::id(), '0']).'" method="GET" style="display:inline">'.
-                            '<button type="submit" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-warning">Sign off test</button>'.
-                                csrf_field().
-                            '</form>';
-                    }
-                    else
-                    {
-                        $fillSignOn = '<form action="'.route('sign_on.test..destroy', [$test->id, Auth::id(), '0']).'" method="GET" style="display:inline">'.
-                            '<button type="submit" onclick="return confirm(\'Are you sure you want sign off?\')" class="btn btn-sm btn-secondary">Pending...</button>'.
-                                csrf_field().
-                            '</form>';
-                    }
-
-
-
-                    $output.= '<tr>'.
-                        '<td style="vertical-align: middle">'.$test->name.'</td>'.
-                        '<td style="vertical-align: middle">'.$test->creator->first_name.' '.$test->creator->surname.'</td>'.
-                        '<td style="vertical-align: middle">'.$test->max_points.'</td>'.
-                        '<td>'.
-                            '<div class="d-flex justify-content-end">'.
-                                $correction.
-                                $fillSignOn.
-                                '<a href="'.route('tests.edit', $test->id).'" role="button" class="btn btn-sm btn-success mr-2">Edit</a>'.
-                                '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
-                                '<input type="hidden" name="_method" value="DELETE">'.
-                                '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this test?\')" class="btn btn-sm btn-danger">Delete</button>'.
-                                    csrf_field().
-                                '</form>'.
-                            '</div>'.
-                        '</td>'.
-                        '</tr>';*/
-
                     if($request->role == 'student')
                     {
                         if($request->filter == 'available')
