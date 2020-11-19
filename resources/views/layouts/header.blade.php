@@ -6,7 +6,7 @@
             </div>
             @if(Auth::user() != null)
                 <div class="col-auto align-self-center">
-                    <a role="button" class="btn btn-success font-weight-bold float-right rounded" href="{{route('logout')}}">Log out</a>
+                    <a role="button" class="btn btn-success font-weight-bold float-right" href="{{route('logout')}}">Log out</a>
                 </div>
             @endif
         </div>
