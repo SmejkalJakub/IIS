@@ -71,39 +71,40 @@
             </div>
             @if ($errors->has('available_from'))
                 <span class="help-block">{!! $errors->first('available_from') !!}</span>
-            @endif
-        </div>
-        <div class="col-sm-6">
-            <div class="input-group @if($errors->has('available_to')) has-error @endif">
-                <div class="input-group-prepend">
-                    <label class="input-group-text">Available to</label>
+                @endif
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group @if($errors->has('available_to')) has-error @endif">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Available to</label>
+                    </div>
+                    {{ Form::input('dateTime-local', 'available_to', date('Y-m-d\TH:i', strtotime($test->available_to)), ['id' => 'available_to', 'class' => 'form-control']) }}
                 </div>
-                {{ Form::input('dateTime-local', 'available_to', date('Y-m-d\TH:i', strtotime($test->available_to)), ['id' => 'available_to', 'class' => 'form-control']) }}
-            </div>
-            @if ($errors->has('available_to'))
+                @if ($errors->has('available_to'))
                 <span class="help-block">{!! $errors->first('available_to') !!}</span>
-            @endif
+                @endif
+            </div>
         </div>
-    </div>
 
-    <div class="form-group mt-3 @if($errors->has('description')) has-error @endif">
-        <label class="font-weight-bold" style="color: #373737">Description</label>
-        {!! Form::textarea('description', $test->description, ['class' => 'form-control', 'placeholder' => 'Type description', 'maxlength'=>1024]) !!}
-        @if ($errors->has('description'))
+        <div class="form-group mt-3 @if($errors->has('description')) has-error @endif">
+            <label class="font-weight-bold" style="color: #373737">Description</label>
+            {!! Form::textarea('description', $test->description, ['class' => 'form-control', 'placeholder' => 'Type description', 'maxlength'=>1024]) !!}
+            @if ($errors->has('description'))
             <span class="help-block">{!! $errors->first('description') !!}</span>@endif
-    </div>
+        </div>
 
-    <h3><span style="color: #373737">Maximum points:</span> <span class="{{$test->max_points == 0 ? 'text-secondary' : 'text-success'}}">{{$test->max_points}}</span></h3>
+        {!! Form::close() !!}
+        <h3><span style="color: #373737">Maximum points:</span> <span class="{{$test->max_points == 0 ? 'text-secondary' : 'text-success'}}">{{$test->max_points}}</span></h3>
 
-    <div class="border rounded mt-4 p-3">
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <h3 class="text-center mb-3" style="color: #373737">Categories</h3>
-            </div>
-            <div class="col-sm-2">
-                <a href="{{ route('test.category.create',  $test->id )}}" class="btn btn-success float-right">Add</a>
-            </div>
+        <div class="border rounded mt-4 p-3">
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <h3 class="text-center mb-3" style="color: #373737">Categories</h3>
+                </div>
+                <div class="col-sm-2">
+                    <a href="{{ route('test.category.create',  $test->id )}}" class="btn btn-success float-right">Add</a>
+                </div>
         </div>
 
         <div class="table-responsive">
@@ -146,7 +147,6 @@
         </div>
     </div>
 
-    {!! Form::close() !!}
 </div>
 
 </body>

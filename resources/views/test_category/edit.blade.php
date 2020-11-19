@@ -25,7 +25,7 @@
 
                     <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
                         {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control',
+                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'required',
                                                                                                              'placeholder' => 'Number of questions',
                                                                                                              'min' => 1, 'max' => count($test_category->questions),'maxlength'=>128]) !!}
                         @if ($errors->has('number_of_questions'))

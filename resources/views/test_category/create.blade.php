@@ -26,7 +26,7 @@
 
                     <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
                         {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'min' => 1, 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
+                        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'required', 'min' => 1, 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
                         @if ($errors->has('number_of_questions'))
                             <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>

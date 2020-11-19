@@ -23,8 +23,6 @@ class TestCategoryController extends Controller
         }
         $categories = Category::all()->pluck('name', 'id');
 
-        error_log("jsem tu");
-
         return view('test_category.create', compact('test', 'categories'));
     }
 
@@ -95,12 +93,13 @@ class TestCategoryController extends Controller
 
     public function destroy($test_id, $category_id)
     {
-
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        $test_category = TestCategory::all()->where('test_id', '=', $test_id)->where('category_id', '=', $category_id)->first();
-        $test_category->delete();
+
+        $test = Test::find($test_id);
+        $test->categories()->detach($category_id);
+
         Session::flash('delete-message', 'Question deleted successfully');
         return redirect()->route('tests.edit', [$test_id]);
     }
