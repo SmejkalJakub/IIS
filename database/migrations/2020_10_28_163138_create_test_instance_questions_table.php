@@ -19,6 +19,7 @@ class CreateTestInstanceQuestionsTable extends Migration
             $table->timestamps();
             $table->string('answer')->nullable();
             $table->unsignedDouble('points')->nullable();
+            $table->string('comment')->nullable();
 
             $table->bigInteger('test_instance_id')->unsigned();
             $table->foreign('test_instance_id')->references('id')->on('test_instances')->onDelete('cascade');
