@@ -146,7 +146,8 @@ class TestController extends Controller
 
         $test->save();
 
-        return redirect()->route('tests');
+        error_log('nvm');
+        return redirect()->route('tests.edit', $test->id);
     }
 
     public function search(Request $request)
