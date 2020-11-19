@@ -69,6 +69,7 @@ class TestInstanceController extends Controller
         $instance->opened_at = now();
         $instance->assistant_id = null;
         $instance->corrected = false;
+        $instance->ended = false;
         $instance->save();
 
         $categories = $instance->test->categories;
@@ -115,13 +116,22 @@ class TestInstanceController extends Controller
     public function endTest($instance_id)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
-
         if(!$this->checkAuth($instance->student_id))
         {
             return view('home');
         }
 
         return view('tests.instance.end', compact('instance'));
+    }
+
+    public function finish($instance_id){
+        $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
+        if(!$this->checkAuth($instance->student_id))
+        {
+            return view('home');
+        }
+        $instance->ended = true;
+        $instance->update();
     }
 
     public function question($instance_id, $question_index)
