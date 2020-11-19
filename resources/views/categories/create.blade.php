@@ -27,7 +27,7 @@
         <div class="col-sm-4"></div>
     </div>
 
-        {!! Form::open(['route' => ['categories.update', $category], 'method' => 'put']) !!}
+        {!! Form::open(['route' => 'categories.store']) !!}
 
     <div class="row">
         <div class="col-sm-7">
@@ -45,7 +45,7 @@
                 <div class="mb-3 input-group-prepend">
                     <label class="input-group-text">Points per question</label>
                 </div>
-                {{ Form::input('number', 'max_points', null, ['id' => 'max_points', 'class' => 'form-control']) }}
+                {{ Form::input('number', 'max_points', null, ['id' => 'max_points','min'=>0, 'class' => 'form-control']) }}
                 @if ($errors->has('max_points'))
                     <span class="help-block">{!! $errors->first('max_points') !!}</span>@endif
             </div>
@@ -55,8 +55,6 @@
             {!! Form::close() !!}
         </div>
     </div>
-
-    @include('questions.show')
 </div>
 
 </body>
