@@ -132,6 +132,8 @@ class TestInstanceController extends Controller
         }
         $instance->ended = true;
         $instance->update();
+
+        return redirect()->route('tests..', ['role' => 'student', 'filter' => 'history']);
     }
 
     public function question($instance_id, $question_index)

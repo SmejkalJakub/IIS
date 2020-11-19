@@ -40,7 +40,7 @@
         <div class="input-group-prepend">
             <label class="input-group-text">Number of questions</label>
         </div>
-        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'placeholder' => 'Enter number of questions', 'maxlength'=>128]) !!}
+        {!! Form::number('number_of_questions', null, ['class' => 'form-control','required','min' => 1, 'placeholder' => 'Enter number of questions', 'maxlength'=>128]) !!}
         <div class="input-group-append">
             {!! Form::submit('Add', ['class' => 'btn btn-success float-right']) !!}
         </div>

@@ -23,8 +23,6 @@ class TestCategoryController extends Controller
         }
         $categories = Category::all()->pluck('name', 'id');
 
-        error_log("jsem tu");
-
         return view('test_category.create', compact('test', 'categories'));
     }
 
@@ -42,9 +40,7 @@ class TestCategoryController extends Controller
             return redirect()->route('home');
         }
         $categories = Category::all();
-        //error_log($category->id);
         $test_category = $test->categories->whereIn('id', $category->id)->first();
-        //error_log($test_category);
 
 
         return view('test_category.edit', compact('test_category', 'categories', 'test'));
@@ -60,6 +56,11 @@ class TestCategoryController extends Controller
         if($categoryQuestionNumber < $request->number_of_questions) {
             return redirect()->back()->withErrors(['error' => 'Number of questions is bigger than the actual number of questions in selected category']);
 
+        }
+
+        if($test->categories->find($request->category_id))
+        {
+            $test->categories()->detach($request->category_id);
         }
         $test->categories()->attach($request->category_id, ['number_of_questions' => $request->number_of_questions]);
 
@@ -82,7 +83,7 @@ class TestCategoryController extends Controller
         }
 
         $test->categories()->detach($category_id);
-        $test->categories()->attach($request->category_id, ['number_of_questions'=>$request->number_of_questions]);
+        $test->categories()->attach($category_id, ['number_of_questions'=>$request->number_of_questions]);
 
 
         Session::flash('message', 'Category questions updated successfully');
@@ -92,12 +93,13 @@ class TestCategoryController extends Controller
 
     public function destroy($test_id, $category_id)
     {
-
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
-        $test_category = TestCategory::all()->where('test_id', '=', $test_id)->where('category_id', '=', $category_id)->first();
-        $test_category->delete();
+
+        $test = Test::find($test_id);
+        $test->categories()->detach($category_id);
+
         Session::flash('delete-message', 'Question deleted successfully');
         return redirect()->route('tests.edit', [$test_id]);
     }

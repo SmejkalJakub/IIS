@@ -50,7 +50,6 @@ class TestController extends Controller
 
             $instances = $test->instances;
 
-
             foreach ($instances as $test_instance)
             {
                 $result = 0;
@@ -207,15 +206,26 @@ class TestController extends Controller
                                 {
                                     continue;
                                 }
+                                if(($instance = ($test->instances->where('student_id', '==', Auth::id())->first())))
+                                {
+                                    if($instance->ended == 1)
+                                    {
+                                        continue;
+                                    }
+                                }
                             }
                             else
                             {
-                                if($test->applies->where('correction', '==', '0')
-                                        ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                if($test->instances->where('student_id', '==', Auth::id())->first()->ended == 0)
                                 {
-                                    continue;
+                                    if($test->applies->where('correction', '==', '0')
+                                            ->where('applier_id', '==', Auth::id())
+                                            ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                    {
+                                        continue;
+                                    }
                                 }
+
                             }
                         }
                     }
