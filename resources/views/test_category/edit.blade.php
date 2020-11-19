@@ -23,16 +23,11 @@
 
                     {!! Form::open(['route' => ['test.category.update',  [$test->id, $test_category->id]], 'method' => 'put']) !!}
 
-                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
-                        {!! Form::label('Categories') !!}
-                        {!! Form::select('category_id', $categories->pluck('name', 'id'), $test_category->id, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
-                        @if ($errors->has('category_id'))
-                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
-                        @endif
-                    </div>
                     <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
                         {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
+                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control',
+                                                                                                             'placeholder' => 'Number of questions',
+                                                                                                             'min' => 1, 'max' => count($test_category->questions),'maxlength'=>128]) !!}
                         @if ($errors->has('number_of_questions'))
                             <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
                     </div>

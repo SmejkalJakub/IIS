@@ -21,14 +21,19 @@
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
-                <th>Points</th>
                 <th>Reviewer</th>
+                <th>Points</th>
                 <th>Action</th>
             </tr>
             </thead>
 
             <tbody>
             @foreach ($instances as $instance)
+                @if($listType == 'testInstances')
+                    @if($instance->assistant and $instance->assistant->id != Auth::id())
+                        @continue
+                    @endif
+                @endif
                 <tr>
                 <td>
                     {{ $instance->student->first_name }} {{ $instance->student->surname }}
@@ -48,10 +53,10 @@
                     @if(!$instance->assistant or $instance->assistant->id == Auth::id())
                         <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
                     @endif
-                    @elseif($listType == 'myInstances')
+                @elseif($listType == 'myInstances')
                         <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
                         <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-success mr-2">Detail</a>
-                    @endif
+                @endif
                 </td>
 
                 </tr>

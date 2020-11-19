@@ -42,9 +42,7 @@ class TestCategoryController extends Controller
             return redirect()->route('home');
         }
         $categories = Category::all();
-        //error_log($category->id);
         $test_category = $test->categories->whereIn('id', $category->id)->first();
-        //error_log($test_category);
 
 
         return view('test_category.edit', compact('test_category', 'categories', 'test'));
@@ -60,6 +58,11 @@ class TestCategoryController extends Controller
         if($categoryQuestionNumber < $request->number_of_questions) {
             return redirect()->back()->withErrors(['error' => 'Number of questions is bigger than the actual number of questions in selected category']);
 
+        }
+
+        if($test->categories->find($request->category_id))
+        {
+            $test->categories()->detach($request->category_id);
         }
         $test->categories()->attach($request->category_id, ['number_of_questions' => $request->number_of_questions]);
 
@@ -82,7 +85,7 @@ class TestCategoryController extends Controller
         }
 
         $test->categories()->detach($category_id);
-        $test->categories()->attach($request->category_id, ['number_of_questions'=>$request->number_of_questions]);
+        $test->categories()->attach($category_id, ['number_of_questions'=>$request->number_of_questions]);
 
 
         Session::flash('message', 'Category questions updated successfully');
