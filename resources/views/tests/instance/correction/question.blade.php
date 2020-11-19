@@ -79,9 +79,9 @@
                         <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button"
                            class="btn btn-sm btn-primary mr-2">Next</a>
                     @else
-                        {!! Form::button('Save and End Test', [ 'name' => 'action', 'value' => 'Save and End Test', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                        <a href="{{route('test.end', $instance->id)}}" role="button"
-                           class="btn btn-sm btn-primary mr-2">End test</a>
+                        {!! Form::button('Save and End Review', [ 'name' => 'action', 'value' => 'Save and End Review', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
+                        <a href="{{route('test-correct.instances-end', $instance->id)}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button"
+                           class="btn btn-sm btn-primary mr-2">End Review</a>
                     @endif
 
                     {!! Form::button('Save', [ 'name' => 'action', 'value' => 'Save', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}

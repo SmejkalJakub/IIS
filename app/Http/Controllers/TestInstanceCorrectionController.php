@@ -23,12 +23,15 @@ class TestInstanceCorrectionController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
+        if($instance->assistant == null)
+        {
+            return view('tests.instance.correction.index', compact('instance'));
+        }
         if($instance->assistant->id == Auth::id())
         {
             return $this->question($instance_id, 0);
         }
 
-        return view('tests.instance.correction.index', compact('instance'));
     }
 
     public function question($instance_id, $question_index)
@@ -47,6 +50,15 @@ class TestInstanceCorrectionController extends Controller
 
         return view('tests.instance.correction.question', compact('question', 'instance', 'currentQuestion'));
 
+    }
+
+
+    public function endReview($instance_id)
+    {
+        $instance = TestInstance::where('id', $instance_id)->first();
+
+        $test_id = $instance->test->id;
+        return redirect()->route('test.instances', ['test_id' => $test_id]);
     }
 
     public function startCorrection($instance_id)
@@ -91,8 +103,8 @@ class TestInstanceCorrectionController extends Controller
             case 'Save and Previous':
                 return $this->question($instance_id, $question_index - 1);
                 break;
-            case 'Save and End Test':
-                return $this->endTest($instance_id);
+            case 'Save and End Review':
+                return $this->endReview($instance_id);
                 break;
         }
     }

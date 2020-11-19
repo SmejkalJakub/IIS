@@ -42,6 +42,15 @@ class TestController extends Controller
         return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances'));
     }
 
+    public function showInstances($test_id)
+    {
+        $test = Test::all()->whereIn('id', $test_id)->first();
+
+        $instances = $test->instances;
+
+        return view('tests.instance.list', compact('instances'));
+    }
+
     public function create()
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
@@ -399,7 +408,7 @@ class TestController extends Controller
                         }
                         else
                         {
-                            $row .= '<a role="button" class="btn btn-sm btn-success">View result</a>';
+                            $row .= '<a role="button" href="'.route('test.results', $test->id).'" class="btn btn-sm btn-success">View result</a>';
                         }
                     }
                     elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
@@ -414,7 +423,7 @@ class TestController extends Controller
                         }
                         elseif($request->filter == 'active')
                         {
-                            $row .= '<a role="button" class="btn btn-sm btn-success">Revision</a>';
+                            $row .= '<a role="button" href="'.route('test.instances', $test->id).'" class="btn btn-sm btn-success">Revision</a>';
                         }
                         else
                         {

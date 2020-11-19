@@ -19,7 +19,24 @@ class TestInstanceController extends Controller
         }
         return true;
     }
-    public function create( $test_id)
+
+
+    public function showResults($test_id)
+    {
+        $instance = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('student_id', Auth::id())->first();
+        if($instance)
+        {
+            $questions = $instance->instances_questions;
+            return view('tests.instance.results', compact('instance', 'questions'));
+        }
+        else
+        {
+            return $redirect->back();
+        }
+
+    }
+
+    public function create($test_id)
     {
         $now = strtotime(now());
         $test = Test::all()->whereIn('id', $test_id)->first();
@@ -32,9 +49,7 @@ class TestInstanceController extends Controller
 
         $instance = TestInstance::all()->whereIn('test_id', $test->id)->whereIn('student_id', Auth::id())->first();
 
-
         if ($instance != null) {
-
             sscanf($test->max_duration, "%d:%d", $hours, $minutes);
             $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
