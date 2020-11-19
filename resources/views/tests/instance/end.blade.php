@@ -48,8 +48,10 @@
                         ?>
                         {{$number_of_questions}}
                         <div>
-                            <a href="{{route('home')}}" role="button" class="btn btn-sm btn-success mr-2">End the
-                                test</a>
+
+
+                            <a href="{{route('test.finish', $instance->id)}}" role="button"
+                               class="btn btn-sm btn-primary mr-2">End test</a>
 
                             <?php
                             $now = strtotime(now());

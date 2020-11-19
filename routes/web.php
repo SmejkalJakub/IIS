@@ -50,6 +50,7 @@ Route::get('test/{test_id}/{student_id}/results', 'TestInstanceController@showRe
 
 Route::get('test/{test_id}/create', 'TestInstanceController@create')->name('test.create');
 Route::get('test/{test_id}/end', 'TestInstanceController@endTest')->name('test.end');
+Route::get('test/{test_id}/finish', 'TestInstanceController@finish')->name('test.finish');
 Route::get('test/fill/{instance_id}/{question_index}', 'TestInstanceController@question')->name('test-fill..');
 Route::post('question/save/{instance_id}{question_index}', 'TestInstanceController@saveQuestion')->name('question-save..');
 

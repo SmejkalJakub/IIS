@@ -18,6 +18,7 @@ class CreateTestInstancesTable extends Migration
             $table->timestamps();
 
             $table->dateTime('opened_at')->nullable();
+            $table->boolean('ended');
             $table->boolean('corrected');
 
             $table->bigInteger('test_id')->unsigned();

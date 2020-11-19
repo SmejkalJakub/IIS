@@ -35,14 +35,14 @@
 
                     <div>
                         <label>
-                            <b>Icon</b>
+                            <b>Image</b>
                         </label>
                     </div>
                     <div>
                         <img id="uploadPreview1" style="max-height: 200px; max-width: 200px"/>
                         <small id="fileHelp" class="form-text text-muted">Choose an image for question.</small>
-                        <input id="icon" type="file" name="icon"
-                               onchange="PreviewImage('icon', 'uploadPreview1');"/>
+                        <input id="image_path" type="file" name="image_path"
+                               onchange="PreviewImage('image_path', 'uploadPreview1');"/>
                     </div>
 
                     <div class="form-group">
