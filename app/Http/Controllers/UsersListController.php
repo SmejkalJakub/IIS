@@ -67,6 +67,7 @@ class UsersListController extends Controller
     public function editUser($userId)
     {
         $user = User::find($userId);
+        error_log($user);
         return view('users.user_edit', compact('user'));
     }
 
@@ -97,7 +98,7 @@ class UsersListController extends Controller
         $user->role = $data['role'];
 
         request()->validate($validation_array);
-        $user->save();
+        $user->update();
         return $this->showUserList();
     }
 

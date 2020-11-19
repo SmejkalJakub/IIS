@@ -11,7 +11,7 @@ class TestInstance extends Model
 
     public function instances_questions()
     {
-        return $this->belongsToMany(Question::class, 'test_instance_questions')->withPivot('answer', 'points');
+        return $this->belongsToMany(Question::class, 'test_instance_questions')->withPivot('answer', 'points', 'comment');
     }
     public function student()
     {

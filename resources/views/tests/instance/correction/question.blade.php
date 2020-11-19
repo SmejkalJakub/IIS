@@ -21,7 +21,7 @@
 
                     @for ($i = 0; $i < count($instance->instances_questions); $i++)
                         <a href="{{route('question-correct..', [$instance->id, $i])}}" role="button"
-                           class="btn btn-sm btn-warning mr-2">{{$i + 1}}</a>
+                        class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
                     @endfor
                     <br>
                     <h3>Name of question: </h3>
@@ -68,6 +68,9 @@
 
                     {!! Form::number('points', $question->pivot->points, ['class' => 'form-control', 'step'=>'any', 'placeholder' => 'Points', 'maxlength'=>128, 'min' => '0', 'max' => $question->category->max_points]) !!}
                     <br>
+                    {!! Form::textarea('comment', $question->pivot->comment, ['class' => 'form-control', 'placeholder' => 'Comment', 'maxlength'=>256]) !!}
+                    <br>
+
                     @if($currentQuestion != 0)
                         <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button"
                            class="btn btn-sm btn-primary mr-2">Previous</a>

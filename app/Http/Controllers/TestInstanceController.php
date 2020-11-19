@@ -21,9 +21,9 @@ class TestInstanceController extends Controller
     }
 
 
-    public function showResults($test_id)
+    public function showResults($test_id, $student_id)
     {
-        $instance = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('student_id', Auth::id())->first();
+        $instance = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('student_id', $student_id)->first();
         if($instance)
         {
             $questions = $instance->instances_questions;
@@ -31,7 +31,7 @@ class TestInstanceController extends Controller
         }
         else
         {
-            return $redirect->back();
+            return redirect()->back();
         }
 
     }
@@ -68,6 +68,7 @@ class TestInstanceController extends Controller
         $instance->student_id = Auth::id();
         $instance->opened_at = now();
         $instance->assistant_id = null;
+        $instance->corrected = false;
         $instance->save();
 
         $categories = $instance->test->categories;
