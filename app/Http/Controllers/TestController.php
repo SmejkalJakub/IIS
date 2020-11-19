@@ -294,6 +294,9 @@ class TestController extends Controller
                             $now = strtotime(now());
                             $test_end = strtotime($test->available_to);
 
+                            $test_start = strtotime($test->available_from);
+
+
                             if($request->filter == 'registered')
                             {
                                 if(($test->applies->where('correction', '==', '1')
@@ -310,7 +313,7 @@ class TestController extends Controller
                             {
                                 if($test->applies->where('correction', '==', '1')
                                         ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_start)
                                 {
                                     continue;
                                 }
@@ -319,7 +322,12 @@ class TestController extends Controller
                             {
                                 if($test->applies->where('correction', '==', '1')
                                         ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                        ->whereNotNull('authorizer_id')->first() == null)
+                                {
+                                    continue;
+                                }
+                                else if($test->instances->where('corrected', '==', '1')
+                                        ->where('assistant_id', '==', Auth::id())->first() == null)
                                 {
                                     continue;
                                 }
@@ -391,7 +399,14 @@ class TestController extends Controller
                         {
                             $correctedByMe = TestInstance::all()->where('assistant_id', Auth::id())->where('corrected', '1');
                             $corrected = TestInstance::all()->where('corrected', '1');
-                            $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
+                            $numberOfInstances = count($test->instances);
+
+                            if($numberOfInstances == count($corrected))
+                            {
+                                continue;
+                            }
+
+                            $row .= '<td style="vertical-align: middle">' . $numberOfInstances . '</td>';
                             $row .= '<td style="vertical-align: middle">' . count($corrected) . '</td>';
                             $row .= '<td style="vertical-align: middle">' . count($correctedByMe) . '</td>';
                         }
