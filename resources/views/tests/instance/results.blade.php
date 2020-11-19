@@ -30,7 +30,8 @@
                     @if($question->pivot->points == null)
                         Not yet reviewed.
                     @else
-                        Points: {{$question->pivot->points}} out of {{$question->category->max_points}}
+                        Points: {{$question->pivot->points}} out of {{$question->category->max_points}}<br>
+                        Reviewer comment:
                     @endif
                 </div>
             @endforeach
