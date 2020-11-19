@@ -95,6 +95,8 @@
 
     <h3><span style="color: #373737">Maximum points:</span> <span class="{{$test->max_points == 0 ? 'text-secondary' : 'text-success'}}">{{$test->max_points}}</span></h3>
 
+    {!! Form::close() !!}
+
     <div class="border rounded mt-4 p-3">
         <div class="row">
             <div class="col-sm-2"></div>
@@ -145,8 +147,6 @@
             </table>
         </div>
     </div>
-
-    {!! Form::close() !!}
 </div>
 
 </body>

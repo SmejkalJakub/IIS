@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('layouts.head', ['title' => 'Categories'])
-<body>
+<body style="background-color: #B6B6B6">
 
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
-@if($errors->has('error'))
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-    {{ $errors->first('error') }}
+<div class="container-full-width">
+    @if($errors->has('error'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{ $errors->first('error') }}
+        </div>
+    @endif
 </div>
-@endif
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div
-                    class="card-header"><h1>Add category to test</h1></div>
 
-                <div class="card-body">
+<div class="container bg-white rounded mt-5 p-4" style="max-width: 700px">
+    <div class="mb-3 row">
+        <div class="col-sm-2">
+            <a href="{{ route('tests.edit', $test) }}" class="btn btn-secondary">Back</a>
+        </div>
+        <div class="col-sm-8">
+            <h2 class="text-center mb-4" style="color: #373737">Add category to test</h2>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
 
+    {{ Form::open(array('route' => array('test.category.store', $test))) }}
 
-                    {{ Form::open(array('route' => array('test.category.store', $test))) }}
+    <div class="form-group @if($errors->has('category_id')) has-error @endif">
+        <label class="font-weight-bold" style="color: #373737">Categories</label>
+        {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
+        @if ($errors->has('category_id'))
+            <span class="help-block">{!! $errors->first('category_id') !!}</span>
+        @endif
+    </div>
 
-                    <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
-                        {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'placeholder' => 'Number of questions', 'maxlength'=>128]) !!}
-                        @if ($errors->has('number_of_questions'))
-                            <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
-                    </div>
-
-                    <div class="form-group @if($errors->has('category_id')) has-error @endif">
-                        {!! Form::label('Categories') !!}
-                        {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
-                        @if ($errors->has('category_id'))
-                            <span class="help-block">{!! $errors->first('category_id') !!}</span>
-                        @endif
-                    </div>
-
-
-                    <a href="{{ route('tests.edit', $test) }}"
-                       class="btn btn-sm btn-primary">Back</a>
-                    {!! Form::submit('Create', ['class' => 'btn btn-sm btn-warning']) !!}
-                    {!! Form::close() !!}
-                </div>
-            </div>
+    <div class="input-group @if($errors->has('number_of_questions')) has-error @endif">
+        <div class="input-group-prepend">
+            <label class="input-group-text">Number of questions</label>
+        </div>
+        {!! Form::number('number_of_questions', null, ['class' => 'form-control', 'placeholder' => 'Enter number of questions', 'maxlength'=>128]) !!}
+        <div class="input-group-append">
+            {!! Form::submit('Add', ['class' => 'btn btn-success float-right']) !!}
         </div>
     </div>
+    @if ($errors->has('number_of_questions'))
+        <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>
+    @endif
+
+    {!! Form::close() !!}
 </div>
 
 </body>
