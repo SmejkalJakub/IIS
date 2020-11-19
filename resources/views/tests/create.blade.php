@@ -24,40 +24,40 @@
 
 <div class="container bg-white rounded mt-5 p-4">
     <div class="mb-3 row">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <a role="button" class="btn btn-secondary" href="{{route('tests..', ['professor', 'myTests'])}}">Back</a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <h2 class="text-center mb-4" style="color: #373737">Create test</h2>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             {!! Form::open(['route' => ['tests-store'], 'method' => 'put']) !!}
-            {!! Form::submit('Create', ['class' => 'btn btn-success float-right']) !!}
+            {!! Form::submit('Create', ['class' => 'btn btn-success float-right', 'onclick' => 'setValue()']) !!}
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <div class="input-group @if($errors->has('name')) has-error @endif">
                 <div class="input-group-prepend">
                     <label class="input-group-text">Name</label>
                 </div>
                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Enter name', 'maxlength'=>128]) !!}
-                @if ($errors->has('name'))
-                    <span class="help-block">{!! $errors->first('name') !!}</span>
-                @endif
             </div>
+            @if ($errors->has('name'))
+                <span class="help-block">{!! $errors->first('name') !!}</span>
+            @endif
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="input-group @if($errors->has('max_duration')) has-error @endif">
                 <div class="input-group-prepend">
                     <label class="input-group-text">Max duration</label>
                 </div>
                 {{ Form::input('time', 'max_duration', null, ['id' => 'max_duration', 'class' => 'form-control']) }}
-                @if ($errors->has('max_duration'))
-                    <span class="help-block">{!! $errors->first('max_duration') !!}</span>
-                @endif
             </div>
+            @if ($errors->has('max_duration'))
+                <span class="help-block">{!! $errors->first('max_duration') !!}</span>
+            @endif
         </div>
     </div>
 
@@ -68,10 +68,10 @@
                     <label class="input-group-text">Available from</label>
                 </div>
                 {{ Form::input('dateTime-local', 'available_from', date('Y-m-d\TH:i', strtotime(now())), ['id' => 'available_from', 'class' => 'form-control']) }}
-                @if ($errors->has('available_from'))
-                    <span class="help-block">{!! $errors->first('available_from') !!}</span>
-                @endif
             </div>
+            @if ($errors->has('available_from'))
+                <span class="help-block">{!! $errors->first('available_from') !!}</span>
+            @endif
         </div>
         <div class="col-sm-6">
             <div class="input-group @if($errors->has('available_to')) has-error @endif">
@@ -79,10 +79,10 @@
                     <label class="input-group-text">Available to</label>
                 </div>
                 {{ Form::input('dateTime-local', 'available_to', date('Y-m-d\TH:i', strtotime(now())), ['id' => 'available_to', 'class' => 'form-control']) }}
-                @if ($errors->has('available_to'))
-                    <span class="help-block">{!! $errors->first('available_to') !!}</span>
-                @endif
             </div>
+            @if ($errors->has('available_to'))
+                <span class="help-block">{!! $errors->first('available_to') !!}</span>
+            @endif
         </div>
     </div>
 

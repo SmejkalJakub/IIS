@@ -1,11 +1,11 @@
 <div class="border rounded mt-4 p-3">
-    <h3 class="text-center mb-3" style="color: #373737">Questions</h3>
     <div class="row">
-        <div class="col">
-            <input type="text" class="form-control" id="search" style="max-width: 400px" placeholder="Search" name="search"/>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <h3 class="text-center mb-3" style="color: #373737">Questions</h3>
         </div>
-        <div class="col-auto">
-            <a href="{{ route('categories.questions.create', $category->id) }}" class="btn btn-block btn-success">Add</a>
+        <div class="col-sm-2">
+            <a href="{{ route('categories.questions.create', $category->id) }}" class="btn btn-success float-right">Add</a>
         </div>
     </div>
 

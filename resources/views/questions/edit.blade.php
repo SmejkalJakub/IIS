@@ -9,13 +9,13 @@
 
 <div class="container bg-white rounded mt-5 p-4">
     <div class="mb-3 row">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <a href="{{ route('categories.edit', $category_id) }}" class="btn btn-secondary">Back</a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <h2 class="text-center mb-4" style="color: #373737">Edit question</h2>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             {{ Form::open(array('route' => array('categories.questions.update', $category_id, $question ), 'method' => 'put')) }}
             {!! Form::submit('Save',['class' => ['btn btn-success', 'float-right']]) !!}
         </div>

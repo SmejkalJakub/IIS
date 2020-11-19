@@ -84,7 +84,7 @@ class CategoryController extends Controller
             $request,
             [
                 'name' => 'required|unique:categories|max:128',
-                'max_points' => 'required|gte:1|lte:100'
+                'max_points' => 'required|gte:0.001|lte:100'
             ],
         );
 
@@ -97,7 +97,7 @@ class CategoryController extends Controller
         $category->save();
 
         Session::flash('message', 'Category created successfully');
-        return redirect()->back();
+        return redirect()->route('categories.edit', $category->id);
     }
 
 
