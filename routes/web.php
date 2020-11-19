@@ -19,6 +19,7 @@ Route::post('post-register', 'AuthController@postRegister');
 Route::get('logout', 'AuthController@logout')->name('logout');
 Route::get('home', 'HomeController@index')->name('home');
 
+Route::put('tests/store', 'TestController@store')->name('tests-store');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('tests', 'TestController');
     Route::resource('sign_on_test', 'SignOnTestApplyController');

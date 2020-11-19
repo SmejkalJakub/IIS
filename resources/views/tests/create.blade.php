@@ -31,7 +31,7 @@
             <h2 class="text-center mb-4" style="color: #373737">Create test</h2>
         </div>
         <div class="col-sm-4">
-            {!! Form::open(['route' => ['tests.store'], 'method' => 'get']) !!}
+            {!! Form::open(['route' => ['tests-store'], 'method' => 'put']) !!}
             {!! Form::submit('Create', ['class' => 'btn btn-success float-right']) !!}
         </div>
     </div>

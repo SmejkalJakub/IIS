@@ -115,6 +115,7 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
+        error_log("jse ");
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
@@ -146,8 +147,7 @@ class TestController extends Controller
 
         $test->save();
 
-        error_log('nvm');
-        return redirect()->route('tests.edit', $test->id);
+        return redirect()->route('tests.edit', ['test' => $test->id]);
     }
 
     public function search(Request $request)
