@@ -34,7 +34,7 @@
                         Max points:
                     </h3>
                         <h4>
-                            {{$questions->category->max_points}}
+                            {{$question->category->max_points}}
                         </h4>
 
                         @if($question->image_path != 'no_image.png')
