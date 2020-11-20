@@ -26,7 +26,7 @@
         <div class="col-sm-2"></div>
     </div>
 
-    {!! Form::open(['route' => ['test.category.update',  [$test->id, $test_category->id]], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['tests....edit/updateCategory.',  [$role, $filter, $from, $test->id, $test_category->id]], 'method' => 'put']) !!}
 
     <div class="input-group @if($errors->has('number_of_questions')) has-error @endif">
         <div class="input-group-prepend">

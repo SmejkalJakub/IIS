@@ -72,6 +72,8 @@ class SignOnTestApplyController extends Controller
             return redirect()->back();
         }
 
+        error_log($correction);
+
         $sign = SignOnTestApply::all()->whereIn('applier_id',  $user_id)->whereIn('correction', $correction)->whereIn('test_id', $test_id)->first();
 
         //neni profesor a zaroven nici zadost, ktera mu nepatri, ktera je na opravu testu
@@ -84,7 +86,6 @@ class SignOnTestApplyController extends Controller
 
         if ($sign) {
             $sign->delete();
-
         }
 
         return redirect()->back();

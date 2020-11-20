@@ -151,7 +151,7 @@ class TestController extends Controller
 
         $test->save();
 
-        return redirect()->route('tests.edit', ['test' => $test->id]);
+        return redirect()->route('tests....edit', ['professor', 'myTests', 'list', $test->id]);
     }
 
     public function search(Request $request)
@@ -425,7 +425,7 @@ class TestController extends Controller
                     {
                         if($request->filter == 'available')
                         {
-                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success "> Sign on as assistant</a>';
+                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success ">Sign on as assistant</a>';
                         }
                         elseif($request->filter == 'registered')
                         {
