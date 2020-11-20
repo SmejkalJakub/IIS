@@ -21,7 +21,7 @@
 
                     @for ($i = 0; $i < count($instance->instances_questions); $i++)
                         <a href="{{route('question-correct..', [$instance->id, $i])}}" role="button"
-                        class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
+                           class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
                     @endfor
                     <br>
                     <h3>Name of question: </h3>
@@ -30,6 +30,14 @@
                         Task:
                     </h3>
                     <h4>{{$question->task}}
+
+                        @if($question->image_path != 'no_image.png')
+                            <label>Image</label>
+                            <div>
+                                <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
+                                     style="max-height: 200px; max-width: 300px;">
+                            </div>
+                        @endif
 
                     </h4>
                     <br><br>
@@ -83,7 +91,8 @@
                            class="btn btn-sm btn-primary mr-2">Next</a>
                     @else
                         {!! Form::button('Save and End Review', [ 'name' => 'action', 'value' => 'Save and End Review', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                        <a href="{{route('test-correct.instances-end', $instance->id)}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button"
+                        <a href="{{route('test-correct.instances-end', $instance->id)}}"
+                           onclick="return confirm('Are you sure that you want to end this review?')" role="button"
                            class="btn btn-sm btn-primary mr-2">End Review</a>
                     @endif
 

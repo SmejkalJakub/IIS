@@ -91,6 +91,7 @@ class CategoryController extends Controller
         $category = new Category();
 
 
+
         $category->name = $request->name;
         $category->max_points = $request->max_points;
 

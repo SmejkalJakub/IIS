@@ -17,21 +17,29 @@
 
                     @for ($i = 0; $i < count($instance->instances_questions); $i++)
                         <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button"
-                            class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
-                        @endfor
+                           class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
+                    @endfor
                     <br>
                     <h3>Name of question: </h3>
                     <h4>{{$question->name}}</h4>
                     <h3>
                         Task:
                     </h3>
-                        <h4>{{$question->task}}
+                    <h4>
+                        {{$question->task}}
+                    </h4>
 
-                        </h4>
+                    @if($question->image_path != 'no_image.png')
+                            <label>Image</label>
+                            <div>
+                                <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
+                                     style="max-height: 200px; max-width: 300px;">
+                            </div>
+                    @endif
                     <br><br>
                     <hr>
 
-                        <h3>Your answer:</h3>
+                    <h3>Your answer:</h3>
 
                     {{ Form::open(array('route' => array('question-save..', $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
 

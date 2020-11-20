@@ -55,7 +55,7 @@ class TestInstanceCorrectionController extends Controller
 
     public function endReview($instance_id)
     {
-        $instance = TestInstance::where('id', $instance_id)->first();
+        $instance = TestInstance::all()->where('id', '=',$instance_id)->first();
 
         $instance->corrected = true;
         $instance->update();

@@ -56,7 +56,7 @@
     </div>
     <small id="fileHelp" class="form-text text-muted">Add an image to a question...</small>
     <div class="custom-file mb-3" style="max-width: 500px">
-        <input type="file" class="custom-file-input" name="icon" id="icon" onchange="PreviewImage('icon', 'uploadPreview1'); changeText();">
+        <input type="file" class="custom-file-input" name="image_path" id="image_path" onchange="PreviewImage('image_path', 'uploadPreview1'); changeText();">
         <label class="custom-file-label" id="customFileLabelId" for="customFile">Choose image</label>
     </div>
 
