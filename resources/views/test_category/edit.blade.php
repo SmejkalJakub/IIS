@@ -1,59 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('layouts.head', ['title' => 'Categories'])
-<body>
+<body style="background-color: #B6B6B6">
 
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
-@if($errors->has('error'))
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-    {{ $errors->first('error') }}
+<div class="container-full-width">
+    @if($errors->has('error'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{ $errors->first('error') }}
+        </div>
+    @endif
 </div>
-@endif
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div
-                    class="card-header"><h1>Number of questions from <b>{{$test_category->name}}</b> category</h1></div>
 
-                <div class="card-body">
+<div class="container bg-white rounded mt-5 p-4" style="max-width: 700px">
+    <div class="mb-3 row">
+        <div class="col-sm-2">
+            <a href="{{ route('tests....edit', [$role, $filter, $from, $test->id]) }}" class="btn btn-secondary">Back</a>
+        </div>
+        <div class="col-sm-8">
+            <h2 class="text-center mb-4" style="color: #373737">Number of questions from category <span class="text-success font-weight-bold">{{$test_category->name}}</span></h2>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
 
-                    {!! Form::open(['route' => ['test.category.update',  [$test->id, $test_category->id]], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['test.category.update',  [$test->id, $test_category->id]], 'method' => 'put']) !!}
 
-                    <div class="form-group @if($errors->has('number_of_questions')) has-error @endif">
-                        {!! Form::label('Number of questions') !!}
-                        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'required',
-                                                                                                             'placeholder' => 'Number of questions',
-                                                                                                             'min' => 1, 'max' => count($test_category->questions),'maxlength'=>128]) !!}
-                        @if ($errors->has('number_of_questions'))
-                            <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>@endif
-                    </div>
-                    <a href="{{ route('tests.edit', $test->id) }}"
-                       class="btn btn-sm btn-primary">Back</a>
-                    {!! Form::submit('Update', ['class' => 'btn btn-sm btn-warning']) !!}
-                    {!! Form::close() !!}
-                </div>
-            </div>
+    <div class="input-group @if($errors->has('number_of_questions')) has-error @endif">
+        <div class="input-group-prepend">
+            <label class="input-group-text">Number of questions</label>
+        </div>
+        {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'required', 'placeholder' => 'Number of questions', 'min' => 1, 'max' => count($test_category->questions),'maxlength'=>128]) !!}
+        <div class="input-group-append">
+            {!! Form::submit('Update', ['class' => 'btn btn-success float-right']) !!}
         </div>
     </div>
+    @if ($errors->has('number_of_questions'))
+        <span class="help-block">{!! $errors->first('number_of_questions') !!}</span>
+    @endif
 </div>
 
 </body>
 </html>
-
-<script type="text/javascript">
-
-    function PreviewImage(orderOfImage, uploadPreviewOrder) {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById(orderOfImage).files[0]);
-
-        oFReader.onload = function (oFREvent) {
-            document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
-        };
-    }
-
-</script>
 

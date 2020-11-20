@@ -21,11 +21,13 @@ class TestController extends Controller
         return view('tests.index', compact('role', 'filter'));
     }
 
-    public function show(Test $test)
+    public function show($role, $filter, $testId)
     {
         if (Auth::user() == null) {
             return redirect()->route('home');
         }
+
+        $test = Test::all()->where('id', '=', $testId)->first();
 
         if (Auth::user()->hasRole('profesor')) {
             $test_applies = $test->applies;
@@ -40,7 +42,7 @@ class TestController extends Controller
 
 
         $test_categories = $test->categories;
-        return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances'));
+        return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances', 'role', 'filter'));
     }
 
     public function showInstances($test_id, $assistant_id)
@@ -93,13 +95,16 @@ class TestController extends Controller
         return view('tests.create');
     }
 
-    public function edit(Test $test)
+    public function edit($role, $filter, $from, $testId)
     {
 
         $points_per_test = 0;
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
+
+        $test = Test::all()->where('id', '=', $testId)->first();
+
         $test_categories = $test->categories;
 
         foreach ($test_categories as $test_cat) {
@@ -109,7 +114,7 @@ class TestController extends Controller
 
         $test->setAttribute('max_points', $points_per_test);
 
-        return view('tests.edit', compact('test', 'test_categories'));
+        return view('tests.edit', compact('test', 'test_categories', 'role', 'filter', 'from'));
     }
 
     public function store(Request $request)
@@ -437,7 +442,7 @@ class TestController extends Controller
                     }
                     elseif(Auth::user()->hasRole('profesor'))
                     {
-                        $row .= '<a href="'.route('tests.edit', $test->id).'" role="button" class="btn btn-sm btn-success">Edit</a>';
+                        $row .= '<a href="'.route('tests....edit', [$request->role, $request->filter, 'list', $test->id]).'" role="button" class="btn btn-sm btn-success">Edit</a>';
                         $row .= '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
                             '<input type="hidden" name="_method" value="DELETE">'.
                             '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this test?\')" class="btn btn-sm btn-danger ml-2">Delete</button>'.
@@ -445,7 +450,7 @@ class TestController extends Controller
                             '</form>';
                     }
 
-                    $row .= '<a href="'.route('tests.show', $test->id).'" role="button" class="btn btn-sm ml-2 btn-info">Detail</a>';
+                    $row .= '<a href="'.route('tests...show', [$request->role, $request->filter, $test->id]).'" role="button" class="btn btn-sm ml-2 btn-info">Detail</a>';
                     $row .= '</div></td>';
                     $row .= '</tr>';
 

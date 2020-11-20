@@ -32,7 +32,7 @@
                     <h1>Test: {{$test->name}}
 
                         @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
-                            <a href="{{ route('tests.edit', $test->id) }}"
+                            <a href="{{ route('tests....edit', [$role, $filter, 'detail', $test->id]) }}"
                                class="btn btn-lg btn-primary align-middle float-right">Edit</a>
                         @endif
                         <a href="{{ route('sign_on_test.create', $test->id) }}"
@@ -210,10 +210,40 @@
 
                 </article>
 
-                <a href="{{ route('tests') }}"
-                   class="btn btn-sm btn-primary">Back</a>
-
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-full-width">
+    @if(Session::has('message'))
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{ Session('message') }}
+        </div>
+    @endif
+
+    @if(Session::has('delete-message'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{ Session('delete-message') }}
+        </div>
+    @endif
+</div>
+
+<div class="container bg-white rounded mt-5 p-4">
+    <div class="mb-3 row">
+        <div class="col-sm-2">
+            <a role="button" class="btn btn-secondary" href="{{route('tests..', [$role, $filter])}}">Back</a>
+        </div>
+        <div class="col-sm-8">
+            <h2 class="text-center mb-4" style="color: #373737">Test detail</h2>
+        </div>
+        <div class="col-sm-2">
+            @if (Auth::user() != null && Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)
+                <a href="{{ route('tests....edit', [$role, $filter, 'detail', $test->id]) }}"
+                   class="btn btn-success float-right">Edit</a>
+            @endif
         </div>
     </div>
 </div>

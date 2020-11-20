@@ -25,7 +25,7 @@
 <div class="container bg-white rounded mt-5 p-4">
     <div class="mb-3 row">
         <div class="col-sm-2">
-            <a role="button" class="btn btn-secondary" href="{{route('tests..', ['professor', 'myTests'])}}">Back</a>
+            <a role="button" class="btn btn-secondary" href="{{($from == 'list') ? route('tests..', ['professor', 'myTests']) : route('tests...show', [$role, $filter, $test->id])}}">Back</a>
         </div>
         <div class="col-sm-8">
             <h2 class="text-center mb-4" style="color: #373737">Edit test</h2>
@@ -104,7 +104,7 @@
                 <h3 class="text-center mb-3" style="color: #373737">Categories</h3>
             </div>
             <div class="col-sm-2">
-                <a href="{{ route('test.category.create',  $test->id )}}" class="btn btn-success float-right">Add</a>
+                <a href="{{ route('tests....edit/addCategory', [$role, $filter, $from, $test->id] )}}" class="btn btn-success float-right">Add</a>
             </div>
         </div>
 
@@ -134,9 +134,9 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <a href="{{ route('test.category.edit',  [$test->id, $test_category->id]) }}" class="btn btn-sm btn-success mr-2">Edit</a>
+                                <a href="{{ route('tests....edit/updateCategory.', [$role, $filter, $from, $test->id, $test_category->id]) }}" class="btn btn-sm btn-success mr-2">Edit</a>
 
-                                {!! Form::open(['route' => ['test.category.destroy', [$test->id, $test_category->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
+                                {!! Form::open(['route' => ['tests....edit/removeCategory.', [$role, $filter, $from, $test->id, $test_category->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category from test?\')']) !!}
                                 {!! Form::close() !!}
                             </div>

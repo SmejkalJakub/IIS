@@ -18,7 +18,7 @@
 <div class="container bg-white rounded mt-5 p-4" style="max-width: 700px">
     <div class="mb-3 row">
         <div class="col-sm-2">
-            <a href="{{ route('tests.edit', $test) }}" class="btn btn-secondary">Back</a>
+            <a href="{{ route('tests....edit', [$role, $filter, $from, $test->id]) }}" class="btn btn-secondary">Back</a>
         </div>
         <div class="col-sm-8">
             <h2 class="text-center mb-4" style="color: #373737">Add category to test</h2>
@@ -26,7 +26,7 @@
         <div class="col-sm-2"></div>
     </div>
 
-    {{ Form::open(array('route' => array('test.category.store', $test))) }}
+    {{ Form::open(array('route' => array('tests....edit/storeCategory', [$role, $filter, $from, $test->id]))) }}
 
     <div class="form-group @if($errors->has('category_id')) has-error @endif">
         <label class="font-weight-bold" style="color: #373737">Categories</label>
@@ -54,17 +54,4 @@
 
 </body>
 </html>
-
-<script type="text/javascript">
-
-    function PreviewImage(orderOfImage, uploadPreviewOrder) {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById(orderOfImage).files[0]);
-
-        oFReader.onload = function (oFREvent) {
-            document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
-        };
-    }
-
-</script>
 

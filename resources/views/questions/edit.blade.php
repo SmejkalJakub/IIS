@@ -51,21 +51,12 @@
 
         <label class="font-weight-bold" style="color: #373737">Icon</label>
         <div>
-            <label>Current image</label>
-            <div>
-                <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                     style="max-height: 200px; max-width: 300px;">
-            </div>
-            <div>
-            <label>New Image</label>
-                <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
-            </div>
+            <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
         </div>
         <small id="fileHelp" class="form-text text-muted">Add an image to a question...</small>
         <div class="custom-file mb-3" style="max-width: 500px">
-            <input type="file" class="custom-file-input" name="icon" id="icon"
-                   onchange="PreviewImage('icon', 'uploadPreview1');">
-            <label class="custom-file-label" for="customFile">Choose image</label>
+            <input type="file" class="custom-file-input" name="image_path" id="image_path" onchange="PreviewImage('image_path', 'uploadPreview1'); changeText();">
+            <label class="custom-file-label" id="customFileLabelId" for="customFile">Choose image</label>
         </div>
 
         <div class="form-group @if($errors->has('right_answer')) has-error @endif">
@@ -152,7 +143,7 @@
     }
 
     function changeText() {
-        document.getElementById('customFileLabelId').innerHTML = document.getElementById('icon').files[0].name;
+        document.getElementById('customFileLabelId').innerHTML = document.getElementById('image_path').files[0].name;
     }
 </script>
 

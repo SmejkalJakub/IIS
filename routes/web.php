@@ -29,8 +29,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('categories.questions', 'QuestionController');
 });
 
-Route::get('tests', 'TestController@index')->name('tests');
 Route::get('tests/{role}/{filter}', 'TestController@index')->name('tests..');
+Route::get('tests/{role}/{filter}/{id}/show', 'TestController@show')->name('tests...show');
+Route::get('tests/{role}/{filter}/{from}/{id}/edit', 'TestController@edit')->name('tests....edit');
+Route::get('tests/{role}/{filter}/{from}/{id}/edit/addCategory', 'TestCategoryController@create')->name('tests....edit/addCategory');
+Route::post('tests/{role}/{filter}/{from}/{id}/edit/storeCategory', 'TestCategoryController@store')->name('tests....edit/storeCategory');
+Route::get('tests/{role}/{filter}/{from}/{id}/edit/updateCategory/{categoryId}', 'TestCategoryController@edit')->name('tests....edit/updateCategory.');
+Route::delete('tests/{role}/{filter}/{from}/{id}/edit/removeCategory/{categoryId}', 'TestCategoryController@destroy')->name('tests....edit/removeCategory.');
+
 Route::get('categories', 'CategoryController@index')->name('categories');
 Route::get('new/{id}/{correction}/sign', 'SignOnTestApplyController@create')->name('new..sign');
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/confirm', 'SignOnTestApplyController@confirm')->name('sign_on.test..confirm');

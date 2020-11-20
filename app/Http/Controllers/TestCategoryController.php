@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 class TestCategoryController extends Controller
 {
 
-    public function create(Test $test)
+    public function create($role, $filter, $from, $test_id)
     {
         //error_log("test in testcat create");
         //error_log($test);
@@ -22,8 +22,9 @@ class TestCategoryController extends Controller
             return redirect()->route('home');
         }
         $categories = Category::all()->pluck('name', 'id');
+        $test = Test::all()->where('id', '=', $test_id)->first();
 
-        return view('test_category.create', compact('test', 'categories'));
+        return view('test_category.create', compact('test', 'categories', 'role', 'filter', 'from'));
     }
 
     public function show(Category $category, Question $question)
@@ -34,19 +35,20 @@ class TestCategoryController extends Controller
         return view('categories.show', compact('question'));
     }
 
-    public function edit(Test $test, Category $category)
+    public function edit($role, $filter, $from, $test_id, $category_id)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
         $categories = Category::all();
-        $test_category = $test->categories->whereIn('id', $category->id)->first();
+        $test = Test::all()->where('id', '=', $test_id)->first();
+        $test_category = $test->categories->whereIn('id', $category_id)->first();
 
 
-        return view('test_category.edit', compact('test_category', 'categories', 'test'));
+        return view('test_category.edit', compact('test_category', 'categories', 'test', 'role', 'filter', 'from'));
     }
 
-    public function store(Request $request, Test $test)
+    public function store(Request $request, $role, $filter, $from, $test_id)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
@@ -58,6 +60,8 @@ class TestCategoryController extends Controller
 
         }
 
+        $test = Test::all()->where('id', '=', $test_id)->first();
+
         if($test->categories->find($request->category_id))
         {
             $test->categories()->detach($request->category_id);
@@ -66,7 +70,7 @@ class TestCategoryController extends Controller
 
         Session::flash('message', 'Category questions created successfully');
 
-        return redirect()->route('tests.edit', $test->id);
+        return redirect()->route('tests....edit', [$role, $filter, $from, $test->id]);
     }
 
     public function update(Request $request, Test $test, $category_id)
@@ -91,7 +95,7 @@ class TestCategoryController extends Controller
     }
 
 
-    public function destroy($test_id, $category_id)
+    public function destroy($role, $filter, $from, $test_id, $category_id)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
@@ -101,6 +105,6 @@ class TestCategoryController extends Controller
         $test->categories()->detach($category_id);
 
         Session::flash('delete-message', 'Question deleted successfully');
-        return redirect()->route('tests.edit', [$test_id]);
+        return redirect()->route('tests....edit', [$role, $filter, $from, $test_id]);
     }
 }

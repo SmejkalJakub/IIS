@@ -147,7 +147,7 @@
 
     function changeText()
     {
-        document.getElementById('customFileLabelId').innerHTML = document.getElementById('icon').files[0].name;
+        document.getElementById('customFileLabelId').innerHTML = document.getElementById('image_path').files[0].name;
     }
 </script>
 
