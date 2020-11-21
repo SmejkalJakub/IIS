@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $fillable = ['name', 'max_points'];
+    protected $fillable = ['name', 'max_points', 'image_path'];
 
     public function category()
     {
@@ -17,5 +17,10 @@ class Question extends Model
     public function instances_questions()
     {
         return $this->belongsToMany(TestInstance::class, 'test_instance_questions')->withPivot('answer', 'points', 'comment');
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->image_path;
     }
 }

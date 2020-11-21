@@ -40,8 +40,8 @@
                         @if($question->image_path != 'no_image.png')
                             <label>Image</label>
                             <div>
-                                <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                                     style="max-height: 200px; max-width: 300px;">
+                                <img alt="Question image"  src="{{ asset($question->image_path) }}" style="width: 400px; height: 300px; border-radius: 50%;">
+
                             </div>
                         @endif
 

@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Question;
-use Illuminate\Http\RedirectResponse;
+use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
+    use UploadTrait;
 
     public function create($category_id)
     {
@@ -49,7 +52,6 @@ class QuestionController extends Controller
         $validation_array =
             [
                 'name' => 'required|max:128|unique:questions,name,',
-                'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
                 'task' => 'required|max:512',
                 'right_answer' => 'max:512',
                 'type_of_answer' => 'required',
@@ -80,39 +82,50 @@ class QuestionController extends Controller
 
 
         $question->task = $request->task;
-
         $question->image_path = 'no_image.png';
-        if ($request->image_path != "") {
-            $image = Image::make($request->image_path);
-            $question->image_path = (strtotime(now())) . '.png';
-            $image->save($question->image_path);
+
+
+        if ($request->has('image_path')) {
+            // Get image file
+            $image = $request->file('image_path');
+            // Make a image name based on user name and current timestamp
+            $name = Str::slug($request->input('question_name')).'_'.time();
+            // Define folder path
+            $folder = '/uploads/images/';
+            // Make a file path where image will be stored [ folder path + file name + file extension]
+            $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();;
+            // Upload image
+            $this->uploadOne($image, $folder, 'public', $name);
+            // Set user profile image path in database to filePath
+            $question->image_path = $filePath;
         }
 
-
         request()->validate($validation_array);
-
         $question->save();
 
         Session::flash('message', 'Question created successfully');
+
         return redirect()->route('categories.edit', $category_id);
     }
 
-    public function update(Request $request, $category_id, Question $question)
+    public function update(Request $request, $category_id, $question_id)
     {
+        $question = Question::all()->find($question_id);
+        $old_image = $question->image_path;
+        error_log($old_image);
         if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $validation_array =
             [
-                'name' => 'required|max:128|unique:questions,name,' . $question->id,
-                'image_path' => ['nullable', 'regex:/^.*\.(png|jpeg|jpg|gif)+$/'],
-                'task' => 'required|max:512',
+                'name' => 'required | max:128 | unique:questions,name,' . $question->id,
+                'task' => 'required | max:512',
                 'right_answer' => 'max:512',
                 'type_of_answer' => 'required',
-                'option_1' => 'nullable|max:255',
-                'option_2' => 'nullable|max:255',
-                'option_3' => 'nullable|max:255',
-                'option_4' => 'nullable|max:255',
+                'option_1' => 'nullable | max:255',
+                'option_2' => 'nullable | max:255',
+                'option_3' => 'nullable | max:255',
+                'option_4' => 'nullable | max:255',
             ];
 
         $question->name = $request->name;
@@ -132,11 +145,23 @@ class QuestionController extends Controller
         }
 
 
-        $question->task = $request->task;
-        if ($request->image_path != "") {
-            $image = Image::make($request->image_path);
-            $question->image_path = (strtotime(now())) . '.png';
-            $image->save($question->image_path);
+        if ($request->has('image_path')) {
+            // Get image file
+            $image = $request->file('image_path');
+            // Make a image name based on user name and current timestamp
+            $name = Str::slug($request->input('question_name')).'_'.time();
+            // Define folder path
+            $folder = '/uploads/images/';
+            // Make a file path where image will be stored [ folder path + file name + file extension]
+
+            $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();;
+            // Delete old one
+            error_log($old_image);
+            $this->deleteOne('public', $old_image);
+            // Upload image
+            $this->uploadOne($image, $folder, 'public', $name);
+            // Set user profile image path in database to filePath
+            $question->image_path = $filePath;
         }
         request()->validate($validation_array);
         $question->save();
@@ -151,7 +176,8 @@ class QuestionController extends Controller
     {
         $question->delete();
 
-        Session::flash('delete-message', 'Question deleted successfully');
+        Session::flash('delete - message', 'Question deleted successfully');
+        error_log("jsemtu");
         return redirect()->route('categories.edit', $category_id);
     }
 }
