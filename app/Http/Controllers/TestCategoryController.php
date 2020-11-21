@@ -71,7 +71,7 @@ class TestCategoryController extends Controller
         return redirect()->route('tests....edit', [$role, $filter, $from, $test->id]);
     }
 
-    public function update(Request $request, Test $test, $category_id)
+    public function update(Request $request, $role, $filter, $from, $test_id, $category_id)
     {
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
@@ -84,12 +84,14 @@ class TestCategoryController extends Controller
 
         }
 
+        $test = Test::all()->where('id', '=', $test_id)->first();
+
         $test->categories()->detach($category_id);
         $test->categories()->attach($category_id, ['number_of_questions'=>$request->number_of_questions]);
 
 
         Session::flash('message', 'Category questions updated successfully');
-        return redirect()->route('tests.edit', $test->id);
+        return redirect()->route('tests....edit', [$role, $filter, $from, $test->id]);
     }
 
 

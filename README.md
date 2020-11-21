@@ -1,61 +1,39 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Informační systém pro psaní testů **EasyTests** :book:
+## Vytvořen v rámci projektu do předmětu IIS na FIT VUT v Brně
+## Listopad 2020
+## Autoři Jakub Smejkal, Dominik Nejedlý, Adam Grünwald
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- - - -
 
-## About Laravel
+## Popis
+Informační systém umožňuje správu, vytváření a psaní testů. Testové otázky mohou býti buďto otevřené, nebo uzavřené (abcd). Lze k nim přidávat doplňující obrázky k zadání.
+Otázky spadají do kategorií, které určují, kolik bodů lze získat za správně zodpovězenou otázku.
+Při vytváření testu lze definovat, kolik otázek z dané kategorie bude do každé instance testu náhodně vygenerováno. Test se může skládat z vícero kategorií, přičemž maximální bodový zisk z testu je součtem bodů za všechny otázky, který závisí na počtu otázek vybraných z konktétní kategorie. Tato hodnota se tudíž dopočítává.
+Student se může přihlašovat na testy, psát je a dívat se na jejich hodnocení.
+Asistent má práva studenta, a navíc může potvrzovat žádosti o přihlášení na test studenta, přihlašovat se na opravy testu a opravovat jednotlivé instance testu
+Profesor má práva asistenta, dále může vytvářet, upravovat a mazat svoje testy a schvalovat žádosti asistentů na opravu jeho testu.
+Admin má práva profesora, navíc může přidávat nové uživatele.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Použití
+### Vytvoření nového účtu
+Každý nově příchozí uživatel má dvě možnosti, jak získat přístup do informačního systému:
+* Vytvoří si nový účet v úvodní stránce pro nepřihlášeného uživatele
+* Požádá admina o vytvoření nového účtu a na e-mail mu přijdou přihlašovací údaje
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Přihlášení na test
+#### Na psaní
+**TESTS -> Available**, kde se studentovi ukáží testy, na které ještě není přihlášen. Zde si může prohlédnou detail testu, případně se na na test přihlásit. Stav žádosti a možnost odhlášení se z testu, který ještě nezačal, nalezne v tabulce **TESTS-> Registered**, kde nalezne buď stav *pending* nebo *confirmed*. Kliknutím na tlačítko Sign off ve sloupci **Apply** může svoji žádost stáhnout.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Na opravu
+Podobně jako žádosti na psaní jsou koncipovány i žádosti o opravu. Zde si uživatel s rolí asistent a výš vybere z rozbalovacího menu Tests tabulku Available v sekci Correction. Zde se může na testy přihlašovat. Stav přihlášených testů na opravu může sledovat v okně Registered (sekce Correction). U těch, které ještě nezačaly, a na něž mu byla schválena žádost o opravu, lze s rolí asistenta schvalovat žádosti studentů. 
 
-## Learning Laravel
+### Vyplňování a revize testů
+#### Vyplňování testů
+Uživatel spustí test z okna Active kliknutím na test a na Start test. 
+### Oprava testů
+V okně Active (sekce Correction) jsou testy, které již začaly. Při kliknutí na detail testu se objeví instance testů studentů, kteří již ukončili svůj test, a lze tak začít s opravou jejich instancí. Stejně tak v okně History lze spatřit testy a instance, které již byly ukončeny
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Vytvoreni a editace testu
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Sprava Uzivatelu z pohledu admina
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

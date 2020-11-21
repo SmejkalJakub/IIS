@@ -134,7 +134,7 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <a href="{{ route('tests....edit/updateCategory.', [$role, $filter, $from, $test->id, $test_category->id]) }}" class="btn btn-sm btn-success mr-2">Edit</a>
+                                <a href="{{ route('tests....edit/editCategory.', [$role, $filter, $from, $test->id, $test_category->id]) }}" class="btn btn-sm btn-success mr-2">Edit</a>
 
                                 {!! Form::open(['route' => ['tests....edit/removeCategory.', [$role, $filter, $from, $test->id, $test_category->id]], 'method' => 'delete', 'style' => 'display:inline']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want to delete this category from test?\')']) !!}

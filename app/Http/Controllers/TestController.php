@@ -150,7 +150,7 @@ class TestController extends Controller
 
         $test->save();
 
-        return redirect()->route('tests.edit', ['test' => $test->id]);
+        return redirect()->route('tests....edit', ['professor', 'myTests', 'list', $test->id]);
     }
 
     public function search(Request $request)
@@ -424,7 +424,7 @@ class TestController extends Controller
                     {
                         if($request->filter == 'available')
                         {
-                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success "> Sign on as assistant</a>';
+                            $row .= '<a role="button" href="'.route('new..sign', [$test->id, true]).'" class="btn btn-sm btn-success ">Sign on as assistant</a>';
                         }
                         elseif($request->filter == 'registered')
                         {
@@ -465,36 +465,38 @@ class TestController extends Controller
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }
+
+        $max_duration_backup = $request->max_duration;
+
+        sscanf($max_duration_backup, "%d:%d", $hours, $minutes);
+        $max_duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
+        $time_between_from_to = strtotime($request->available_to) - strtotime($request->available_from);
+        $request->request->add(['time_between' => $time_between_from_to]);
+        $request->request->remove('max_duration');
+        $request->request->add(['max_duration' => $max_duration]);
+
         $this->validate(
             $request,
             [
                 'name' => 'required|max:128|unique:tests,name,' . $test->id,
                 'description' => 'required|max:1024',
-                'available_from' => 'required',
-                'available_to' => 'required',
-                'max_duration' => 'required',
-            ]
+                'available_from' => 'required|date',
+                'available_to' => 'required|date|after:available_from',
+                'max_duration' => 'required|int|lte:time_between',
+            ],
+            ['max_duration.lte' => 'Max duration must fit between available from and available to!']
         );
 
-        sscanf($request->max_duration, "%d:%d", $hours, $minutes);
-        $duration = isset($hours) ? $hours * 3600 + $minutes * 60  : $minutes * 60 ;
 
-        $time_between_from_to = strtotime($request->available_to) - strtotime($request->available_from);
 
-        if ($time_between_from_to <= 0) {
-            Session::flash('delete-message', 'Test available from must be before available to');
-            return redirect()->route('tests.edit', $test->id);
-        }
-        if ($time_between_from_to < $duration) {
-            Session::flash('delete-message', 'Test duration must fit between available times');
-            return redirect()->route('tests.edit', $test->id);
-        }
+
+
 
         $test->creator_id = Auth::id();
 
         $test->name = $request->name;
         $test->description = $request->description;
-        $test->max_duration = $request->max_duration;
+        $test->max_duration = $max_duration_backup;
         $test->available_to = $request->available_to;
         $test->available_from = $request->available_from;
 

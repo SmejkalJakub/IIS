@@ -34,7 +34,8 @@ Route::get('tests/{role}/{filter}/{id}/show', 'TestController@show')->name('test
 Route::get('tests/{role}/{filter}/{from}/{id}/edit', 'TestController@edit')->name('tests....edit');
 Route::get('tests/{role}/{filter}/{from}/{id}/edit/addCategory', 'TestCategoryController@create')->name('tests....edit/addCategory');
 Route::post('tests/{role}/{filter}/{from}/{id}/edit/storeCategory', 'TestCategoryController@store')->name('tests....edit/storeCategory');
-Route::get('tests/{role}/{filter}/{from}/{id}/edit/updateCategory/{categoryId}', 'TestCategoryController@edit')->name('tests....edit/updateCategory.');
+Route::get('tests/{role}/{filter}/{from}/{id}/edit/editCategory/{categoryId}', 'TestCategoryController@edit')->name('tests....edit/editCategory.');
+Route::put('tests/{role}/{filter}/{from}/{id}/edit/updateCategory/{categoryId}', 'TestCategoryController@update')->name('tests....edit/updateCategory.');
 Route::delete('tests/{role}/{filter}/{from}/{id}/edit/removeCategory/{categoryId}', 'TestCategoryController@destroy')->name('tests....edit/removeCategory.');
 
 Route::get('categories', 'CategoryController@index')->name('categories');

@@ -30,6 +30,12 @@
                         Task:
                     </h3>
                     <h4>{{$question->task}}
+                    <h3>
+                        Max points:
+                    </h3>
+                        <h4>
+                            {{$question->category->max_points}}
+                        </h4>
 
                         @if($question->image_path != 'no_image.png')
                             <label>Image</label>

@@ -28,13 +28,19 @@
                     <h4>
                         {{$question->task}}
                     </h4>
+                    <h3>
+                        Max points:
+                    </h3>
+                    <h4>
+                        {{$question->category->max_points}}
+                    </h4>
 
                     @if($question->image_path != 'no_image.png')
-                            <label>Image</label>
-                            <div>
-                                <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                                     style="max-height: 200px; max-width: 300px;">
-                            </div>
+                        <label>Image</label>
+                        <div>
+                            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
+                                 style="max-height: 200px; max-width: 300px;">
+                        </div>
                     @endif
                     <br><br>
                     <hr>
