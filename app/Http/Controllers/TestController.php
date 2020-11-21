@@ -29,9 +29,9 @@ class TestController extends Controller
 
         $test = Test::all()->where('id', '=', $testId)->first();
 
-        if (Auth::user()->hasRole('profesor')) {
+        if (AuthController::checkUser('profesor')) {
             $test_applies = $test->applies;
-        } elseif (Auth::user()->hasRole('assistant')) {
+        } elseif (AuthController::checkUser('assistant')) {
             $test_applies = $test->applies()->where('correction', '=', false);
 
         } else {
@@ -88,7 +88,7 @@ class TestController extends Controller
 
     public function create()
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -99,7 +99,7 @@ class TestController extends Controller
     {
 
         $points_per_test = 0;
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -119,7 +119,7 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $this->validate(
@@ -224,7 +224,7 @@ class TestController extends Controller
                             }
                         }
                     }
-                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    elseif($request->role == 'assistant' and AuthController::checkUser('assistant'))
                     {
                         if($request->filter == 'available')
                         {
@@ -269,7 +269,7 @@ class TestController extends Controller
                             }
                         }
                     }
-                    elseif(Auth::user()->hasRole('profesor'))
+                    elseif(AuthController::checkUser('profesor'))
                     {
                         if($test->creator_id != Auth::id())
                         {
@@ -328,7 +328,7 @@ class TestController extends Controller
                             $row .= '<td style="vertical-align: middle">' . $result . '</td>';
                         }
                     }
-                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    elseif($request->role == 'assistant' and AuthController::checkUser('assistant'))
                     {
                         if($request->filter == 'active')
                         {
@@ -353,7 +353,7 @@ class TestController extends Controller
                             $row .= '<td style="vertical-align: middle">' . count($correctedByMe) . '</td>';
                         }
                     }
-                    elseif(Auth::user()->hasRole('profesor'))
+                    elseif(AuthController::checkUser('profesor'))
                     {
                         $row .= '<td style="vertical-align: middle">' . $test->updated_at . '</td>';
                         $row .= '<td style="vertical-align: middle">' . count($test->applies->whereNotNull('confirmed_datetime')->whereIn('correction', '0')) . '</td>';
@@ -402,7 +402,7 @@ class TestController extends Controller
                             $row .= '<a role="button" href="'.route('test..results', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">View result</a>';
                         }
                     }
-                    elseif($request->role == 'assistant' and Auth::user()->hasRole('assistant'))
+                    elseif($request->role == 'assistant' and AuthController::checkUser('assistant'))
                     {
                         if($request->filter == 'available')
                         {
@@ -421,7 +421,7 @@ class TestController extends Controller
                             $row .= '<a role="button" href="'.route('test.instances.', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">My revisions</a>';
                         }
                     }
-                    elseif(Auth::user()->hasRole('profesor'))
+                    elseif(AuthController::checkUser('profesor'))
                     {
                         $row .= '<a href="'.route('tests....edit', [$request->role, $request->filter, 'list', $test->id]).'" role="button" class="btn btn-sm btn-success">Edit</a>';
                         $row .= '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
@@ -444,7 +444,7 @@ class TestController extends Controller
 
     public function update(Request $request, $role, $filter, $from, $testId)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -496,7 +496,7 @@ class TestController extends Controller
 
     public function destroy(Test $test)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 

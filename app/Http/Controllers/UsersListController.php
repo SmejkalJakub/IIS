@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 Use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use DB;
 
 
@@ -14,7 +15,7 @@ class UsersListController extends Controller
 {
     public function showUserList()
     {
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
@@ -68,7 +69,7 @@ class UsersListController extends Controller
     public function editUser($userId)
     {
         $user = User::find($userId);
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
@@ -78,7 +79,7 @@ class UsersListController extends Controller
 
     public function create()
     {
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
@@ -103,6 +104,16 @@ class UsersListController extends Controller
         $user->password = Hash::make($request->password);
 
         $user->save();
+
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => str_random(60),
+            'created_at' => Carbon::now()
+        ]);
+
+        $token = DB::table('password_resets')->where('email', $user->email)->first();
+
+        PasswordResetController::sendResetEmail($user, $token->token, "Click on this link to set your password: ");
 
         return redirect()->route('user-list');
 

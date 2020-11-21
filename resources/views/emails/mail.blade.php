@@ -1,5 +1,5 @@
 Hi <strong>{{ $name }}</strong>,
 
-<p>{{ $body }}</p>
+<p>{{ $body }} <a href="{{$link}}">Click Me</a></p>
 
-<p>Go to Login page: http://localhost:8000/login</p>
+<p>Go to <a href="http://easytests.freecluster.eu/login">Login page</a></p>

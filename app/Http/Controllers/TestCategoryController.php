@@ -16,7 +16,7 @@ class TestCategoryController extends Controller
     public function create($role, $filter, $from, $test_id)
     {
 
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $categories = Category::all()->pluck('name', 'id');
@@ -27,7 +27,7 @@ class TestCategoryController extends Controller
 
     public function show(Category $category, Question $question)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         return view('categories.show', compact('question'));
@@ -35,7 +35,7 @@ class TestCategoryController extends Controller
 
     public function edit($role, $filter, $from, $test_id, $category_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $categories = Category::all();
@@ -48,7 +48,7 @@ class TestCategoryController extends Controller
 
     public function store(Request $request, $role, $filter, $from, $test_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $categoryQuestionNumber = Question::all()->whereIn('category_id', $request->category_id)->count();
@@ -73,7 +73,7 @@ class TestCategoryController extends Controller
 
     public function update(Request $request, $role, $filter, $from, $test_id, $category_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -97,7 +97,7 @@ class TestCategoryController extends Controller
 
     public function destroy($role, $filter, $from, $test_id, $category_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 

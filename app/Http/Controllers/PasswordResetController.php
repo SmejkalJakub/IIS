@@ -89,27 +89,26 @@ class PasswordResetController extends Controller
 
         $token = DB::table('password_resets')->where('email', $request->email)->first();
 
-        if ($this->sendResetEmail($user, $token->token)) {
+        if ($this->sendResetEmail($user, $token->token, "Click on this link to reset your password: ")) {
             return redirect()->back()->with('status', 'Reset link was send to your email address');
         } else {
             return redirect()->back()->withErrors(['error' => 'Please try again later, we were not able to send the email']);
         }
     }
 
-    private function sendResetEmail($user, $token)
+    public static function sendResetEmail($user, $token, $body)
     {
-        $link = config('app.url') . ':8000/password/reset/' . $token . '?email=' . urlencode($user->email);
+        $link = config('app.url') . '/password/reset/' . $token . '?email=' . urlencode($user->email);
         try {
                 $to_name = $user->first_name;
                 $to_email = $user->email;
-                $data = array('name'=> $user->first_name, "body" => "Click on this link to reset your password: ". $link);
+                $data = array('name'=> $user->first_name.' '.$user->surname, "body" => $body, "link" => $link);
 
                 Mail::send('emails.mail', $data, function($message) use ($to_name, $to_email) {
                     $message->to($to_email, $to_name)
-                            ->subject('Password reset for Easy Tests');
+                            ->subject('Information email from Easy Tests');
                     $message->from('bestTestsIIS@gmail.com','Easy Tests');
                 });
-
                 return true;
         } catch (\Exception $e) {
 
