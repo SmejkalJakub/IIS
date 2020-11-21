@@ -40,8 +40,8 @@
                         @if($question->image_path != 'no_image.png')
                             <label>Image</label>
                             <div>
-                                <img alt="Question image"  src="{{ asset($question->image_path) }}" style="width: 400px; height: 300px; border-radius: 50%;">
-
+                                <img src="{{ Storage::url("{$question->image_path}") }}"
+                                     alt="{{ $question->image_path }}" />
                             </div>
                         @endif
 

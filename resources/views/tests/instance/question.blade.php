@@ -19,18 +19,13 @@
     <hr>
     <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
 
+
     @if($question->image_path != 'no_image.png')
         <label>Image</label>
         <div>
-            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                 style="max-height: 200px; max-width: 300px;">
-        </div>
-    @endif
-    @if($question->image_path != 'no_image.png')
-        <label>Image</label>
-        <div>
-            <img alt="Question image" src="{{ asset($question->image_path) }}"
-                 style="width: 400px; height: 300px; border-radius: 50%;">
+
+            <img src="{{ Storage::url("{$question->image_path}") }}"
+                 alt="{{ $question->image_path }}" />
         </div>
     @endif
     <br><br>
