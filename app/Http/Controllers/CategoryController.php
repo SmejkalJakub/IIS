@@ -19,7 +19,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+        if (!AuthController::checkUser('assistant')) {
             return redirect()->route('home');
         }
         $categories = Category::all();
@@ -48,7 +48,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+        if (!AuthController::checkUser('assistant')) {
             return redirect()->route('home');
         }
 
@@ -58,7 +58,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -67,7 +67,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $questions = $category->questions;
@@ -77,7 +77,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $this->validate(
@@ -89,8 +89,6 @@ class CategoryController extends Controller
         );
 
         $category = new Category();
-
-
 
         $category->name = $request->name;
         $category->max_points = $request->max_points;
@@ -149,7 +147,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -174,7 +172,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $category->delete();

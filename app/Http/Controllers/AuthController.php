@@ -35,7 +35,6 @@ class AuthController extends Controller
 
         $remember_me  = ( !empty( $request->remember_me ) )? TRUE : FALSE;
 
-
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = User::where(["email" => $request->email])->first();
@@ -65,6 +64,19 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             return redirect()->intended('home');
+        }
+    }
+
+
+    public static function checkUser($minRole)
+    {
+        if(Auth::user() == null)
+        {
+            return false;
+        }
+        if($minRole)
+        {
+            return Auth::user()->hasRole($minRole);
         }
     }
 

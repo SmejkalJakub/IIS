@@ -16,7 +16,7 @@ class QuestionController extends Controller
 
     public function create($category_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         return view('questions.create')->with('category_id', $category_id);
@@ -25,7 +25,7 @@ class QuestionController extends Controller
 
     public function show(Category $category, Question $question)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+        if (!AuthController::checkUser('assistant')) {
             return redirect()->route('home');
         }
         return view('questions.show', compact('question', 'category'));
@@ -33,7 +33,7 @@ class QuestionController extends Controller
 
     public function edit($category_id, Question $question)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -42,7 +42,7 @@ class QuestionController extends Controller
 
     public function store(Request $request, $category_id)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
 
@@ -99,7 +99,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, $category_id, Question $question)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
+        if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
         $validation_array =

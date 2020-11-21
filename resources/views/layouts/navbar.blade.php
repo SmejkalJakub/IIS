@@ -16,7 +16,7 @@
                     <a class="dropdown-item" href="{{route('tests..', ['student', 'active'])}}">Active</a>
                     <a class="dropdown-item" href="{{route('tests..', ['student', 'history'])}}">History</a>
 
-                    @if(Auth::user()->hasRole('assistant'))
+                    @if(App\Http\Controllers\AuthController::checkUser('assistant'))
                         <div class="dropdown-divider"></div>
                         <h5 class="dropdown-header text-center">Correction</h5>
                         <div class="dropdown-divider"></div>
@@ -26,7 +26,7 @@
                         <a class="dropdown-item" href="{{route('tests..', ['assistant', 'history'])}}">History</a>
                     @endif
 
-                    @if(Auth::user()->hasRole('profesor'))
+                    @if(App\Http\Controllers\AuthController::checkUser('profesor'))
                         <div class="dropdown-divider"></div>
                         <h5 class="dropdown-header text-center">Creation</h5>
                         <div class="dropdown-divider"></div>
@@ -35,13 +35,13 @@
                 </div>
             </li>
 
-            @if(Auth::user()->hasRole('profesor'))
+            @if(App\Http\Controllers\AuthController::checkUser('profesor'))
                 <li class="nav-item {{ ($activeBar == 'categories') ? 'active bg-success' : '' }}">
                     <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('categories')}}">CATEGORIES</a>
                 </li>
             @endif
 
-            @if(Auth::user()->hasRole('admin'))
+            @if(App\Http\Controllers\AuthController::checkUser('admin'))
                 <li class="nav-item {{ ($activeBar == 'users') ? 'active bg-success' : '' }}">
                     <a class="nav-link" style="display: inline-block; padding-left: 14pt; padding-right: 14pt" href="{{route('user-list')}}">USERS</a>
                 </li>

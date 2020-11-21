@@ -38,7 +38,7 @@ class SignOnTestApplyController extends Controller
 
     public function confirm($test_id, $user_id, bool $correction)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+        if (!AuthController::checkUser('assistant')) {
             return redirect()->route('home');
         }
 
@@ -53,7 +53,7 @@ class SignOnTestApplyController extends Controller
 
     public function un_confirm($test_id, $user_id, $correction)
     {
-        if (Auth::user() == null || !Auth::user()->hasRole('assistant')) {
+        if (!AuthController::checkUser('assistant')) {
             return redirect()->route('home');
         }
 
@@ -72,15 +72,13 @@ class SignOnTestApplyController extends Controller
             return redirect()->back();
         }
 
-        error_log($correction);
-
         $sign = SignOnTestApply::all()->whereIn('applier_id',  $user_id)->whereIn('correction', $correction)->whereIn('test_id', $test_id)->first();
 
         //neni profesor a zaroven nici zadost, ktera mu nepatri, ktera je na opravu testu
-        if ((!Auth::user()->hasRole('profesor')) && (Auth::id() != $user_id) && $sign->correction) {
+        if ((!AuthController::checkUser('profesor')) && (Auth::id() != $user_id) && $sign->correction) {
             return redirect()->back();
         } elseif
-        ((!Auth::user()->hasRole('assistant')) && (Auth::id() != $user_id) ) {
+        ((!AuthController::checkUser('assistant')) && (Auth::id() != $user_id) ) {
             return redirect()->back();
         }
 

@@ -31,7 +31,7 @@
             <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$test->name}}</span></h2>
         </div>
         <div class="col-sm-2">
-            @if (Auth::user() != null && Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)
+            @if (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
                 <a href="{{ route('tests....edit', [$role, $filter, 'detail', $test->id]) }}"
                    class="btn btn-success float-right">Edit</a>
             @endif
@@ -64,7 +64,7 @@
                 @endif
             @endif
 
-            @if(Auth::user()->hasRole('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 1))
+            @if(App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 1))
                 <a role="button" href="{{route('sign_on.test..destroy', [$test->id, Auth::id(), '1'])}}" style="background-color: #EB5910" onclick="return confirm('Are you sure you want sign off?')" class="btn btn-sm text-white">Sign off as assistant</a>
             @else
                 <a role="button" href="{{route('new..sign', [$test->id, '1'])}}" class="btn btn-sm btn-info">Sign on as assistant</a>
@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    @if(Auth::user() != null && Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)
+    @if(!App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Assistants</h3>
 
@@ -146,7 +146,7 @@
         </div>
     @endif
 
-    @if (Auth::user() != null && ((Auth::user()->hasRole('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)))
+    @if (App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)))
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Students</h3>
 
