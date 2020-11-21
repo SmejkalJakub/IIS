@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/', 'AuthController@index');
 Route::get('login', 'AuthController@index')->name('login');
 Route::post('post-login', 'AuthController@postLogin');
@@ -27,6 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('test.category', 'TestCategoryController');
     Route::resource('question', 'QuestionController');
     Route::resource('categories.questions', 'QuestionController');
+});
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
 });
 
 Route::get('tests/{role}/{filter}', 'TestController@index')->name('tests..');
