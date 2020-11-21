@@ -179,8 +179,15 @@ class TestController extends Controller
                     {
                         if($request->filter == 'available')
                         {
+                            $now = strtotime(now());
+                            $test_end = strtotime($test->available_to);
+                            //tests on which is user already signed
                             if(SignApplyHelper::my_sign_is_signed($test, false))
                             {
+                                continue;
+                            }
+                            //test, which isnt possible to take
+                            else if($now > $test_end){
                                 continue;
                             }
                         }

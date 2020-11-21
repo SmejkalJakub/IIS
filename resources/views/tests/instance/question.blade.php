@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('layouts.head', ['title' => 'Tests'])
-<body style="background-color: #B6B6B6">
+<body>
 
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
+    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span
+            class="font-weight-normal">{{$instance->test->name}}</span></h2>
     <div class="d-flex justify-content-center">
         @for ($i = 0; $i < count($instance->instances_questions); $i++)
-            <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button" class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
+            <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button"
+               class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
         @endfor
     </div>
-    <h4>Task {{$currentQuestion + 1}}</h4><hr>
+    <h4>Task {{$currentQuestion + 1}}</h4>
+    <hr>
     <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
+
 
     @if($question->image_path != 'no_image.png')
         <label>Image</label>
         <div>
-            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                 style="max-height: 200px; max-width: 300px;">
+
+            <img src="{{ Storage::url("{$question->image_path}") }}"
+                 alt="{{ $question->image_path }}" />
         </div>
     @endif
+    <br><br>
+    <hr>
+
 
     {{ Form::open(array('route' => array('question-save..', $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
 
@@ -65,7 +73,7 @@
         </div>
 
         <?php
-           $color = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance);
+        $color = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance);
         ?>
 
         <div class="col-auto">
@@ -73,6 +81,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

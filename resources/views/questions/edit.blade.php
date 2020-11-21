@@ -16,7 +16,7 @@
             <h2 class="text-center mb-4" style="color: #373737">Edit question</h2>
         </div>
         <div class="col-sm-2">
-            {{ Form::open(array('route' => array('categories.questions.update', $category_id, $question ), 'method' => 'put')) }}
+            {{ Form::open(array('route' => array('categories.questions.update', $category_id, $question ), 'method' => 'put', 'files'=>true)) }}
             {!! Form::submit('Save',['class' => ['btn btn-success', 'float-right']]) !!}
         </div>
     </div>
@@ -53,10 +53,11 @@
         <div>
             <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
         </div>
-        <small id="fileHelp" class="form-text text-muted">Add an image to a question...</small>
-        <div class="custom-file mb-3" style="max-width: 500px">
-            <input type="file" class="custom-file-input" name="image_path" id="image_path" onchange="PreviewImage('image_path', 'uploadPreview1'); changeText();">
-            <label class="custom-file-label" id="customFileLabelId" for="customFile">Choose image</label>
+        <div class="form-group row">
+            <label for="image_path" class="col-md-4 col-form-label text-md-left">Question image</label>
+            <div class="col-md-6">
+                <input id="image_path" type="file" class="form-control" name="image_path">
+            </div>
         </div>
 
         <div class="form-group @if($errors->has('right_answer')) has-error @endif">
@@ -116,6 +117,7 @@
             </div>
         </div>
     </div>
+</div>
 
 </body>
 </html>
