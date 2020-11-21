@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         if(Auth::user() == null)
         {
-            return view('/');
+            return redirect()->route('/');
         }
         return view('home');
     }

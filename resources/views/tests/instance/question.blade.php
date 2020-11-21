@@ -6,82 +6,83 @@
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
+<div class="container bg-white rounded mt-5 p-4">
+    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span
+            class="font-weight-normal">{{$instance->test->name}}</span></h2>
+    <div class="d-flex justify-content-center">
+        @for ($i = 0; $i < count($instance->instances_questions); $i++)
+            <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button"
+               class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
+        @endfor
+    </div>
+    <h4>Task {{$currentQuestion + 1}}</h4>
+    <hr>
+    <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
+    @if($question->image_path != 'no_image.png')
+        <label>Image</label>
+        <div>
+            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
+                 style="max-height: 200px; max-width: 300px;">
+        </div>
+    @endif
+    @if($question->image_path != 'no_image.png')
+        <label>Image</label>
+        <div>
+            <img alt="Question image" src="{{ asset($question->image_path) }}"
+                 style="width: 400px; height: 300px; border-radius: 50%;">
+        </div>
+    @endif
+    <br><br>
+    <hr>
 
 
-                <div class="card-body">
+    {{ Form::open(array('route' => array('question-save..', $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
 
-                    @for ($i = 0; $i < count($instance->instances_questions); $i++)
-                        <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button"
-                           class="{{($i == $currentQuestion) ? 'btn btn-sm btn-success mr-2' : 'btn btn-sm btn-warning mr-2'}}">{{$i + 1}}</a>
-                    @endfor
-                    <br>
-                    <h3>Name of question: </h3>
-                    <h4>{{$question->name}}</h4>
-                    <h3>
-                        Task:
-                    </h3>
-                    <h4>
-                        {{$question->task}}
-                    </h4>
-                    <h3>
-                        Max points:
-                    </h3>
-                    <h4>
-                        {{$question->category->max_points}}
-                    </h4>
+    @if($question->type_of_answer == 1)
+        <label class="font-weight-bold mt-3" style="color: #373737">Solution</label>
+        {!! Form::textarea('answer', $question->pivot->answer, ['class' => 'form-control', 'placeholder' => 'Enter your answer', 'maxlength'=>128]) !!}
+    @else
+        <label class="font-weight-bold mt-3" style="color: #373737">Answer</label><br>
+        {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label($question->option_1) !!}
+        <br>
+        {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label($question->option_2) !!}
+        <br>
+        {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label($question->option_3) !!}
+        <br>
+        {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label($question->option_4) !!}
+        <br>
+    @endif
 
-                    @if($question->image_path != 'no_image.png')
-                        <label>Image</label>
-                        <div>
-                            <img alt="Question image"  src="{{ asset($question->image_path) }}" style="width: 400px; height: 300px; border-radius: 50%;">
-                        </div>
-                    @endif
-                    <br><br>
-                    <hr>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="d-flex">
+                @if($currentQuestion != 0)
+                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion - 1])}}" role="button"
+                       class="btn btn-sm btn-secondary mr-2">Previous</a>
+                    {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
+                @endif
 
-                    <h3>Your answer:</h3>
+                {!! Form::button('Save', [ 'name' => 'action', 'value' => 'Save', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
 
-                    {{ Form::open(array('route' => array('question-save..', $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
+                @if($currentQuestion != count($instance->instances_questions) - 1)
+                    {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
+                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion + 1])}}" role="button"
+                       class="btn btn-sm btn-secondary mr-2">Next</a>
+                @else
+                    {!! Form::button('Save and end test', [ 'name' => 'action', 'value' => 'Save and End Test', 'class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
+                @endif
 
-                    @if($question->type_of_answer == 1)
-                        {!! Form::textarea('answer', $question->pivot->answer, ['class' => 'form-control', 'placeholder' => 'Answer', 'maxlength'=>128]) !!}
-                    @else
-                        {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label($question->option_1) !!}
-                        <br>
-                        {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label($question->option_2) !!}
-                        <br>
-                        {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label($question->option_3) !!}
-                        <br>
-                        {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label($question->option_4) !!}
-                        <br>
-                    @endif
-
-                    {{--'onclick' => 'return confirm(\'Are you sure you want to discard this category?\')'--}}
-                    @if($currentQuestion != 0)
-                        <a href="{{route('test-fill..', [$instance->id, $currentQuestion - 1])}}" role="button"
-                           class="btn btn-sm btn-primary mr-2">Previous</a>
-                        {!! Form::button('Save and Previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                    @endif
-
-                    @if($currentQuestion != count($instance->instances_questions) - 1)
-                        {!! Form::button('Save and Next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                        <a href="{{route('test-fill..', [$instance->id, $currentQuestion + 1])}}" role="button"
-                           class="btn btn-sm btn-primary mr-2">Next</a>
-                    @else
-                        {!! Form::button('Save and End Test', [ 'name' => 'action', 'value' => 'Save and End Test', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                        <a href="{{route('test.end', $instance->id)}}" role="button"
-                           class="btn btn-sm btn-primary mr-2">End test</a>
-                    @endif
-
-                    {!! Form::button('Save', [ 'name' => 'action', 'value' => 'Save', 'class' => 'btn btn-sm btn-primary mr-2', 'type' => 'submit']) !!}
-                    {!! Form::close() !!}
-                </div>
+                {!! Form::close() !!}
             </div>
+        </div>
+
+        <?php
+        $color = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance);
+        ?>
+
+        <div class="col-auto">
+            <a href="{{route('test.end', $instance->id)}}" role="button" class="btn btn-sm {{$color}}">End test</a>
         </div>
     </div>
 </div>

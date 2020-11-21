@@ -257,7 +257,7 @@ class TestController extends Controller
                             }
                             elseif($request->filter == 'active')
                             {
-                                if(!SignApplyHelper::my_sign_is_confirmed($test, true) or $now < $test_end)
+                                if(!SignApplyHelper::my_sign_is_confirmed($test, true) or $now < $test_start)
                                 {
                                     continue;
                                 }
@@ -402,7 +402,7 @@ class TestController extends Controller
                         }
                         elseif($request->filter == 'active')
                         {
-                            $row .= '<a href="'.route('test.create', $test->id).'" role="button" class="btn btn-sm btn-success">Start</a>';
+                            $row .= '<a href="'.route('test.preview', $test->id).'" role="button" class="btn btn-sm btn-success">Fill</a>';
                         }
                         else
                         {
@@ -449,11 +449,13 @@ class TestController extends Controller
         }
     }
 
-    public function update(Request $request, Test $test)
+    public function update(Request $request, $role, $filter, $from, $testId)
     {
         if (!AuthController::checkUser('profesor')) {
             return redirect()->route('home');
         }
+
+        $test = Test::all()->where('id', '=', $testId)->first();
 
         $max_duration_backup = $request->max_duration;
 
@@ -476,11 +478,6 @@ class TestController extends Controller
             ['max_duration.lte' => 'Max duration must fit between available from and available to!']
         );
 
-
-
-
-
-
         $test->creator_id = Auth::id();
 
         $test->name = $request->name;
@@ -493,7 +490,14 @@ class TestController extends Controller
 
         Session::flash('message', 'Test updated successfully');
 
-        return redirect()->route('tests..', ['professor', 'myTests']);
+        if($from == 'list')
+        {
+            return redirect()->route('tests..', ['professor', 'myTests']);
+        }
+        else
+        {
+            return redirect()->route('tests...show', [$role, $filter, $test->id]);
+        }
     }
 
 

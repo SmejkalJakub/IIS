@@ -40,21 +40,19 @@
 
     <?php
         $total_max_test_points = 0;
+        $total_num_of_questions = 0;
 
         foreach($test_categories as $test_category)
         {
-            $total_max_test_points += ($test_category->max_points * $test_category->pivot->number_of_questions);
+            $num_of_questions = $test_category->pivot->number_of_questions;
+
+            $total_max_test_points += ($test_category->max_points * $num_of_questions);
+            $total_num_of_questions += $num_of_questions;
         }
     ?>
 
     <div class="p-3 border rounded">
-        <h3 class="mb-4"><span style="color: #373737">Maximum points:</span> <span class="{{($total_max_test_points == 0) ? 'text-secondary' : 'text-success'}}">{{$total_max_test_points}}</span></h3>
-        <h5><span style="color: #373737">Max duration:</span> <span class="font-weight-normal">{{$test->max_duration}}</span></h5>
-        <h5><span style="color: #373737">Available from:</span> <span class="font-weight-normal">{{$test->available_from}}</span></h5>
-        <h5><span style="color: #373737">Available to:</span> <span class="font-weight-normal">{{$test->available_to}}</span></h5>
-        <h4 class="mt-4" style="color: #373737">Description</h4>
-        <p>{{$test->description}}</p><hr>
-
+        @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $test])
         <div class="d-flex">
             @if($total_max_test_points != 0)
                 @if(App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 0))
@@ -100,7 +98,7 @@
         </div>
     </div>
 
-    @if(!App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
+    @if(App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Assistants</h3>
 
@@ -146,7 +144,7 @@
         </div>
     @endif
 
-    @if (App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)))
+    @if ((App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id))
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Students</h3>
 

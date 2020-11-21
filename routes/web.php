@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('tests/{role}/{filter}', 'TestController@index')->name('tests..');
 Route::get('tests/{role}/{filter}/{id}/show', 'TestController@show')->name('tests...show');
 Route::get('tests/{role}/{filter}/{from}/{id}/edit', 'TestController@edit')->name('tests....edit');
+Route::put('tests/{role}/{filter}/{from}/{id}/update', 'TestController@update')->name('tests....update');
 Route::get('tests/{role}/{filter}/{from}/{id}/edit/addCategory', 'TestCategoryController@create')->name('tests....edit/addCategory');
 Route::post('tests/{role}/{filter}/{from}/{id}/edit/storeCategory', 'TestCategoryController@store')->name('tests....edit/storeCategory');
 Route::get('tests/{role}/{filter}/{from}/{id}/edit/editCategory/{categoryId}', 'TestCategoryController@edit')->name('tests....edit/editCategory.');
@@ -56,6 +57,7 @@ Route::post('question/correct/{instance_id}/{question_index}', 'TestInstanceCorr
 
 Route::get('test/{test_id}/{student_id}/results', 'TestInstanceController@showResults')->name('test..results');
 
+Route::get('test/{test_id}/preview', 'TestInstanceController@index')->name('test.preview');
 Route::get('test/{test_id}/create', 'TestInstanceController@create')->name('test.create');
 Route::get('test/{test_id}/end', 'TestInstanceController@endTest')->name('test.end');
 Route::get('test/{test_id}/finish', 'TestInstanceController@finish')->name('test.finish');

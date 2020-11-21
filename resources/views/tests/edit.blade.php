@@ -31,7 +31,7 @@
             <h2 class="text-center mb-4" style="color: #373737">Edit test</h2>
         </div>
         <div class="col-sm-2">
-            {!! Form::open(['route' => ['tests.update', $test->id], 'method' => 'put']) !!}
+            {!! Form::open(['route' => ['tests....update', [$role, $filter, $from, $test->id]], 'method' => 'put']) !!}
             {!! Form::submit('Save', ['class' => 'btn btn-success float-right']) !!}
         </div>
     </div>
