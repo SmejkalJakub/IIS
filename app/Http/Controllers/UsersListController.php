@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 Use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use DB;
 
 
@@ -67,8 +68,44 @@ class UsersListController extends Controller
     public function editUser($userId)
     {
         $user = User::find($userId);
-        error_log($user);
+        if(Auth::user()->role != 'admin')
+        {
+            return redirect()->route('home');
+        }
+
         return view('users.user_edit', compact('user'));
+    }
+
+    public function create()
+    {
+        if(Auth::user()->role != 'admin')
+        {
+            return redirect()->route('home');
+        }
+        return view('users.create');
+    }
+
+    public function createUser(Request $request)
+    {
+        request()->validate([
+            'email' => 'required|email|unique:users',
+            'emailConfirmation' => 'required|same:email',
+            'password' => 'required|min:6',
+            'passwordConfirmation' => 'required|same:password'
+            ]);
+
+
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->surname = $request->surname;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        return redirect()->route('user-list');
+
     }
 
     public function saveEdit(Request $request)
@@ -86,7 +123,6 @@ class UsersListController extends Controller
 
         if(strcmp($user->email, $data['email']) != 0)
         {
-            error_log('jsem tu');
             $validation_array = array_merge($validation_array, [
                 'email' => "required|email|unique:users",
                 ]);

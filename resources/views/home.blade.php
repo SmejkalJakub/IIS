@@ -6,15 +6,14 @@
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'home'])
 
-
-@foreach ($tests as $test)
-
-    {{$test->name}}
-    <a href="{{route('test.create', $test->id)}}" role="button" class="btn btn-sm btn-success mr-2">Fill the test</a>
-
-@endforeach
-
-
-
 </body>
 </html>
+
+<script type="text/javascript">
+
+    window.onload = function() {
+        sessionStorage.removeItem("first_name_register");
+        sessionStorage.removeItem("surname_register");
+        sessionStorage.removeItem("email_register");
+    }
+</script>

@@ -109,11 +109,9 @@ class PasswordResetController extends Controller
                             ->subject('Password reset for Easy Tests');
                     $message->from('bestTestsIIS@gmail.com','Easy Tests');
                 });
-                error_log('sended');
 
                 return true;
         } catch (\Exception $e) {
-                error_log('not sended');
 
                 return false;
         }

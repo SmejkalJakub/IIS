@@ -63,7 +63,6 @@
                                 $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
                                 $time_between_now_start = $now - strtotime($instance->opened_at);
-                                error_log($duration - $time_between_now_start);
                                 if ($duration - $time_between_now_start > 0) {
                                     $show_get_back = true;
                                 }

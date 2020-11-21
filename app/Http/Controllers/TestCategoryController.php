@@ -15,8 +15,6 @@ class TestCategoryController extends Controller
 
     public function create($role, $filter, $from, $test_id)
     {
-        //error_log("test in testcat create");
-        //error_log($test);
 
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
