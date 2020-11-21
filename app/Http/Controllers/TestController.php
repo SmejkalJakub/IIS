@@ -180,7 +180,7 @@ class TestController extends Controller
                     {
                         if($request->filter == 'available')
                         {
-                            if($test->applies->where('correction', '==', '0')->where('applier_id', '==', Auth::id())->first())
+                            if(SignApplyHelper::my_sign_is_signed($test, false))
                             {
                                 continue;
                             }
@@ -193,21 +193,14 @@ class TestController extends Controller
 
                             if($request->filter == 'registered')
                             {
-                                if(($test->applies->where('correction', '==', '0')
-                                        ->where('applier_id', '==', Auth::id())
-                                        ->whereNull('authorizer_id')->first() == null or $now >= $test_end)
-                                    and ($test->applies->where('correction', '==', '0')
-                                            ->where('applier_id', '==', Auth::id())
-                                            ->whereNotNull('authorizer_id')->first() == null or $now >= $test_start))
+                                if(!SignApplyHelper::my_sign_is_signed($test, false) or $now > $test_end or (SignApplyHelper::my_sign_is_confirmed($test, false) and $now >= $test_start))
                                 {
                                     continue;
                                 }
                             }
                             elseif($request->filter == 'active')
                             {
-                                if($test->applies->where('correction', '==', '0')
-                                        ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_start or $now >= $test_end)
+                                if(!SignApplyHelper::my_sign_is_confirmed($test, false) or $now < $test_start or $now >= $test_end)
                                 {
                                     continue;
                                 }
@@ -223,9 +216,7 @@ class TestController extends Controller
                             {
                                 if($test->instances->where('student_id', '==', Auth::id())->first()->ended == 0)
                                 {
-                                    if($test->applies->where('correction', '==', '0')
-                                            ->where('applier_id', '==', Auth::id())
-                                            ->whereNotNull('authorizer_id')->first() == null or $now < $test_end)
+                                    if(!SignApplyHelper::my_sign_is_confirmed($test, false) or $now < $test_end)
                                     {
                                         continue;
                                     }
@@ -238,7 +229,7 @@ class TestController extends Controller
                     {
                         if($request->filter == 'available')
                         {
-                            if($test->applies->where('correction', '==', '1')->where('applier_id', '==', Auth::id())->first())
+                            if(SignApplyHelper::my_sign_is_signed($test, true))
                             {
                                 continue;
                             }
@@ -253,30 +244,21 @@ class TestController extends Controller
 
                             if($request->filter == 'registered')
                             {
-                                if(($test->applies->where('correction', '==', '1')
-                                            ->where('applier_id', '==', Auth::id())
-                                            ->whereNull('authorizer_id')->first() == null)
-                                    and ($test->applies->where('correction', '==', '1')
-                                            ->where('applier_id', '==', Auth::id())
-                                            ->whereNotNull('authorizer_id')->first() == null or $now >= $test_end))
+                                if(!SignApplyHelper::my_sign_is_signed($test, true) or (SignApplyHelper::my_sign_is_confirmed($test, true) and $now >= $test_end))
                                 {
                                     continue;
                                 }
                             }
                             elseif($request->filter == 'active')
                             {
-                                if($test->applies->where('correction', '==', '1')
-                                        ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null or $now < $test_start)
+                                if(!SignApplyHelper::my_sign_is_confirmed($test, true) or $now < $test_end)
                                 {
                                     continue;
                                 }
                             }
                             else
                             {
-                                if($test->applies->where('correction', '==', '1')
-                                        ->where('applier_id', '==', Auth::id())
-                                        ->whereNotNull('authorizer_id')->first() == null)
+                                if(!SignApplyHelper::my_sign_is_confirmed($test, true) or $now < $test_end)
                                 {
                                     continue;
                                 }
