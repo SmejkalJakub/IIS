@@ -109,7 +109,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover mt-4">
+            <table class="table table-hover table-bordered mt-4">
                 <thead class="thead-dark">
                 <tr>
                     <th>Name</th>

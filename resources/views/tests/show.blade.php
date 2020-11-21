@@ -6,213 +6,6 @@
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            @if(Session::has('message'))
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                    {{ Session('message') }}
-                </div>
-            @endif
-
-            @if(Session::has('delete-message'))
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                    {{ Session('delete-message') }}
-                </div>
-            @endif
-        </div>
-    </div>
-
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h1>Test: {{$test->name}}
-
-                        @if (!(Auth::user() == null || !Auth::user()->hasRole('profesor')))
-                            <a href="{{ route('tests....edit', [$role, $filter, 'detail', $test->id]) }}"
-                               class="btn btn-lg btn-primary align-middle float-right">Edit</a>
-                        @endif
-                        <a href="{{ route('sign_on_test.create', $test->id) }}"
-                           class="btn btn-sm btn-primary">Sign on</a>
-                    </h1>
-                </div>
-
-
-                <article>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-10 mx-auto">
-                                <div>
-                                    <h3>
-                                        Description
-                                    </h3>
-                                    <h4>
-                                        {{ $test->description }}
-                                    </h4>
-                                </div>
-
-                                <div>
-                                    <h3>
-                                        Available from
-                                    </h3>
-                                    <h4>
-                                        {{$test->available_from }}
-                                    </h4>
-                                </div>
-                                <div>
-                                    <h3>
-                                        Available to
-                                    </h3>
-                                    <h4>
-                                        {{$test->available_to}}
-                                    </h4>
-                                </div>
-                                <div>
-                                    <h3>
-                                        Max duration
-                                    </h3>
-                                    <h4>
-                                        {{$test->max_duration}}
-                                    </h4>
-                                </div>
-
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2>
-                                            Questions of category
-                                        </h2>
-                                    </div>
-                                    <div class="card-body">
-                                        <table style="text-align:center"
-                                               class="sortable searchable table table-bordered mb-0">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Category name</th>
-                                                <th scope="col">Points per question</th>
-                                                <th scope="col">Number of questions</th>
-                                                <th scope="col">Total points from category</th>
-                                            </tr>
-                                            </thead>
-
-                                            <tbody>
-                                            <?php
-                                                $total_max_test_points = 0;
-                                            ?>
-                                            @foreach($test_categories as $test_category)
-                                                <tr>
-                                                    <td>
-                                                        {{ $test_category->id }}</a>
-
-                                                    </td>
-
-                                                    <td>
-                                                        <?php
-                                                            $total_max_test_points = $total_max_test_points + ($test_category->max_points * $test_category->pivot->number_of_questions);
-                                                        ?>
-                                                        {{ $test_category->name }}
-                                                    </td>
-                                                    <td>
-                                                        {{$test_category->max_points}}
-                                                    </td>
-                                                    <td>
-                                                        {{$test_category->pivot->number_of_questions}}
-                                                    </td>
-                                                    <td>
-                                                        {{$test_category->max_points * $test_category->pivot->number_of_questions}}
-                                                    </td>
-
-
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h3>
-                                        Maximum points per test
-                                    </h3>
-                                    <h2>
-                                        {{$total_max_test_points}}
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @if(Auth::user()->hasRole('assistant'))
-                        <div class="card-body">
-                            <table style="text-align:center" class="sortable searchable table table-bordered mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Type of apply</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                @foreach($test_applies as $apply)
-                                    <tr>
-                                        <?php
-                                        $user = App\Models\User::all()->whereIn('id', $apply->applier_id)->first();
-                                        ?>
-                                        <td>
-
-                                            {{ $user->first_name}}
-                                            {{ $user->surname}}
-                                        </td>
-
-                                        <td>
-                                            {{ $user->role}}
-                                        </td>
-
-                                        <td>
-                                            @if($apply->correction)
-                                                on correction
-                                            @else
-                                                on taking test
-                                            @endif
-                                        </td>
-                                        <td>
-
-                                            @if($apply->authorizer_id != null)
-                                                <a href="{{ route('sign_on.test..un_confirm',  [$test->id, $user->id, $apply->correction]) }}"
-                                                   class="btn btn-sm btn-warning">Unconfirm</a>
-                                            @else
-                                                <a href="{{ route('sign_on.test..confirm',  [$test->id, $user->id, $apply->correction]) }}"
-                                                   class="btn btn-sm btn-success">Confirm</a>
-                                            @endif
-
-                                            {!! Form::open(['route' => ['sign_on.test..destroy', [$test->id, $user->id, $apply->correction]], 'method' => 'get', 'style' => 'display:inline']) !!}
-                                            {!! Form::submit('Reject', ['class' => 'btn btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
-                                            {!! Form::close() !!}
-
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                    @endif
-
-
-                </article>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container-full-width">
     @if(Session::has('message'))
         <div class="alert alert-success alert-dismissible">
@@ -235,7 +28,7 @@
             <a role="button" class="btn btn-secondary" href="{{route('tests..', [$role, $filter])}}">Back</a>
         </div>
         <div class="col-sm-8">
-            <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="text-success">{{$test->name}}</span></h2>
+            <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$test->name}}</span></h2>
         </div>
         <div class="col-sm-2">
             @if (Auth::user() != null && Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)
@@ -244,6 +37,15 @@
             @endif
         </div>
     </div>
+
+    <?php
+        $total_max_test_points = 0;
+
+        foreach($test_categories as $test_category)
+        {
+            $total_max_test_points += ($test_category->max_points * $test_category->pivot->number_of_questions);
+        }
+    ?>
 
     <div class="p-3 border rounded">
         <h3 class="mb-4"><span style="color: #373737">Maximum points:</span> <span class="{{($total_max_test_points == 0) ? 'text-secondary' : 'text-success'}}">{{$total_max_test_points}}</span></h3>
@@ -254,19 +56,141 @@
         <p>{{$test->description}}</p><hr>
 
         <div class="d-flex">
-            @if(App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 0))
-                <a role="button" href="{{route('sign_on.test..destroy', [$test->id, Auth::id(), '0'])}}" onclick="return confirm('Are you sure you want sign off?')" class="btn btn-sm btn-danger">Sign off</a>
-            @else
-                <a role="button" href="{{route('new..sign', [$test->id, '0'])}}" class="btn btn-sm btn-success">Sign on</a>
+            @if($total_max_test_points != 0)
+                @if(App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 0))
+                    <a role="button" href="{{route('sign_on.test..destroy', [$test->id, Auth::id(), '0'])}}" onclick="return confirm('Are you sure you want sign off?')" class="btn mr-2 btn-sm btn-danger">Sign off</a>
+                @else
+                    <a role="button" href="{{route('new..sign', [$test->id, '0'])}}" class="btn mr-2 btn-sm btn-success">Sign on</a>
+                @endif
             @endif
 
             @if(Auth::user()->hasRole('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 1))
-                <a role="button" href="{{route('sign_on.test..destroy', [$test->id, Auth::id(), '1'])}}" onclick="return confirm('Are you sure you want sign off?')" class="btn ml-2 btn-sm btn-danger">Sign off as assistant</a>
+                <a role="button" href="{{route('sign_on.test..destroy', [$test->id, Auth::id(), '1'])}}" style="background-color: #EB5910" onclick="return confirm('Are you sure you want sign off?')" class="btn btn-sm text-white">Sign off as assistant</a>
             @else
-                <a role="button" href="{{route('new..sign', [$test->id, '1'])}}" class="btn ml-2 btn-sm btn-info">Sign on as assistant</a>
+                <a role="button" href="{{route('new..sign', [$test->id, '1'])}}" class="btn btn-sm btn-info">Sign on as assistant</a>
             @endif
         </div>
+
+        <div class="border rounded mt-4 p-3">
+            <h3 class="text-center mb-3" style="color: #373737">Categories</h3>
+
+            <div class="table-responsive">
+                <table class="table table-bordered mt-4">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Number of questions</th>
+                        <th>Points per question</th>
+                        <th>Total points from category</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($test_categories as $test_category)
+                            <tr>
+                                <td>{{$test_category->name}}</td>
+                                <td>{{$test_category->max_points}}</td>
+                                <td>{{$test_category->pivot->number_of_questions}}</td>
+                                <td>{{$test_category->max_points * $test_category->pivot->number_of_questions}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+    @if(Auth::user() != null && Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)
+        <div class="p-3 mt-4 rounded border">
+            <h3 class="text-center mb-3" style="color: #373737">Assistants</h3>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mt-4">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($test_applies as $apply)
+                            @if($apply->correction == true)
+                                <?php
+                                    $user = App\Models\User::all()->whereIn('id', $apply->applier_id)->first();
+                                ?>
+
+                                <tr>
+                                    <td>{{ $user->first_name}} {{ $user->surname}}</td>
+                                    <td>{{$user->role}}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            @if($apply->authorizer_id != null)
+                                                <a href="{{ route('sign_on.test..un_confirm',  [$test->id, $user->id, $apply->correction]) }}" class="btn btn-sm text-white" style="background-color: #EB5910">Deny</a>
+                                            @else
+                                                <a href="{{ route('sign_on.test..confirm',  [$test->id, $user->id, $apply->correction]) }}" class="btn btn-sm btn-success">Confirm</a>
+                                            @endif
+
+                                            {!! Form::open(['route' => ['sign_on.test..destroy', [$test->id, $user->id, $apply->correction]], 'method' => 'get', 'style' => 'display:inline']) !!}
+                                            {!! Form::submit('Remove', ['class' => 'btn ml-2 btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @if (Auth::user() != null && ((Auth::user()->hasRole('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (Auth::user()->hasRole('profesor') && Auth::id() == $test->creator_id)))
+        <div class="p-3 mt-4 rounded border">
+            <h3 class="text-center mb-3" style="color: #373737">Students</h3>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mt-4">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach($test_applies as $apply)
+                        @if($apply->correction == false)
+                            <?php
+                            $user = App\Models\User::all()->whereIn('id', $apply->applier_id)->first();
+                            ?>
+
+                            <tr>
+                                <td>{{ $user->first_name}} {{ $user->surname}}</td>
+                                <td>{{$user->role}}</td>
+                                <td>
+                                    <div class="d-flex justify-content-end">
+                                        @if($apply->authorizer_id != null)
+                                            <a href="{{ route('sign_on.test..un_confirm',  [$test->id, $user->id, $apply->correction]) }}" class="btn btn-sm text-white" style="background-color: #EB5910">Deny</a>
+                                        @else
+                                            <a href="{{ route('sign_on.test..confirm',  [$test->id, $user->id, $apply->correction]) }}" class="btn btn-sm btn-success">Confirm</a>
+                                        @endif
+
+                                        {!! Form::open(['route' => ['sign_on.test..destroy', [$test->id, $user->id, $apply->correction]], 'method' => 'get', 'style' => 'display:inline']) !!}
+                                        {!! Form::submit('Remove', ['class' => 'btn ml-2 btn-sm btn-danger', 'onclick' => 'return confirm(\'Are you sure you want sign off?\')']) !!}
+                                        {!! Form::close() !!}
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
 </div>
 </body>
 </html>
