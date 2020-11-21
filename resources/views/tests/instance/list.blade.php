@@ -10,20 +10,14 @@
 <div class="container bg-white rounded mt-5 p-4">
     <h2 class="mb-3 text-center" style="color: #373737">Test Instances</h2>
 
-    <div class="row">
-        <div class="col">
-            <input type="text" class="form-control" id="search" style="max-width: 400px" placeholder="Search" name="search"/>
-        </div>
-    </div>
-
     <div class="table-responsive">
-        <table class="table table-hover mt-4">
+        <table class="table table-hover table-bordered mt-4">
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
                 <th>Reviewer</th>
                 <th>Points</th>
-                <th>Action</th>
+                <th></th>
             </tr>
             </thead>
 
@@ -35,9 +29,7 @@
                     @endif
                 @endif
                 <tr>
-                <td>
-                    {{ $instance->student->first_name }} {{ $instance->student->surname }}
-                </td>
+                <td>{{ $instance->student->first_name }} {{ $instance->student->surname }}</td>
                 <td>
                 @if($instance->assistant)
                     {{ $instance->assistant->first_name }} {{ $instance->assistant->surname }}
@@ -45,9 +37,7 @@
                     No Assistant
                 @endif
                 </td>
-                <td>
-                    {{$instance->points}}
-                </td>
+                <td>{{$instance->points}}</td>
                 <td>
                 @if($listType == 'testInstances')
                     @if(!$instance->assistant or $instance->assistant->id == Auth::id())
@@ -58,7 +48,6 @@
                         <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-success mr-2">Detail</a>
                 @endif
                 </td>
-
                 </tr>
             @endforeach
             </tbody>

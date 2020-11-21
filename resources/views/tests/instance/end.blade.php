@@ -1,84 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('layouts.head', ['title' => 'Tests'])
-<body>
+<body style="background-color: #B6B6B6">
 
 @include('layouts.header')
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
+<div class="container bg-white rounded mt-5 p-4">
+    <div class="mb-3 row">
+        <div class="col-sm-2">
+            <?php
+            $now = strtotime(now());
+            $show_get_back = false;
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div
-                    class="card-header"><h1>End of the <b>{{$instance->test->name}}</b> test</h1></div>
+            if($instance != null) {
 
-                <div class="card-body">
+                sscanf($instance->test->max_duration, "%d:%d", $hours, $minutes);
+                $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
-                    <div>
-                        <h3>
-                            <b>Description</b>
-                        </h3>
-                        {{$instance->test->description}}
-                        <h3>
-                            <b>Author</b>
-                        </h3>
-                        {{$instance->test->creator->first_name}} {{$instance->test->creator->surname}}<br>
-                        <h3>
-                            <b>Available from</b>
-                        </h3>
-                        {{$instance->test->available_from}}<br>
-                        <h3>
-                            <b>Available to</b>
-                        </h3>
-                        {{$instance->test->available_to}}<br>
-                        <h3>
-                            <b>Max duration</b>
-                        </h3>
-                        {{$instance->test->max_duration}}<br>
-                        <h3>
-                            <b>Number of questions</b>
-                        </h3>
-                        <?php
-                        $number_of_questions = 0;
-                        foreach ($instance->test->categories as $test_category) {
-                            $number_of_questions += $test_category->pivot->number_of_questions;
-                        }
-                        ?>
-                        {{$number_of_questions}}
-                        <div>
+                $time_between_now_start = $now - strtotime($instance->opened_at);
+                if ($duration - $time_between_now_start > 0) {
+                    $show_get_back = true;
+                }
+            }
+            ?>
 
-
-                            <a href="{{route('test.finish', $instance->id)}}" role="button"
-                               class="btn btn-sm btn-primary mr-2">End test</a>
-
-                            <?php
-                            $now = strtotime(now());
-                            $show_get_back = false;
-
-                            if ($instance != null) {
-
-                                sscanf($instance->test->max_duration, "%d:%d", $hours, $minutes);
-                                $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
-
-                                $time_between_now_start = $now - strtotime($instance->opened_at);
-                                if ($duration - $time_between_now_start > 0) {
-                                    $show_get_back = true;
-                                }
-                            }
-                            ?>
-                            @if($show_get_back)
-                                <a href="{{route('test-fill..', [$instance->id, 0])}}" role="button"
-                                   class="btn btn-sm btn-success mr-2">Return to the test</a>
-                            @endif
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
+            @if($show_get_back)
+                <a href="{{route('test-fill..', [$instance->id, 0])}}" role="button" class="btn btn-info mr-2">Back to the tasks</a>
+            @endif
         </div>
+        <div class="col-sm-8">
+            <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <?php
+    $total_max_test_points = 0;
+    $total_num_of_questions = 0;
+    $test_categories = $instance->test->categories;
+
+    foreach($test_categories as $test_category)
+    {
+        $num_of_questions = $test_category->pivot->number_of_questions;
+
+        $total_max_test_points += ($test_category->max_points * $test_category->pivot->number_of_questions);
+        $total_num_of_questions += $num_of_questions;
+    }
+    ?>
+
+    <div class="p-3 border rounded">
+        @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $instance->test])
+
+        <a href="{{route('test.finish', $instance->id)}}" role="button" class="btn btn-sm {{$color}}">End test</a>
     </div>
 </div>
 

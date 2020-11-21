@@ -7,9 +7,20 @@ Use App\Models\TestInstance;
 Use App\Models\User;
 Use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Helpers\testInstanceHelper;
 
 class TestInstanceController extends Controller
 {
+    function index($test_id)
+    {
+        if (Auth::user() == null) {
+            return redirect()->route('home');
+        }
+
+        $test = Test::all()->where('id', '=', $test_id)->first();
+
+        return view('tests.instance.index', compact('test'));
+    }
 
     function checkAuth($student_id)
     {
@@ -19,7 +30,6 @@ class TestInstanceController extends Controller
         }
         return true;
     }
-
 
     public function showResults($test_id, $student_id)
     {
@@ -84,7 +94,7 @@ class TestInstanceController extends Controller
             }
         }
 
-        return view('tests.instance.index', compact('instance'));
+        return redirect()->route('test-fill..', [$instance->id, 0]);
     }
 
     public function saveQuestion(Request $request, $instance_id, $question_index)
@@ -120,7 +130,9 @@ class TestInstanceController extends Controller
             return view('home');
         }
 
-        return view('tests.instance.end', compact('instance'));
+        $color = testInstanceHelper::stateOfFilling($instance);
+
+        return view('tests.instance.end', compact('instance', 'color'));
     }
 
     public function finish($instance_id){
