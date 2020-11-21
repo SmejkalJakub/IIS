@@ -15,7 +15,7 @@ class UsersListController extends Controller
 {
     public function showUserList()
     {
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
@@ -69,7 +69,7 @@ class UsersListController extends Controller
     public function editUser($userId)
     {
         $user = User::find($userId);
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
@@ -79,7 +79,7 @@ class UsersListController extends Controller
 
     public function create()
     {
-        if(Auth::user()->role != 'admin')
+        if(!AuthController::checkUser('admin'))
         {
             return redirect()->route('home');
         }
