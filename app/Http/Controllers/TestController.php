@@ -119,7 +119,6 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
-        error_log("jse ");
         if (Auth::user() == null || !Auth::user()->hasRole('profesor')) {
             return redirect()->route('home');
         }

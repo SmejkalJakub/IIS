@@ -54,7 +54,6 @@ class TestInstanceController extends Controller
             $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
             $time_between_now_start = $now - strtotime($instance->opened_at);
-            error_log($duration - $time_between_now_start);
             if ($duration - $time_between_now_start > 0) {
                 return $this->question($instance->id, 0);
             } else {
@@ -153,7 +152,6 @@ class TestInstanceController extends Controller
             $duration = isset($hours) ? $hours * 3600 + $minutes * 60 : $minutes * 60;
 
             $time_between_now_start = $now - strtotime($instance->opened_at);
-            error_log($duration - $time_between_now_start);
             if ($duration - $time_between_now_start <= 0) {
                 return view('tests.instance.end', compact('instance'));
             }

@@ -68,7 +68,6 @@ class QuestionController extends Controller
         if ($request->type_of_answer == 1) {
             $question->right_text_answer = $request->right_answer;
         } else {
-            error_log($request->right_option);
             $validation_array = array_merge($validation_array, [
                 'right_option' => 'required',
             ]);

@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Test;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $tests = Test::all();
-
-        return view('home', compact('tests'));
+        if(Auth::user() == null)
+        {
+            return view('/');
+        }
+        return view('home');
     }
 }

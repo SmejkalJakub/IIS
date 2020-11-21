@@ -15,19 +15,19 @@
         </div>
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{$user->first_name}}" required>
+                <input type="text" class="form-control" placeholder="First name" id="first_name" name="first_name" value="{{$user->first_name}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" name="surname" value="{{$user->surname}}" required>
+                <input type="text" class="form-control"  placeholder="Surname" id="surname" name="surname" value="{{$user->surname}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" name="email" value="{{ $user->email}}" reqiured>
+                <input type="email" class="form-control" placeholder="E-mail" id="email" name="email" value="{{ $user->email}}" reqiured>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
@@ -56,3 +56,28 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+
+    window.onbeforeunload = function() {
+        sessionStorage.setItem("first_name_edit", $('#first_name').val());
+        sessionStorage.setItem("surname_edit", $('#surname').val());
+        sessionStorage.setItem("email_edit", $('#email').val());
+        sessionStorage.setItem("inputRole_edit", $('#inputRole').val());
+    }
+
+    window.onload = function() {
+
+        var firstName = sessionStorage.getItem('first_name_edit');
+        var surname = sessionStorage.getItem('surname_edit');
+        var email = sessionStorage.getItem('email_edit');
+        var role = sessionStorage.getItem('inputRole_edit');
+
+        if (firstName  !== null) $('#first_name').val(firstName);
+        if (surname  !== null) $('#surname').val(surname);
+        if (email  !== null) $('#email').val(email);
+        if (role  !== null) $('#inputRole').val(role);
+
+    }
+
+</script>

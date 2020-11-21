@@ -77,6 +77,8 @@ Route::put('tests.store', 'TestController@store')->name('tests.store');
 Route::put('tests.update', 'TestController@update')->name('tests.update');*/
 
 Route::get('user', 'SettingsController@settings')->name('user');
+Route::get('user/create', 'UsersListController@create')->name('user.create');
+Route::post('user/create/save', 'UsersListController@createUser')->name('user.create.save');
 Route::post('save-config', 'SettingsController@saveConfig');
 
 Route::get('user-search','UsersListController@search');
