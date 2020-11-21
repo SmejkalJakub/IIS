@@ -24,8 +24,8 @@
         <label>Image</label>
         <div>
 
-            <img src="{{ Storage::url("{$question->image_path}") }}"
-                 alt="{{ $question->image_path }}" />
+            <img src="/lsapp/public/{{ $question->image_path }}"
+                 alt="{{ $question->image_path }}"/>
         </div>
     @endif
     <br><br>
