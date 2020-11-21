@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    @if(!App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
+    @if(App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Assistants</h3>
 
@@ -144,7 +144,7 @@
         </div>
     @endif
 
-    @if (App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id)))
+    @if ((App\Http\Controllers\AuthController::checkUser('assistant') && App\Http\Helpers\SignApplyHelper::my_sign_is_confirmed($test, 1)) || (App\Http\Controllers\AuthController::checkUser('profesor') && Auth::id() == $test->creator_id))
         <div class="p-3 mt-4 rounded border">
             <h3 class="text-center mb-3" style="color: #373737">Students</h3>
 
