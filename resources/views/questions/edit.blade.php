@@ -107,7 +107,7 @@
                             {!! Form::radio('right_option', '4', ($question->right_option == 4)) !!}
                         </div>
                     </div>
-                    {!! Form::text('option_3', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
+                    {!! Form::text('option_4', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
                     @if ($errors->has('option_4'))
                         <span class="help-block">{!! $errors->first('option_4') !!}</span>
                     @endif

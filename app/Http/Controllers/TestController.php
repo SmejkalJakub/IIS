@@ -213,14 +213,21 @@ class TestController extends Controller
                             }
                             else
                             {
-                                if($test->instances->where('student_id', '==', Auth::id())->first()->ended == 0)
+                                $instance = $test->instances->where('student_id', '==', Auth::id())->first();
+                                if($instance)
                                 {
-                                    if(!SignApplyHelper::my_sign_is_confirmed($test, false) or $now < $test_end)
+                                    if($instance->ended == 0)
                                     {
-                                        continue;
+                                        if(!SignApplyHelper::my_sign_is_confirmed($test, false) or $now < $test_end)
+                                        {
+                                            continue;
+                                        }
                                     }
                                 }
-
+                                else
+                                {
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -257,7 +264,7 @@ class TestController extends Controller
                             }
                             else
                             {
-                                if(!SignApplyHelper::my_sign_is_confirmed($test, true) or $now < $test_end)
+                                if(!SignApplyHelper::my_sign_is_confirmed($test, true))
                                 {
                                     continue;
                                 }
