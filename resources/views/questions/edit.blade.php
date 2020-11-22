@@ -48,75 +48,76 @@
         {!! Form::textarea('task', $question->task, ['class' => 'form-control', 'placeholder' => 'Task', 'maxlength'=>512]) !!}
         @if ($errors->has('task'))
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
+    </div>
+    <label class="font-weight-bold" style="color: #373737">Image</label>
+    <div>
+        <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
+    </div>
 
-        <label class="font-weight-bold" style="color: #373737">Icon</label>
-        <div>
-            <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
+    <div class="form-group row">
+        <div class="col-md-6">
+            <input id="image_path" type="file" class="form-control"
+                   name="image_path" onchange="PreviewImage('image_path', 'uploadPreview1');"/>
         </div>
-        <div class="form-group row">
-            <label for="image_path" class="col-md-4 col-form-label text-md-left">Question image</label>
-            <div class="col-md-6">
-                <input id="image_path" type="file" class="form-control" name="image_path">
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group @if($errors->has('right_answer')) has-error @endif">
-            <div id="openAnswer">
-                <label class="font-weight-bold" style="color: #373737">Right answer</label>
-                {!! Form::textarea('right_answer', $question->right_text_answer, ['class' => 'form-control', 'placeholder' => 'Right answer', 'maxlength'=>128]) !!}
-                @if ($errors->has('right_answer'))
-                    <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
+    <div class="form-group @if($errors->has('right_answer')) has-error @endif">
+        <div id="openAnswer">
+            <label class="font-weight-bold" style="color: #373737">Right answer</label>
+            {!! Form::textarea('right_answer', $question->right_text_answer, ['class' => 'form-control', 'placeholder' => 'Right answer', 'maxlength'=>128]) !!}
+            @if ($errors->has('right_answer'))
+                <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
+        </div>
+        <div id="closedAnswer">
+            <label class="font-weight-bold" style="color: #373737">Select right answer</label>
+            <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {!! Form::radio('right_option', '1', ($question->right_option == 1)) !!}
+                    </div>
+                </div>
+                {!! Form::text('option_1', $question->option_1, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>128]) !!}
+                @if ($errors->has('option_1'))
+                    <span class="help-block">{!! $errors->first('option_2') !!}</span>
+                @endif
             </div>
-            <div id="closedAnswer">
-                <label class="font-weight-bold" style="color: #373737">Select right answer</label>
-                <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {!! Form::radio('right_option', '1', ($question->right_option == 1)) !!}
-                        </div>
+            <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {!! Form::radio('right_option', '2', ($question->right_option == 2)) !!}
                     </div>
-                    {!! Form::text('option_1', $question->option_1, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>128]) !!}
-                    @if ($errors->has('option_1'))
-                        <span class="help-block">{!! $errors->first('option_2') !!}</span>
-                    @endif
                 </div>
-                <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {!! Form::radio('right_option', '2', ($question->right_option == 2)) !!}
-                        </div>
+                {!! Form::text('option_2', $question->option_2, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>128]) !!}
+                @if ($errors->has('option_2'))
+                    <span class="help-block">{!! $errors->first('option_2') !!}</span>
+                @endif
+            </div>
+            <div class="input-group mb-3 @if($errors->has('option_3')) has-error @endif">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {!! Form::radio('right_option', '3', ($question->right_option == 3)) !!}
                     </div>
-                    {!! Form::text('option_2', $question->option_2, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>128]) !!}
-                    @if ($errors->has('option_2'))
-                        <span class="help-block">{!! $errors->first('option_2') !!}</span>
-                    @endif
                 </div>
-                <div class="input-group mb-3 @if($errors->has('option_3')) has-error @endif">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {!! Form::radio('right_option', '3', ($question->right_option == 3)) !!}
-                        </div>
+                {!! Form::text('option_3', $question->option_3, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>128]) !!}
+                @if ($errors->has('option_3'))
+                    <span class="help-block">{!! $errors->first('option_3') !!}</span>
+                @endif
+            </div>
+            <div class="input-group @if($errors->has('option_4')) has-error @endif">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {!! Form::radio('right_option', '4', ($question->right_option == 4)) !!}
                     </div>
-                    {!! Form::text('option_3', $question->option_3, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>128]) !!}
-                    @if ($errors->has('option_3'))
-                        <span class="help-block">{!! $errors->first('option_3') !!}</span>
-                    @endif
                 </div>
-                <div class="input-group @if($errors->has('option_4')) has-error @endif">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {!! Form::radio('right_option', '4', ($question->right_option == 4)) !!}
-                        </div>
-                    </div>
-                    {!! Form::text('option_4', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
-                    @if ($errors->has('option_4'))
-                        <span class="help-block">{!! $errors->first('option_4') !!}</span>
-                    @endif
-                    {!! Form::close() !!}
-                </div>
+                {!! Form::text('option_4', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
+                @if ($errors->has('option_4'))
+                    <span class="help-block">{!! $errors->first('option_4') !!}</span>
+                @endif
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
+</div>
 </div>
 
 </body>
