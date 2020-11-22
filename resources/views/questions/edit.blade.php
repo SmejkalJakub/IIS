@@ -49,15 +49,15 @@
         @if ($errors->has('task'))
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
     </div>
-    @if($question->image_path)
-        <div>
-            <img src="/public/{{ $question->image_path }}"
-                 alt="{{ $question->image_path }}"/>
-        </div>
-    @endif
     <label class="font-weight-bold" style="color: #373737">Image</label>
     <div>
-        <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
+        @if($question->image_path)
+            <img src="/public/{{ $question->image_path }}"
+            alt="{{ $question->image_path }}" style="max-height: 500px; max-width: 500px" id="uploadPreview1"/>
+        @else
+            <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
+        @endif
+
     </div>
 
     <div class="form-group row">
