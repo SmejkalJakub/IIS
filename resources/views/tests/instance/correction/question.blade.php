@@ -22,7 +22,7 @@
     @if($question->image_path)
         <label>Image</label>
         <div>
-            <img src="/lsapp/public/{{ $question->image_path }}"
+            <img src="/public{{ $question->image_path }}"
                  alt="{{ $question->image_path }}"/>
         </div>
     @endif
@@ -72,8 +72,7 @@
         <div class="col">
             <div class="d-flex">
                 @if($currentQuestion != 0)
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button"
-                       class="btn btn-sm btn-secondary mr-2">Previous</a>
+                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
                     {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                 @endif
 
@@ -81,8 +80,7 @@
 
                 @if($currentQuestion != count($instance->instances_questions) - 1)
                     {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button"
-                       class="btn btn-sm btn-secondary mr-2">Next</a>
+                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
                 @else
                     {!! Form::button('Save and End Revision', [ 'name' => 'action', 'value' => 'Save and end revision', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
                 @endif
@@ -96,9 +94,7 @@
         ?>
 
         <div class="col-auto">
-            <a href="{{route('test-correct.instances-end', $instance->id)}}"
-               onclick="return confirm('Are you sure that you want to end this review?')" role="button"
-               class="btn btn-sm {{$color}}">End Revision</a>
+            <a href="{{route('test-correct.instances-end', $instance->id)}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button" class="btn btn-sm {{$color}}">End Revision</a>
         </div>
     </div>
 </div>

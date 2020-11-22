@@ -19,7 +19,7 @@
     @if($question->image_path)
         <label>Image</label>
         <div>
-            <img src="/lsapp/public/{{ $question->image_path }}"
+            <img src="/public{{ $question->image_path }}"
                  alt="{{ $question->image_path }}"/>
         </div>
     @endif
