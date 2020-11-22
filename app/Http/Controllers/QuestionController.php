@@ -51,7 +51,7 @@ class QuestionController extends Controller
 
         $validation_array =
             [
-                'name' => 'required|max:128|unique:questions,name,',
+                'name' => 'required|max:128',
                 'task' => 'required|max:512',
                 'right_answer' => 'max:512',
                 'type_of_answer' => 'required',
@@ -82,7 +82,6 @@ class QuestionController extends Controller
 
 
         $question->task = $request->task;
-        $question->image_path = 'no_image.png';
 
 
         if ($request->has('image_path')) {
@@ -118,7 +117,7 @@ class QuestionController extends Controller
         }
         $validation_array =
             [
-                'name' => 'required | max:128 | unique:questions,name,' . $question->id,
+                'name' => 'required | max:128',
                 'task' => 'required | max:512',
                 'right_answer' => 'max:512',
                 'type_of_answer' => 'required',

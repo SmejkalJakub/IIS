@@ -7,34 +7,38 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
+    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span
+            class="font-weight-normal">{{$instance->test->name}}</span></h2>
     <div class="d-flex justify-content-center">
         @for ($i = 0; $i < count($instance->instances_questions); $i++)
-            <a href="{{route('question-correct..', [$instance->id, $i])}}" role="button" class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
+            <a href="{{route('question-correct..', [$instance->id, $i])}}" role="button"
+               class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
         @endfor
     </div>
-    <h4>Task {{$currentQuestion + 1}}</h4><hr>
+    <h4>Task {{$currentQuestion + 1}}</h4>
+    <hr>
     <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
 
-    @if($question->image_path != 'no_image.png')
+    @if($question->image_path)
         <label>Image</label>
         <div>
-            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image" style="max-height: 200px; max-width: 300px;">
+            <img src="/lsapp/public/{{ $question->image_path }}"
+                 alt="{{ $question->image_path }}"/>
         </div>
     @endif
 
     @if($question->type_of_answer == 1)
         <label class="font-weight-bold mt-3" style="color: #373737">Solution</label>
-            @if($question->pivot->answer)
-                <div class="rounded border p-2">
-                    {{$question->pivot->answer}}
-                </div>
-            @else
-                <p class="font-weight-bold text-danger"> - Missing</p>
-            @endif
+        @if($question->pivot->answer)
+            <div class="rounded border p-2">
+                {{$question->pivot->answer}}
+            </div>
+        @else
+            <p class="font-weight-bold text-danger"> - Missing</p>
+        @endif
         <label class="font-weight-bold text-success mt-3">Right Solution</label>
         <div class="rounded border mb-5 p-2">
-           {{$question->right_text_answer}}
+            {{$question->right_text_answer}}
         </div>
     @else
         <label class="font-weight-bold mt-3" style="color: #373737">Answer</label>
@@ -68,7 +72,8 @@
         <div class="col">
             <div class="d-flex">
                 @if($currentQuestion != 0)
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
+                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button"
+                       class="btn btn-sm btn-secondary mr-2">Previous</a>
                     {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                 @endif
 
@@ -76,7 +81,8 @@
 
                 @if($currentQuestion != count($instance->instances_questions) - 1)
                     {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
+                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button"
+                       class="btn btn-sm btn-secondary mr-2">Next</a>
                 @else
                     {!! Form::button('Save and End Revision', [ 'name' => 'action', 'value' => 'Save and end revision', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
                 @endif
@@ -90,7 +96,9 @@
         ?>
 
         <div class="col-auto">
-            <a href="{{route('test-correct.instances-end', $instance->id)}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button" class="btn btn-sm {{$color}}">End Revision</a>
+            <a href="{{route('test-correct.instances-end', $instance->id)}}"
+               onclick="return confirm('Are you sure that you want to end this review?')" role="button"
+               class="btn btn-sm {{$color}}">End Revision</a>
         </div>
     </div>
 </div>

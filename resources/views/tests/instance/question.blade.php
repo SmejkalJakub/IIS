@@ -16,7 +16,7 @@
     <h4>Task {{$currentQuestion + 1}}</h4><hr>
     <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
 
-    @if($question->image_path != 'no_image.png')
+    @if($question->image_path)
         <label>Image</label>
         <div>
             <img src="/lsapp/public/{{ $question->image_path }}"
