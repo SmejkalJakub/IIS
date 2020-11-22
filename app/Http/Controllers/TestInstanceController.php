@@ -90,7 +90,7 @@ class TestInstanceController extends Controller
             for ($i = 0;
                  $i < $category->pivot->number_of_questions;
                  $i++) {
-                $instance->instances_questions()->attach($allQuestions[$i], ['answer' => '', 'points' => null]);
+                $instance->instances_questions()->attach($allQuestions[$i], ['answer' => null, 'points' => null]);
             }
         }
 
