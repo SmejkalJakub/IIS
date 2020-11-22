@@ -50,10 +50,10 @@
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
     </div>
     <label class="font-weight-bold" style="color: #373737">Image</label>
-    <div>
+    <div style="max-height: 600px; max-width: 600px">
         @if($question->image_path)
             <img src="/public/{{ $question->image_path }}"
-            alt="{{ $question->image_path }}" style="max-height: 500px; max-width: 500px" id="uploadPreview1"/>
+            alt="{{ $question->image_path }}" style="max-height: 100%; max-width: 100%" id="uploadPreview1"/>
         @else
             <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
         @endif

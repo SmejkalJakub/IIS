@@ -18,9 +18,9 @@
 
     @if($question->image_path)
         <label>Image</label>
-        <div>
+        <div style="max-height: 600px; max-width: 600px">
             <img src="/public{{ $question->image_path }}"
-                 alt="{{ $question->image_path }}"/>
+                 alt="{{ $question->image_path }}" style="max-height: 100%; max-width: 100%"/>
         </div>
     @endif
 

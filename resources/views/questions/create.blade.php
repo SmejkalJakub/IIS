@@ -51,8 +51,8 @@
     </div>
 
     <label class="font-weight-bold" style="color: #373737">Image</label>
-    <div>
-        <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
+    <div style="max-height: 600px; max-width: 600px">
+        <img class="border rounded" id="uploadPreview1" style="max-height: 100%; max-width: 100%"/>
     </div>
 
     <div class="form-group row">
