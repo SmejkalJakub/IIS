@@ -50,75 +50,75 @@
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
     </div>
 
-    <label class="font-weight-bold" style="color: #373737">Icon</label>
+    <label class="font-weight-bold" style="color: #373737">Image</label>
     <div>
         <img class="border rounded" id="uploadPreview1" style="max-height: 500px; max-width: 500px"/>
     </div>
 
     <div class="form-group row">
-        <label for="image_path" class="col-md-4 col-form-label text-md-right">Question image</label>
         <div class="col-md-6">
-            <input id="image_path" type="file" class="form-control" name="image_path">
+            <input id="image_path" type="file" class="form-control"
+                   name="image_path" onchange="PreviewImage('image_path', 'uploadPreview1');"/>
         </div>
     </div>
 
-    <div class="form-group @if($errors->has('right_answer')) has-error @endif">
-        <div id="openAnswer">
-            <label class="font-weight-bold" style="color: #373737">Right answer</label>
-            {!! Form::textarea('right_answer', null, ['class' => 'form-control', 'placeholder' => 'Enter right answer', 'maxlength'=>128]) !!}
-            @if ($errors->has('right_answer'))
-                <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
-        </div>
-        <div id="closedAnswer">
-            <label class="font-weight-bold" style="color: #373737">Select right answer</label>
-            <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        {!! Form::radio('right_option', '1') !!}
-                    </div>
-                </div>
-                {!! Form::text('option_1', null, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>128]) !!}
-                @if ($errors->has('option_1'))
-                    <span class="help-block">{!! $errors->first('option_2') !!}</span>
-                @endif
+        <div class="form-group @if($errors->has('right_answer')) has-error @endif">
+            <div id="openAnswer">
+                <label class="font-weight-bold" style="color: #373737">Right answer</label>
+                {!! Form::textarea('right_answer', null, ['class' => 'form-control', 'placeholder' => 'Enter right answer', 'maxlength'=>128]) !!}
+                @if ($errors->has('right_answer'))
+                    <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
             </div>
-            <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        {!! Form::radio('right_option', '2') !!}
+            <div id="closedAnswer">
+                <label class="font-weight-bold" style="color: #373737">Select right answer</label>
+                <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {!! Form::radio('right_option', '1') !!}
+                        </div>
                     </div>
+                    {!! Form::text('option_1', null, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>128]) !!}
+                    @if ($errors->has('option_1'))
+                        <span class="help-block">{!! $errors->first('option_2') !!}</span>
+                    @endif
                 </div>
-                {!! Form::text('option_2', null, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>128]) !!}
-                @if ($errors->has('option_2'))
-                    <span class="help-block">{!! $errors->first('option_2') !!}</span>
-                @endif
-            </div>
-            <div class="input-group mb-3 @if($errors->has('option_3')) has-error @endif">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        {!! Form::radio('right_option', '3') !!}
+                <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {!! Form::radio('right_option', '2') !!}
+                        </div>
                     </div>
+                    {!! Form::text('option_2', null, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>128]) !!}
+                    @if ($errors->has('option_2'))
+                        <span class="help-block">{!! $errors->first('option_2') !!}</span>
+                    @endif
                 </div>
-                {!! Form::text('option_3', null, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>128]) !!}
-                @if ($errors->has('option_3'))
-                    <span class="help-block">{!! $errors->first('option_3') !!}</span>
-                @endif
-            </div>
-            <div class="input-group @if($errors->has('option_4')) has-error @endif">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        {!! Form::radio('right_option', '4') !!}
+                <div class="input-group mb-3 @if($errors->has('option_3')) has-error @endif">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {!! Form::radio('right_option', '3') !!}
+                        </div>
                     </div>
+                    {!! Form::text('option_3', null, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>128]) !!}
+                    @if ($errors->has('option_3'))
+                        <span class="help-block">{!! $errors->first('option_3') !!}</span>
+                    @endif
                 </div>
-                {!! Form::text('option_4', null, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
-                @if ($errors->has('option_4'))
-                    <span class="help-block">{!! $errors->first('option_4') !!}</span>
-                @endif
-                {!! Form::close() !!}
+                <div class="input-group @if($errors->has('option_4')) has-error @endif">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {!! Form::radio('right_option', '4') !!}
+                        </div>
+                    </div>
+                    {!! Form::text('option_4', null, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
+                    @if ($errors->has('option_4'))
+                        <span class="help-block">{!! $errors->first('option_4') !!}</span>
+                    @endif
+                    {!! Form::close() !!}
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
 
@@ -132,23 +132,20 @@
             document.getElementById(uploadPreviewOrder).src = oFREvent.target.result;
         };
     }
-    function showDiv(rightAnswerOpen, rightAnswerClose, element)
-    {
+
+    function showDiv(rightAnswerOpen, rightAnswerClose, element) {
         element = document.getElementById(element);
-        if(element.value == 0)
-        {
+        x
+        if (element.value == 0) {
             document.getElementById(rightAnswerOpen).style.display = 'none';
             document.getElementById(rightAnswerClose).style.display = 'block';
-        }
-        else
-        {
+        } else {
             document.getElementById(rightAnswerOpen).style.display = 'block';
             document.getElementById(rightAnswerClose).style.display = 'none';
         }
     }
 
-    function changeText()
-    {
+    function changeText() {
         document.getElementById('customFileLabelId').innerHTML = document.getElementById('image_path').files[0].name;
     }
 </script>
