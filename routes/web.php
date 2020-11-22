@@ -51,7 +51,6 @@ Route::get('test/{test_id}/instances/{assistant_id}', 'TestController@showInstan
 Route::get('test/correct/{instance_id}/end', 'TestInstanceCorrectionController@endReview')->name('test-correct.instances-end');
 
 Route::get('test/correct/{instance_id}', 'TestInstanceCorrectionController@index')->name('test-correct.');
-Route::get('test/correct/sign/{instance_id}', 'TestInstanceCorrectionController@startCorrection')->name('test-correct-sign.');
 Route::get('test/correct/{instance_id}/{question_id}', 'TestInstanceCorrectionController@question')->name('question-correct..');
 Route::post('question/correct/{instance_id}/{question_index}', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save..');
 

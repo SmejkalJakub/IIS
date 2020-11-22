@@ -22,10 +22,14 @@ class TestInstanceCorrectionController extends Controller
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
-        if ($instance->assistant == null) {
-            return view('tests.instance.correction.index', compact('instance'));
+        if ($instance->assistant == null)
+        {
+            $instance->assistant_id = Auth::id();
+            $instance->update();
+            return $this->question($instance_id, 0);
         }
-        else if ($instance->assistant->id == Auth::id()) {
+        else if ($instance->assistant->id == Auth::id())
+        {
             return $this->question($instance_id, 0);
         }
         else
@@ -62,20 +66,6 @@ class TestInstanceCorrectionController extends Controller
 
         $test_id = $instance->test->id;
         return redirect()->route('test.instances.', ['test_id' => $test_id, 'assistant_id' => 0]);
-    }
-
-    public function startCorrection($instance_id)
-    {
-        $instance = TestInstance::where('id', $instance_id)->first();
-        if ($instance->assistant == null) {
-            $instance->assistant_id = Auth::id();
-            $instance->update();
-            return $this->question($instance_id, 0);
-        } else if ($instance->assistant->id == Auth::id()) {
-            return $this->question($instance_id, 0);
-        } else {
-            return redirect()->back();
-        }
     }
 
     public function saveCorrection(Request $request, $instance_id, $question_index)

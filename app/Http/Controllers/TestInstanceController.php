@@ -130,7 +130,7 @@ class TestInstanceController extends Controller
             return view('home');
         }
 
-        $color = testInstanceHelper::stateOfFilling($instance);
+        $color = testInstanceHelper::stateOfFilling($instance, false);
 
         return view('tests.instance.end', compact('instance', 'color'));
     }

@@ -19,8 +19,7 @@
     @if($question->image_path != 'no_image.png')
         <label>Image</label>
         <div>
-            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image"
-                 style="max-height: 200px; max-width: 300px;">
+            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image" style="max-height: 200px; max-width: 300px;">
         </div>
     @endif
 
@@ -30,23 +29,26 @@
         <label class="font-weight-bold mt-3" style="color: #373737">Solution</label>
         {!! Form::textarea('answer', $question->pivot->answer, ['class' => 'form-control', 'placeholder' => 'Enter your answer', 'maxlength'=>128]) !!}
     @else
-        <label class="font-weight-bold mt-3" style="color: #373737">Answer</label><br>
-        {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label($question->option_1) !!}
-        <br>
-        {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label($question->option_2) !!}
-        <br>
-        {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label($question->option_3) !!}
-        <br>
-        {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label($question->option_4) !!}
-        <br>
+        <label class="font-weight-bold mt-3" style="color: #373737">Answer</label>
+        <div class="form-check" style="padding-left: 0px">
+            {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label($question->option_1) !!}
+        </div>
+        <div class="form-check" style="padding-left: 0px">
+            {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label($question->option_2) !!}
+        </div>
+        <div class="form-check" style="padding-left: 0px">
+            {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label($question->option_3) !!}
+        </div>
+        <div class="form-check" style="padding-left: 0px">
+            {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label($question->option_4) !!}
+        </div>
     @endif
 
     <div class="row mt-3">
         <div class="col">
             <div class="d-flex">
                 @if($currentQuestion != 0)
-                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion - 1])}}" role="button"
-                       class="btn btn-sm btn-secondary mr-2">Previous</a>
+                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
                     {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                 @endif
 
@@ -54,8 +56,7 @@
 
                 @if($currentQuestion != count($instance->instances_questions) - 1)
                     {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
-                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion + 1])}}" role="button"
-                       class="btn btn-sm btn-secondary mr-2">Next</a>
+                    <a href="{{route('test-fill..', [$instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
                 @else
                     {!! Form::button('Save and end test', [ 'name' => 'action', 'value' => 'Save and End Test', 'class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
                 @endif
@@ -65,7 +66,7 @@
         </div>
 
         <?php
-           $color = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance);
+           $color = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance, false);
         ?>
 
         <div class="col-auto">

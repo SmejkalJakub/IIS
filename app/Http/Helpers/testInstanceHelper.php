@@ -6,7 +6,7 @@ use App\Models\TestInstance;
 
 class testInstanceHelper
 {
-    public static function stateOfFilling(TestInstance $instance)
+    public static function stateOfFilling(TestInstance $instance, $correction)
     {
         $null = false;
         $notNull = false;
@@ -14,9 +14,18 @@ class testInstanceHelper
 
         $instance_questions = $instance->instances_questions;
 
+        if($correction)
+        {
+            $type = 'points';
+        }
+        else
+        {
+            $type = 'answer';
+        }
+
         foreach($instance_questions as $instance_question)
         {
-            if($instance_question->pivot->answer)
+            if($instance_question->pivot->$type != null)
             {
                 $notNull = true;
             }

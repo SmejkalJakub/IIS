@@ -15,7 +15,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>Name</th>
-                <th>Reviewer</th>
+                <th>Max points</th>
                 <th>Points</th>
                 <th></th>
             </tr>
@@ -28,24 +28,36 @@
                         @continue
                     @endif
                 @endif
+
+                <?php
+                $total_points = 0;
+                $categories = $instance->test->categories;
+
+                foreach($categories as $category)
+                {
+                    $total_points += ($category->max_points * $category->pivot->number_of_questions);
+                }
+                ?>
+
                 <tr>
                 <td>{{ $instance->student->first_name }} {{ $instance->student->surname }}</td>
-                <td>
-                @if($instance->assistant)
-                    {{ $instance->assistant->first_name }} {{ $instance->assistant->surname }}
-                @else
-                    No Assistant
-                @endif
-                </td>
+                <td>{{$total_points}}</td>
                 <td>{{$instance->points}}</td>
                 <td>
                 @if($listType == 'testInstances')
-                    @if(!$instance->assistant or $instance->assistant->id == Auth::id())
-                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
+                    @if(!$instance->assistant)
+                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm float-right btn-info">Review the test</a>
+                    @elseif($instance->assistant->id == Auth::id())
+                        <?php
+                            $revisionState = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance, true);
+                        ?>
+                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm float-right {{$revisionState}}">Edit revision</a>
                     @endif
                 @elseif($listType == 'myInstances')
-                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success mr-2">Review the test</a>
-                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-success mr-2">Detail</a>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success">Edit revision</a>
+                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Detail</a>
+                    </div>
                 @endif
                 </td>
                 </tr>
