@@ -17,9 +17,9 @@
     <p>{{$question->task}} (<b>{{$question->category->max_points}} p.</b>)</p>
 
     @if($question->image_path)
-        <label>Image</label>
+        <label class="font-weight-bold mt-3">Image</label>
         <div style="max-height: 600px; max-width: 600px">
-            <img src="/public{{ $question->image_path }}"
+            <img class="border rounded" src="/public{{ $question->image_path }}"
                  alt="{{ $question->image_path }}" style="max-height: 100%; max-width: 100%"/>
         </div>
     @endif

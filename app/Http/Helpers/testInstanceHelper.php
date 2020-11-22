@@ -25,7 +25,7 @@ class testInstanceHelper
 
         foreach($instance_questions as $instance_question)
         {
-            if($instance_question->pivot->$type != null)
+            if($instance_question->pivot->$type !== null)
             {
                 $notNull = true;
             }

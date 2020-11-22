@@ -50,7 +50,7 @@
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
     </div>
 
-    <label class="font-weight-bold" style="color: #373737">Image</label>
+    <label class="font-weight-bold mt-3" style="color: #373737">Image</label>
     <div style="max-height: 600px; max-width: 600px">
         <img class="border rounded" id="uploadPreview1" style="max-height: 100%; max-width: 100%"/>
     </div>
