@@ -51,15 +51,15 @@
     </div>
 
     <label class="font-weight-bold mt-3" style="color: #373737">Image</label>
+
     <div style="max-height: 600px; max-width: 600px">
         <img class="border rounded" id="uploadPreview1" style="max-height: 100%; max-width: 100%"/>
     </div>
 
-    <div class="form-group row">
-        <div class="col-md-6">
-            <input id="image_path" type="file" class="form-control"
-                   name="image_path" onchange="PreviewImage('image_path', 'uploadPreview1');"/>
-        </div>
+    <small id="fileHelp" class="form-text text-muted">Add an image to a question...</small>
+    <div class="custom-file mb-3" style="max-width: 600px">
+        <input type="file" class="custom-file-input" name="image_path" id="image_path" onchange="PreviewImage('image_path', 'uploadPreview1'); changeText();">
+        <label class="custom-file-label" id="image_label" for="customFile">Choose image</label>
     </div>
 
         <div class="form-group @if($errors->has('right_answer')) has-error @endif">
@@ -146,7 +146,7 @@
     }
 
     function changeText() {
-        document.getElementById('customFileLabelId').innerHTML = document.getElementById('image_path').files[0].name;
+        document.getElementById('image_label').innerHTML = document.getElementById('image_path').files[0].name;
     }
 </script>
 

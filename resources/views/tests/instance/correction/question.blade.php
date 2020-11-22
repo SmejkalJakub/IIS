@@ -27,6 +27,10 @@
         </div>
     @endif
 
+    <?php
+        $suggested_points = $question->pivot->points;
+    ?>
+
     @if($question->type_of_answer == 1)
         <label class="font-weight-bold mt-3" style="color: #373737">Solution</label>
         @if($question->pivot->answer)
@@ -41,6 +45,20 @@
             {{$question->right_text_answer}}
         </div>
     @else
+        <?php
+            if($question->pivot->points === null)
+            {
+                if($question->right_option == $question->pivot->answer)
+                {
+                    $suggested_points = $question->category->max_points;
+                }
+                else
+                {
+                    $suggested_points = 0;
+                }
+            }
+        ?>
+
         <label class="font-weight-bold mt-3" style="color: #373737">Answer</label>
         <div class="form-check" style="padding-left: 0px">
             {!! Form::radio('testQuestion', '1', ($question->pivot->answer == 1), ['disabled' => 'disabled', 'style' => 'background-color: #44FF00']) !!} {!! Form::label($question->option_1, null, ['class' => (($question->right_option == 1) ? 'text-success font-weight-bold' : (($question->pivot->answer == 1) ? 'text-danger font-weight-bold' : ''))]) !!}
@@ -62,7 +80,7 @@
         <div class="input-group-prepend">
             <label class="input-group-text">Points</label>
         </div>
-        {!! Form::number('points', $question->pivot->points, ['class' => 'form-control', 'step'=>'any', 'placeholder' => 'Enter number of points', 'maxlength'=>128, 'min' => '0', 'max' => $question->category->max_points]) !!}
+        {!! Form::number('points', $suggested_points, ['class' => 'form-control', 'step'=>'any', 'placeholder' => 'Enter number of points', 'maxlength'=>128, 'min' => '0', 'max' => $question->category->max_points]) !!}
     </div>
 
     <label class="font-weight-bold mt-3" style="color: #373737">Comment</label>
