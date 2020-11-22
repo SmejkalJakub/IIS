@@ -19,7 +19,8 @@
     @if($question->image_path != 'no_image.png')
         <label>Image</label>
         <div>
-            <img src="{{'http://localhost:8000/' . $question->image_path}}" title="Current image" style="max-height: 200px; max-width: 300px;">
+            <img src="/lsapp/public/{{ $question->image_path }}"
+                 alt="{{ $question->image_path }}"/>
         </div>
     @endif
 
