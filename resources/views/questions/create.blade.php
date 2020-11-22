@@ -135,7 +135,7 @@
 
     function showDiv(rightAnswerOpen, rightAnswerClose, element) {
         element = document.getElementById(element);
-        x
+
         if (element.value == 0) {
             document.getElementById(rightAnswerOpen).style.display = 'none';
             document.getElementById(rightAnswerClose).style.display = 'block';

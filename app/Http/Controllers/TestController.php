@@ -261,6 +261,10 @@ class TestController extends Controller
                                 {
                                     continue;
                                 }
+                                elseif(count($test->instances->where('assistant_id', '=', Auth::id())))
+                                {
+                                    continue;
+                                }
                             }
                             elseif($request->filter == 'active')
                             {

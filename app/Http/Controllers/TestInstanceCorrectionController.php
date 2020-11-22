@@ -84,13 +84,13 @@ class TestInstanceCorrectionController extends Controller
             case 'Save':
                 return $this->question($instance_id, $question_index);
                 break;
-            case 'Save and Next':
+            case 'Save and next':
                 return $this->question($instance_id, $question_index + 1);
                 break;
-            case 'Save and Previous':
+            case 'Save and previous':
                 return $this->question($instance_id, $question_index - 1);
                 break;
-            case 'Save and End Review':
+            case 'Save and end revision':
                 return $this->endReview($instance_id);
                 break;
         }

@@ -73,16 +73,16 @@
             <div class="d-flex">
                 @if($currentQuestion != 0)
                     <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
-                    {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and Previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
+                    {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                 @endif
 
                 {!! Form::button('Save', [ 'name' => 'action', 'value' => 'Save', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
 
                 @if($currentQuestion != count($instance->instances_questions) - 1)
-                    {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and Next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
+                    {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                     <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
                 @else
-                    {!! Form::button('Save and End Revision', [ 'name' => 'action', 'value' => 'Save and end revision', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
+                    {!! Form::button('Save and end revision', [ 'name' => 'action', 'value' => 'Save and end revision', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
                 @endif
 
                 {!! Form::close() !!}
