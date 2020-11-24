@@ -56,7 +56,7 @@
                 @elseif($listType == 'myInstances')
                     <div class="d-flex justify-content-end">
                         <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success">Edit revision</a>
-                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Detail</a>
+                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Student view</a>
                     </div>
                 @endif
                 </td>
