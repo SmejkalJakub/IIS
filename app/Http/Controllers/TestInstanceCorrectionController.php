@@ -64,8 +64,14 @@ class TestInstanceCorrectionController extends Controller
         $instance->corrected = true;
         $instance->update();
 
-        $test_id = $instance->test->id;
-        return redirect()->route('test.instances.', ['test_id' => $test_id, 'assistant_id' => 0]);
+        $test = $instance->test;
+
+        if(count($test->instances->where('corrected', '1')) == count($test->instances))
+        {
+            return redirect()->route('tests..', ['assistant', 'active']);
+        }
+
+        return redirect()->route('tests..instance.', ['active' , $test->id, 0]);
     }
 
     public function saveCorrection(Request $request, $instance_id, $question_index)

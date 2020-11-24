@@ -45,7 +45,7 @@
 
     <div class="mt-3 form-group @if($errors->has('task')) has-error @endif">
         <label class="font-weight-bold" style="color: #373737">Task</label>
-        {!! Form::textarea('task', $question->task, ['class' => 'form-control', 'placeholder' => 'Task', 'maxlength'=>512]) !!}
+        {!! Form::textarea('task', $question->task, ['class' => 'form-control', 'placeholder' => 'Task']) !!}
         @if ($errors->has('task'))
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
     </div>
@@ -68,7 +68,7 @@
     <div class="form-group @if($errors->has('right_answer')) has-error @endif">
         <div id="openAnswer">
             <label class="font-weight-bold" style="color: #373737">Right answer</label>
-            {!! Form::textarea('right_answer', $question->right_text_answer, ['class' => 'form-control', 'placeholder' => 'Right answer', 'maxlength'=>128]) !!}
+            {!! Form::textarea('right_answer', $question->right_text_answer, ['class' => 'form-control', 'placeholder' => 'Right answer']) !!}
             @if ($errors->has('right_answer'))
                 <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
         </div>
@@ -80,7 +80,7 @@
                         {!! Form::radio('right_option', '1', ($question->right_option == 1)) !!}
                     </div>
                 </div>
-                {!! Form::text('option_1', $question->option_1, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>128]) !!}
+                {!! Form::text('option_1', $question->option_1, ['class' => 'form-control', 'placeholder' => 'A)', 'maxlength'=>512]) !!}
                 @if ($errors->has('option_1'))
                     <span class="help-block">{!! $errors->first('option_2') !!}</span>
                 @endif
@@ -91,7 +91,7 @@
                         {!! Form::radio('right_option', '2', ($question->right_option == 2)) !!}
                     </div>
                 </div>
-                {!! Form::text('option_2', $question->option_2, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>128]) !!}
+                {!! Form::text('option_2', $question->option_2, ['class' => 'form-control', 'placeholder' => 'B)', 'maxlength'=>512]) !!}
                 @if ($errors->has('option_2'))
                     <span class="help-block">{!! $errors->first('option_2') !!}</span>
                 @endif
@@ -102,7 +102,7 @@
                         {!! Form::radio('right_option', '3', ($question->right_option == 3)) !!}
                     </div>
                 </div>
-                {!! Form::text('option_3', $question->option_3, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>128]) !!}
+                {!! Form::text('option_3', $question->option_3, ['class' => 'form-control', 'placeholder' => 'C)', 'maxlength'=>512]) !!}
                 @if ($errors->has('option_3'))
                     <span class="help-block">{!! $errors->first('option_3') !!}</span>
                 @endif
@@ -113,7 +113,7 @@
                         {!! Form::radio('right_option', '4', ($question->right_option == 4)) !!}
                     </div>
                 </div>
-                {!! Form::text('option_4', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>128]) !!}
+                {!! Form::text('option_4', $question->option_4, ['class' => 'form-control', 'placeholder' => 'D)', 'maxlength'=>512]) !!}
                 @if ($errors->has('option_4'))
                     <span class="help-block">{!! $errors->first('option_4') !!}</span>
                 @endif

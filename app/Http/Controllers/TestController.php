@@ -45,45 +45,38 @@ class TestController extends Controller
         return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances', 'role', 'filter'));
     }
 
-    public function showInstances($test_id, $assistant_id)
+    public function showInstances($from ,$test_id, $assistant_id)
     {
-        if($assistant_id == 0) {
-            $test = Test::all()->whereIn('id', $test_id)->first();
+        $test = Test::all()->whereIn('id', $test_id)->first();
 
-            $instances = $test->instances;
+        $instances = $test->instances;
 
-            foreach ($instances as $test_instance)
-            {
-                $result = 0;
-                if($test_instance)
-                {
-                    $test_questions = $test_instance->instances_questions;
-
-                    foreach($test_questions as $question)
-                    {
-                        $result += $question->pivot->points;
-                    }
-                }
-                $test_instance->setAttribute('points', $result);
-            }
-
+        if($assistant_id == 0)
+        {
             $listType = 'testInstances';
-
-            return view('tests.instance.list', compact('instances', 'listType'));
         }
         else
         {
-            return $this->showMyInstances($test_id, $assistant_id);
+            $instances = $instances->whereIn('assistant_id', $assistant_id);
+            $listType = 'myInstances';
         }
-    }
 
-    public function showMyInstances($test_id, $assistant_id)
-    {
-        $instances = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('assistant_id', $assistant_id);
+        foreach ($instances as $test_instance)
+        {
+            $result = 0;
+            if($test_instance)
+            {
+                $test_questions = $test_instance->instances_questions;
 
-        $listType = 'myInstances';
+                foreach($test_questions as $question)
+                {
+                    $result += $question->pivot->points;
+                }
+            }
+            $test_instance->setAttribute('points', $result);
+        }
 
-        return view('tests.instance.list', compact('instances', 'listType'));
+        return view('tests.instance.list', compact('from', 'instances', 'listType'));
     }
 
     public function create()
@@ -350,8 +343,8 @@ class TestController extends Controller
                     {
                         if($request->filter == 'active')
                         {
-                            $correctedByMe = TestInstance::all()->where('assistant_id', Auth::id())->where('corrected', '1');
-                            $corrected = TestInstance::all()->where('corrected', '1');
+                            $correctedByMe = $test->instances->where('assistant_id', Auth::id())->where('corrected', '1');
+                            $corrected = $test->instances->where('corrected', '1');
                             $numberOfInstances = count($test->instances);
 
                             if($numberOfInstances == count($corrected))
@@ -365,7 +358,7 @@ class TestController extends Controller
                         }
                         elseif($request->filter == 'history')
                         {
-                            $correctedByMe = TestInstance::all()->where('assistant_id', Auth::id())->where('corrected', '1');
+                            $correctedByMe = $test->instances->where('assistant_id', Auth::id())->where('corrected', '1');
 
                             $row .= '<td style="vertical-align: middle">' . count($test->instances) . '</td>';
                             $row .= '<td style="vertical-align: middle">' . count($correctedByMe) . '</td>';
@@ -432,11 +425,11 @@ class TestController extends Controller
                         }
                         elseif($request->filter == 'active')
                         {
-                            $row .= '<a role="button" href="'.route('test.instances.', [$test->id, '0']).'" class="btn btn-sm btn-success">Revision</a>';
+                            $row .= '<a role="button" href="'.route('tests..instance.', ['active', $test->id, '0']).'" class="btn btn-sm btn-success">Revision</a>';
                         }
                         else
                         {
-                            $row .= '<a role="button" href="'.route('test.instances.', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">My revisions</a>';
+                            $row .= '<a role="button" href="'.route('tests..instance.', ['history', $test->id, Auth::id()]).'" class="btn btn-sm btn-success">My revisions</a>';
                         }
                     }
                     elseif(AuthController::checkUser('profesor'))

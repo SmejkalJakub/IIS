@@ -28,20 +28,20 @@
 
     @if($question->type_of_answer == 1)
         <label class="font-weight-bold mt-3" style="color: #373737">Solution</label>
-        {!! Form::textarea('answer', $question->pivot->answer, ['class' => 'form-control', 'placeholder' => 'Enter your answer', 'maxlength'=>128]) !!}
+        {!! Form::textarea('answer', $question->pivot->answer, ['class' => 'form-control', 'placeholder' => 'Enter your answer']) !!}
     @else
         <label class="font-weight-bold mt-3" style="color: #373737">Answer</label>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label($question->option_1) !!}
+            {!! Form::radio('answer', '1', ($question->pivot->answer == 1)) !!} {!! Form::label(null, $question->option_1) !!}
         </div>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label($question->option_2) !!}
+            {!! Form::radio('answer', '2', ($question->pivot->answer == 2)) !!} {!! Form::label(null, $question->option_2) !!}
         </div>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label($question->option_3) !!}
+            {!! Form::radio('answer', '3', ($question->pivot->answer == 3)) !!} {!! Form::label(null, $question->option_3) !!}
         </div>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label($question->option_4) !!}
+            {!! Form::radio('answer', '4', ($question->pivot->answer == 4)) !!} {!! Form::label(null, $question->option_4) !!}
         </div>
     @endif
 

@@ -8,7 +8,15 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="mb-3 text-center" style="color: #373737">Test Instances</h2>
+    <div class="mb-3 row">
+        <div class="col-sm-2">
+            <a role="button" class="btn btn-secondary" href="{{route('tests..', ['assistant', $from])}}">Back</a>
+        </div>
+        <div class="col-sm-8">
+            <h2 class="mb-3 text-center" style="color: #373737">Test Instances</h2>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
 
     <div class="table-responsive">
         <table class="table table-hover table-bordered mt-4">
@@ -56,7 +64,7 @@
                 @elseif($listType == 'myInstances')
                     <div class="d-flex justify-content-end">
                         <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success">Edit revision</a>
-                        <a href="{{route('test..results', [$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Student view</a>
+                        <a href="{{route('tests...results', ['assistant' ,$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Student view</a>
                     </div>
                 @endif
                 </td>

@@ -9,7 +9,7 @@
 <div class="container rounded mt-5 pt-4 pl-4 pr-4 pb-4 bg-white">
     <div class="row" style="padding: 0px">
         <div class="col-sm-2">
-            <a role="button" class="btn btn-secondary" href="{{route('tests..', ['student', 'history'])}}">Back</a>
+            <a role="button" class="btn btn-secondary" href="{{($from == 'student') ? route('tests..', ['student', 'history']) : route('tests..instance.', ['history', $test_id, Auth::id()])}}">Back</a>
         </div>
         <div class="col-sm-8">
             <h2 class="text-center"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
@@ -60,16 +60,16 @@
                 <label class="font-weight-bold mt-3" style="color: #373737">Your answer</label>
                 <form class="mb-5">
                     <div class="form-check" style="padding-left: 0px">
-                        {!! Form::radio('testQuestion', '1', ($question->pivot->answer == 1), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_1, null, ['class' => (($question->pivot->answer == 1) ? (($question->pivot->points != null) ? (($question->right_option == 1) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
+                        {!! Form::radio('testQuestion', '1', ($question->pivot->answer == 1), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_1, ['class' => (($question->pivot->answer == 1) ? (($question->pivot->points != null) ? (($question->right_option == 1) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
                     </div>
                     <div class="form-check" style="padding-left: 0px">
-                        {!! Form::radio('testQuestion', '2', ($question->pivot->answer == 2), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_2, null, ['class' => (($question->pivot->answer == 2) ? (($question->pivot->points != null) ? (($question->right_option == 2) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
+                        {!! Form::radio('testQuestion', '2', ($question->pivot->answer == 2), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_2, ['class' => (($question->pivot->answer == 2) ? (($question->pivot->points != null) ? (($question->right_option == 2) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
                     </div>
                     <div class="form-check" style="padding-left: 0px">
-                        {!! Form::radio('testQuestion', '3', ($question->pivot->answer == 3), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_3, null, ['class' => (($question->pivot->answer == 3) ? (($question->pivot->points != null) ? (($question->right_option == 3) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
+                        {!! Form::radio('testQuestion', '3', ($question->pivot->answer == 3), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_3, ['class' => (($question->pivot->answer == 3) ? (($question->pivot->points != null) ? (($question->right_option == 3) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
                     </div>
                     <div class="form-check" style="padding-left: 0px">
-                        {!! Form::radio('testQuestion', '4', ($question->pivot->answer == 4), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_4, null, ['class' => (($question->pivot->answer == 4) ? (($question->pivot->points != null) ? (($question->right_option == 4) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
+                        {!! Form::radio('testQuestion', '4', ($question->pivot->answer == 4), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_4, ['class' => (($question->pivot->answer == 4) ? (($question->pivot->points != null) ? (($question->right_option == 4) ? 'font-weight-bold text-success' : 'font-weight-bold text-danger') : 'font-weight-bold') : '')]) !!}
                     </div>
                 </form>
             @endif

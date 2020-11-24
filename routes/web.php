@@ -52,7 +52,7 @@ Route::get('sign_on/{test_id}/test/{user_id}/{correction}/un_confirm', 'SignOnTe
 Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestApplyController@destroy')->name('sign_on.test..destroy');
 
 
-Route::get('test/{test_id}/instances/{assistant_id}', 'TestController@showInstances')->name('test.instances.');
+Route::get('tests/{from}/{id}/instance/{assistant_id}', 'TestController@showInstances')->name('tests..instance.');
 
 Route::get('test/correct/{instance_id}/end', 'TestInstanceCorrectionController@endReview')->name('test-correct.instances-end');
 
@@ -60,7 +60,7 @@ Route::get('test/correct/{instance_id}', 'TestInstanceCorrectionController@index
 Route::get('test/correct/{instance_id}/{question_id}', 'TestInstanceCorrectionController@question')->name('question-correct..');
 Route::post('question/correct/{instance_id}/{question_index}', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save..');
 
-Route::get('test/{test_id}/{student_id}/results', 'TestInstanceController@showResults')->name('test..results');
+Route::get('tests/{from}/{id}/{student_id}/results', 'TestInstanceController@showResults')->name('tests...results');
 
 Route::get('test/{test_id}/preview', 'TestInstanceController@index')->name('test.preview');
 Route::get('test/{test_id}/create', 'TestInstanceController@create')->name('test.create');

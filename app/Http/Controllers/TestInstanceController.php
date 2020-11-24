@@ -31,13 +31,13 @@ class TestInstanceController extends Controller
         return true;
     }
 
-    public function showResults($test_id, $student_id)
+    public function showResults($from, $test_id, $student_id)
     {
         $instance = TestInstance::all()->whereIn('test_id', $test_id)->whereIn('student_id', $student_id)->first();
         if($instance)
         {
             $questions = $instance->instances_questions;
-            return view('tests.instance.results', compact('instance', 'questions'));
+            return view('tests.instance.results', compact('from', 'test_id', 'instance', 'questions'));
         }
         else
         {

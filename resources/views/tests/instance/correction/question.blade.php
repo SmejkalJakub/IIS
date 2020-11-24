@@ -61,16 +61,16 @@
 
         <label class="font-weight-bold mt-3" style="color: #373737">Answer</label>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('testQuestion', '1', ($question->pivot->answer == 1), ['disabled' => 'disabled', 'style' => 'background-color: #44FF00']) !!} {!! Form::label($question->option_1, null, ['class' => (($question->right_option == 1) ? 'text-success font-weight-bold' : (($question->pivot->answer == 1) ? 'text-danger font-weight-bold' : ''))]) !!}
+            {!! Form::radio('testQuestion', '1', ($question->pivot->answer == 1), ['disabled' => 'disabled', 'style' => 'background-color: #44FF00']) !!} {!! Form::label(null, $question->option_1, ['class' => (($question->right_option == 1) ? 'text-success font-weight-bold' : (($question->pivot->answer == 1) ? 'text-danger font-weight-bold' : ''))]) !!}
         </div>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('testQuestion', '2', ($question->pivot->answer == 2), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_2, null, ['class' => (($question->right_option == 2) ? 'text-success font-weight-bold' : (($question->pivot->answer == 2) ? 'text-danger font-weight-bold' : ''))]) !!}
+            {!! Form::radio('testQuestion', '2', ($question->pivot->answer == 2), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_2, ['class' => (($question->right_option == 2) ? 'text-success font-weight-bold' : (($question->pivot->answer == 2) ? 'text-danger font-weight-bold' : ''))]) !!}
         </div>
         <div class="form-check" style="padding-left: 0px">
-            {!! Form::radio('testQuestion', '3', ($question->pivot->answer == 3), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_3, null, ['class' => (($question->right_option == 3) ? 'text-success font-weight-bold' : (($question->pivot->answer == 3) ? 'text-danger font-weight-bold' : ''))]) !!}
+            {!! Form::radio('testQuestion', '3', ($question->pivot->answer == 3), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_3, ['class' => (($question->right_option == 3) ? 'text-success font-weight-bold' : (($question->pivot->answer == 3) ? 'text-danger font-weight-bold' : ''))]) !!}
         </div>
         <div class="form-check mb-5" style="padding-left: 0px">
-            {!! Form::radio('testQuestion', '4', ($question->pivot->answer == 4), ['disabled' => 'disabled']) !!} {!! Form::label($question->option_4, null, ['class' => (($question->right_option == 4) ? 'text-success font-weight-bold' : (($question->pivot->answer == 4) ? 'text-danger font-weight-bold' : ''))]) !!}
+            {!! Form::radio('testQuestion', '4', ($question->pivot->answer == 4), ['disabled' => 'disabled']) !!} {!! Form::label(null, $question->option_4, ['class' => (($question->right_option == 4) ? 'text-success font-weight-bold' : (($question->pivot->answer == 4) ? 'text-danger font-weight-bold' : ''))]) !!}
         </div>
     @endif
 
@@ -84,7 +84,7 @@
     </div>
 
     <label class="font-weight-bold mt-3" style="color: #373737">Comment</label>
-    {!! Form::textarea('comment', $question->pivot->comment, ['class' => 'form-control', 'placeholder' => 'Enter comment', 'maxlength'=>256]) !!}
+    {!! Form::textarea('comment', $question->pivot->comment, ['class' => 'form-control', 'placeholder' => 'Enter comment']) !!}
 
     <div class="row mt-3">
         <div class="col">
