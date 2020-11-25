@@ -7,7 +7,9 @@
 @include('layouts.navbar', ['activeBar' => 'tests'])
 
 <div class="container bg-white rounded mt-5 p-4">
-    <h2 class="text-center mb-4"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
+    <h2 class="text-center mb-3"><span style="color: #373737">Test:</span> <span class="font-weight-normal">{{$instance->test->name}}</span></h2>
+    <h4 class="text-center mb-4">Remaining time: <span class="font-weight-normal" id="timer"></span></h4>
+
     <div class="d-flex justify-content-center">
         @for ($i = 0; $i < count($instance->instances_questions); $i++)
             <a href="{{route('test-fill..', [$instance->id, $i])}}" role="button" class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
@@ -76,7 +78,6 @@
     </div>
 </div>
 
-<div id="timer"></div>
 @include('layouts.timer', ['divId' => 'timer'])
 
 </body>

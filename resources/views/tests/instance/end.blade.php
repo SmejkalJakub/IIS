@@ -52,9 +52,13 @@
     <div class="p-3 border rounded">
         @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $instance->test])
 
+       <h4><span style="color: #373737">Remaining time: </span> <span class="font-weight-normal" id="timer"></span></h4><hr>
+
         <a href="{{route('test.finish', $instance->id)}}" role="button" class="btn btn-sm {{$color}}">End test</a>
     </div>
 </div>
+
+@include('layouts.timer', ['divId' => 'timer'])
 
 </body>
 </html>

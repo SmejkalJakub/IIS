@@ -34,6 +34,8 @@
     <div class="p-3 border rounded">
         @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $test])
 
+        <hr>
+
         <a href="{{route('test.create', $test->id)}}" role="button" class="btn btn-sm btn-success mr-2">Start the test</a>
     </div>
 </div>
