@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\SignApplyHelper;
 use App\Models\Category;
 use App\Models\Test;
+use App\Models\SignOnTestApply;
 use App\Models\TestInstance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -79,6 +80,30 @@ class TestController extends Controller
         return view('tests.instance.list', compact('from', 'instances', 'list_type'));
     }
 
+    public function showAllInstances($test_id)
+    {
+        $test = Test::all()->whereIn('id', $test_id)->first();
+
+        $instances = $test->instances;
+
+        foreach ($instances as $test_instance)
+        {
+            $result = 0;
+            if($test_instance)
+            {
+                $test_questions = $test_instance->instances_questions;
+
+                foreach($test_questions as $question)
+                {
+                    $result += $question->pivot->points;
+                }
+            }
+            $test_instance->setAttribute('points', $result);
+        }
+
+        return view('tests.instance.allList', compact('instances'));
+    }
+
     public function create()
     {
         if (!AuthController::checkUser('profesor')) {
@@ -142,6 +167,18 @@ class TestController extends Controller
         $test->available_from = $request->available_from;
 
         $test->save();
+
+        $apply = new SignOnTestApply();
+        $apply->applier_id = Auth::id();
+        $apply->test_id = $test->id;
+
+        $apply->applied_datetime = now();
+
+        $apply->correction = True;
+        $apply->authorizer_id = Auth::id();
+        $apply->confirmed_datetime = now();
+
+        $apply->save();
 
         return redirect()->route('tests....edit', ['professor', 'myTests', 'list', $test->id]);
     }
@@ -434,7 +471,15 @@ class TestController extends Controller
                     }
                     elseif(AuthController::checkUser('profesor'))
                     {
-                        $row .= '<a href="'.route('tests....edit', [$request->role, $request->filter, 'list', $test->id]).'" role="button" class="btn btn-sm btn-success">Edit</a>';
+                        if(count($test->instances) != 0)
+                        {
+                            $row .= '<a href="'.route('test.all', [$test->id]).'" style="background-color: #EB5910" role="button" class="btn btn-sm btn-secondary text-white">All instances</a>';
+                        }
+                        else
+                        {
+                            $row .= '<button class="btn btn-sm btn-secondary text-white" disabled>No instances</button>';
+                        }
+                        $row .= '<a href="'.route('tests....edit', [$request->role, $request->filter, 'list', $test->id]).'" role="button" class="btn btn-sm btn-success ml-2">Edit</a>';
                         $row .= '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
                             '<input type="hidden" name="_method" value="DELETE">'.
                             '<button type="submit" onclick="return confirm(\'Are you sure that you want to delete this test?\')" class="btn btn-sm btn-danger ml-2">Delete</button>'.

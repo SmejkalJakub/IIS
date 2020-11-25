@@ -35,6 +35,7 @@ Route::get('/foo', function () {
     Artisan::call('storage:link');
 });
 
+Route::get('test/{id}/instances', 'TestController@showAllInstances')->name('test.all');
 Route::get('tests/{role}/{filter}', 'TestController@index')->name('tests..');
 Route::get('tests/{role}/{filter}/{id}/show', 'TestController@show')->name('tests...show');
 Route::get('tests/{role}/{filter}/{from}/{id}/edit', 'TestController@edit')->name('tests....edit');
@@ -61,6 +62,7 @@ Route::get('tests/{from}/{instance_id}/{question_id}/correction', 'TestInstanceC
 Route::post('tests/{from}/{instance_id}/{question_index}/correction', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save...');
 
 Route::get('tests/{from}/{id}/{student_id}/results', 'TestInstanceController@showResults')->name('tests...results');
+
 
 Route::get('test/{test_id}/preview', 'TestInstanceController@index')->name('test.preview');
 Route::get('test/{test_id}/create', 'TestInstanceController@create')->name('test.create');
