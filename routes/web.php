@@ -54,11 +54,11 @@ Route::get('sign_on/{test_id}/test/{user_id}/{correction}/destroy', 'SignOnTestA
 
 Route::get('tests/{from}/{id}/instance/{assistant_id}', 'TestController@showInstances')->name('tests..instance.');
 
-Route::get('test/correct/{instance_id}/end', 'TestInstanceCorrectionController@endReview')->name('test-correct.instances-end');
+Route::get('tests/{from}/{instance_id}/end', 'TestInstanceCorrectionController@endReview')->name('test-correct..instances-end');
 
-Route::get('test/correct/{instance_id}', 'TestInstanceCorrectionController@index')->name('test-correct.');
-Route::get('test/correct/{instance_id}/{question_id}', 'TestInstanceCorrectionController@question')->name('question-correct..');
-Route::post('question/correct/{instance_id}/{question_index}', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save..');
+Route::get('tests/{from}/{instance_id}/correction', 'TestInstanceCorrectionController@index')->name('test-correct..');
+Route::get('tests/{from}/{instance_id}/{question_id}/correction', 'TestInstanceCorrectionController@question')->name('question-correct...');
+Route::post('tests/{from}/{instance_id}/{question_index}/correction', 'TestInstanceCorrectionController@saveCorrection')->name('correction-save...');
 
 Route::get('tests/{from}/{id}/{student_id}/results', 'TestInstanceController@showResults')->name('tests...results');
 
@@ -76,13 +76,6 @@ Route::get('reset-password-form', 'PasswordResetController@index')->name('reset-
 Route::post('reset-password-request', 'PasswordResetController@checkEmailForPassReset')->name('reset-password-request');
 Route::get('password/reset/{token}', 'PasswordResetController@resetPasswordForm');
 Route::post('reset-password', 'PasswordResetController@resetPassword');
-
-/*Route::get('tests.index', 'TestController@index')->name('tests.index');
-Route::get('tests.create', 'TestController@create')->name('tests.create');
-Route::get('tests.edit/{id}', 'TestController@edit')->name('tests.edit/{id}');
-Route::delete('tests.destroy/{id}', 'TestController@destroy')->name('tests.destroy');
-Route::put('tests.store', 'TestController@store')->name('tests.store');
-Route::put('tests.update', 'TestController@update')->name('tests.update');*/
 
 Route::get('user', 'SettingsController@settings')->name('user');
 Route::get('user/create', 'UsersListController@create')->name('user.create');

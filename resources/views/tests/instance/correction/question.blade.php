@@ -11,7 +11,7 @@
             class="font-weight-normal">{{$instance->test->name}}</span></h2>
     <div class="d-flex justify-content-center">
         @for ($i = 0; $i < count($instance->instances_questions); $i++)
-            <a href="{{route('question-correct..', [$instance->id, $i])}}" role="button"
+            <a href="{{route('question-correct...', [$from, $instance->id, $i])}}" role="button"
                class="{{($i == $currentQuestion) ? 'btn btn-sm btn-info mr-2' : 'btn btn-sm btn-secondary mr-2'}}">{{$i + 1}}</a>
         @endfor
     </div>
@@ -74,7 +74,7 @@
         </div>
     @endif
 
-    {{ Form::open(array('route' => array('correction-save..', $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
+    {{ Form::open(array('route' => array('correction-save...', $from, $instance->id, $currentQuestion), 'style' => 'display:inline')) }}
 
     <div class="input-group" style="max-width: 400px">
         <div class="input-group-prepend">
@@ -90,7 +90,7 @@
         <div class="col">
             <div class="d-flex">
                 @if($currentQuestion != 0)
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
+                    <a href="{{route('question-correct...', [$from, $instance->id, $currentQuestion - 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Previous</a>
                     {!! Form::button('Save and previous', [ 'name' => 'action', 'value' => 'Save and previous', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
                 @endif
 
@@ -98,7 +98,7 @@
 
                 @if($currentQuestion != count($instance->instances_questions) - 1)
                     {!! Form::button('Save and next', [ 'name' => 'action', 'value' => 'Save and next', 'class' => 'btn btn-sm btn-success mr-2', 'type' => 'submit']) !!}
-                    <a href="{{route('question-correct..', [$instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
+                    <a href="{{route('question-correct...', [$from, $instance->id, $currentQuestion + 1])}}" role="button" class="btn btn-sm btn-secondary mr-2">Next</a>
                 @else
                     {!! Form::button('Save and end revision', [ 'name' => 'action', 'value' => 'Save and end revision', 'onclick' => 'return confirm(\'Are you sure that you want to end this review?\')',' class' => 'btn btn-sm btn-info mr-2', 'type' => 'submit']) !!}
                 @endif
@@ -112,7 +112,7 @@
         ?>
 
         <div class="col-auto">
-            <a href="{{route('test-correct.instances-end', $instance->id)}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button" class="btn btn-sm {{$color}}">End Revision</a>
+            <a href="{{route('test-correct..instances-end', [$from, $instance->id])}}" onclick="return confirm('Are you sure that you want to end this review?')" role="button" class="btn btn-sm {{$color}}">End Revision</a>
         </div>
     </div>
 </div>

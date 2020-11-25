@@ -31,7 +31,7 @@
 
             <tbody>
             @foreach ($instances as $instance)
-                @if($listType == 'testInstances')
+                @if($list_type == 'testInstances')
                     @if($instance->assistant and $instance->assistant->id != Auth::id())
                         @continue
                     @endif
@@ -52,18 +52,18 @@
                 <td>{{$total_points}}</td>
                 <td>{{$instance->points}}</td>
                 <td>
-                @if($listType == 'testInstances')
+                @if($list_type == 'testInstances')
                     @if(!$instance->assistant)
-                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm float-right btn-info">Review the test</a>
+                        <a href="{{route('test-correct..', [$from ,$instance->id])}}" role="button" class="btn btn-sm float-right btn-info">Review the test</a>
                     @elseif($instance->assistant->id == Auth::id())
                         <?php
                             $revisionState = App\Http\Helpers\testInstanceHelper::stateOfFilling($instance, true);
                         ?>
-                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm float-right {{$revisionState}}">Edit revision</a>
+                        <a href="{{route('test-correct..', [$from ,$instance->id])}}" role="button" class="btn btn-sm float-right {{$revisionState}}">Edit revision</a>
                     @endif
-                @elseif($listType == 'myInstances')
+                @elseif($list_type == 'myInstances')
                     <div class="d-flex justify-content-end">
-                        <a href="{{route('test-correct.', $instance->id)}}" role="button" class="btn btn-sm btn-success">Edit revision</a>
+                        <a href="{{route('test-correct..', [$from, $instance->id])}}" role="button" class="btn btn-sm btn-success">Edit revision</a>
                         <a href="{{route('tests...results', ['assistant' ,$instance->test->id, $instance->student_id])}}" role="button" class="btn btn-sm btn-info ml-2">Student view</a>
                     </div>
                 @endif

@@ -18,7 +18,7 @@ class TestInstanceCorrectionController extends Controller
         return true;
     }
 
-    public function index($instance_id)
+    public function index($from ,$instance_id)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
@@ -26,11 +26,11 @@ class TestInstanceCorrectionController extends Controller
         {
             $instance->assistant_id = Auth::id();
             $instance->update();
-            return $this->question($instance_id, 0);
+            return $this->question($from, $instance_id, 0);
         }
         else if ($instance->assistant->id == Auth::id())
         {
-            return $this->question($instance_id, 0);
+            return $this->question($from, $instance_id, 0);
         }
         else
         {
@@ -39,7 +39,7 @@ class TestInstanceCorrectionController extends Controller
 
     }
 
-    public function question($instance_id, $question_index)
+    public function question($from ,$instance_id, $question_index)
     {
 
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
@@ -52,12 +52,12 @@ class TestInstanceCorrectionController extends Controller
 
         $currentQuestion = $question_index;
 
-        return view('tests.instance.correction.question', compact('question', 'instance', 'currentQuestion'));
+        return view('tests.instance.correction.question', compact('from','question', 'instance', 'currentQuestion'));
 
     }
 
 
-    public function endReview($instance_id)
+    public function endReview($from, $instance_id)
     {
         $instance = TestInstance::all()->where('id', '=',$instance_id)->first();
 
@@ -65,16 +65,21 @@ class TestInstanceCorrectionController extends Controller
         $instance->update();
 
         $test = $instance->test;
+        $list_type = 0;
 
-        if(count($test->instances->where('corrected', '1')) == count($test->instances))
+        if($from == 'history')
+        {
+            $list_type = Auth::id();
+        }
+        elseif(count($test->instances->where('corrected', '1')) == count($test->instances))
         {
             return redirect()->route('tests..', ['assistant', 'active']);
         }
 
-        return redirect()->route('tests..instance.', ['active' , $test->id, 0]);
+        return redirect()->route('tests..instance.', [$from , $test->id, $list_type]);
     }
 
-    public function saveCorrection(Request $request, $instance_id, $question_index)
+    public function saveCorrection(Request $request, $from, $instance_id, $question_index)
     {
         $instance = TestInstance::all()->whereIn('id', $instance_id)->first();
 
@@ -88,16 +93,16 @@ class TestInstanceCorrectionController extends Controller
 
         switch ($request->input('action')) {
             case 'Save':
-                return $this->question($instance_id, $question_index);
+                return $this->question($from, $instance_id, $question_index);
                 break;
             case 'Save and next':
-                return $this->question($instance_id, $question_index + 1);
+                return $this->question($from, $instance_id, $question_index + 1);
                 break;
             case 'Save and previous':
-                return $this->question($instance_id, $question_index - 1);
+                return $this->question($from, $instance_id, $question_index - 1);
                 break;
             case 'Save and end revision':
-                return $this->endReview($instance_id);
+                return $this->endReview($from, $instance_id);
                 break;
         }
     }

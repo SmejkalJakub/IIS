@@ -53,12 +53,12 @@ class TestController extends Controller
 
         if($assistant_id == 0)
         {
-            $listType = 'testInstances';
+            $list_type = 'testInstances';
         }
         else
         {
             $instances = $instances->whereIn('assistant_id', $assistant_id);
-            $listType = 'myInstances';
+            $list_type = 'myInstances';
         }
 
         foreach ($instances as $test_instance)
@@ -76,7 +76,7 @@ class TestController extends Controller
             $test_instance->setAttribute('points', $result);
         }
 
-        return view('tests.instance.list', compact('from', 'instances', 'listType'));
+        return view('tests.instance.list', compact('from', 'instances', 'list_type'));
     }
 
     public function create()
