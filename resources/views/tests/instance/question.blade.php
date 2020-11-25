@@ -76,5 +76,9 @@
     </div>
 </div>
 
+<div id="timer"></div>
+@include('layouts.timer', ['divId' => 'timer'])
+
 </body>
 </html>
+

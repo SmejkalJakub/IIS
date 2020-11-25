@@ -410,7 +410,7 @@ class TestController extends Controller
                         }
                         else
                         {
-                            $row .= '<a role="button" href="'.route('test..results', [$test->id, Auth::id()]).'" class="btn btn-sm btn-success">View result</a>';
+                            $row .= '<a role="button" href="'.route('tests...results', ['student', $test->id, Auth::id()]).'" class="btn btn-sm btn-success">View result</a>';
                         }
                     }
                     elseif($request->role == 'assistant' and AuthController::checkUser('assistant'))
@@ -442,12 +442,14 @@ class TestController extends Controller
                             '</form>';
                     }
 
+
                     $row .= '<a href="'.route('tests...show', [$request->role, $request->filter, $test->id]).'" role="button" class="btn btn-sm ml-2 btn-info">Detail</a>';
                     $row .= '</div></td>';
                     $row .= '</tr>';
 
                     $body .= $row;
                 }
+
                 return Response($body);
             }
         }
