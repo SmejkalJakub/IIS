@@ -52,7 +52,7 @@
     ?>
 
     <div class="p-3 border rounded">
-        @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $test])
+        @include('tests.testInfo', ['total_max_test_points' => $total_max_test_points, 'total_num_of_questions' => $total_num_of_questions, 'test' => $test])<hr>
         <div class="d-flex">
             @if($total_max_test_points != 0)
                 @if(App\Http\Helpers\SignApplyHelper::my_sign_is_signed($test, 0))

@@ -442,14 +442,12 @@ class TestController extends Controller
                             '</form>';
                     }
 
-
                     $row .= '<a href="'.route('tests...show', [$request->role, $request->filter, $test->id]).'" role="button" class="btn btn-sm ml-2 btn-info">Detail</a>';
                     $row .= '</div></td>';
                     $row .= '</tr>';
 
                     $body .= $row;
                 }
-
                 return Response($body);
             }
         }

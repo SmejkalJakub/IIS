@@ -5,4 +5,4 @@
 <h5><span style="color: #373737">Available from:</span> <span class="font-weight-normal">{{$test->available_from}}</span></h5>
 <h5><span style="color: #373737">Available to:</span> <span class="font-weight-normal">{{$test->available_to}}</span></h5>
 <h4 class="mt-4" style="color: #373737">Description</h4>
-<p>{{$test->description}}</p><hr>
+<p>{{$test->description}}</p>
