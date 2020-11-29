@@ -473,12 +473,9 @@ class TestController extends Controller
                     {
                         if(count($test->instances) != 0)
                         {
-                            $row .= '<a href="'.route('test.all', [$test->id]).'" style="background-color: #EB5910" role="button" class="btn btn-sm btn-secondary text-white">All instances</a>';
+                            $row .= '<a href="'.route('test.all', [$test->id]).'" role="button" class="btn btn-sm btn-secondary">All instances</a>';
                         }
-                        else
-                        {
-                            $row .= '<button class="btn btn-sm btn-secondary text-white" disabled>No instances</button>';
-                        }
+
                         $row .= '<a href="'.route('tests....edit', [$request->role, $request->filter, 'list', $test->id]).'" role="button" class="btn btn-sm btn-success ml-2">Edit</a>';
                         $row .= '<form class="delete" action="'.route('tests.destroy', $test->id).'" method="POST" style="display:inline">'.
                             '<input type="hidden" name="_method" value="DELETE">'.
