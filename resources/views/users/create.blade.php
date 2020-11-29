@@ -16,46 +16,50 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" id="first_name" name="first_name" required>
+                <input type="text" class="form-control" placeholder="First name *" id="first_name" name="first_name" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" id="surname" name="surname" required>
+                <input type="text" class="form-control"  placeholder="Surname *" id="surname" name="surname" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" id="email" name="email" reqiured>
+                <input type="email" class="form-control" placeholder="E-mail *" id="email" name="email" reqiured>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="Confirm E-mail" id="emailConfirmation" name="emailConfirmation" reqiured>
+                <input type="email" class="form-control" placeholder="Confirm E-mail *" id="emailConfirmation" name="emailConfirmation" reqiured>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" id="password" name="password" value="{{$randomPass}}" reqiured>
+                <input type="password" class="form-control" placeholder="Password *" id="password" name="password" value="{{$randomPass}}" reqiured>
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" id="passwordConfirmation" name="passwordConfirmation" value="{{$randomPass}}" reqiured>
+                <input type="password" class="form-control" placeholder="Confirm Password *" id="passwordConfirmation" name="passwordConfirmation" value="{{$randomPass}}" reqiured>
                 @if ($errors->has('passwordConfirmation'))
                     <span class="error">{{ $errors->first('passwordConfirmation') }}</span>
                 @endif
             </div>
-            <input type="checkbox" onclick="showPassword()"> Show Password
+            <div class="form-check mb-3" style="padding:0px">
+                <label class="form-check-label">
+                    <input type="checkbox" onclick="showPassword()"> Show Password
+                </label>
+            </div>
 
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputRole">Role</label>
+                    <label class="input-group-text" for="inputRole">Role *</label>
                 </div>
                 <select class="form-control" id="inputRole" name="role">
                     <option value="student" selected>Student</option>

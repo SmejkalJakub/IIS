@@ -40,7 +40,7 @@
         <div class="col-sm-8">
             <div class="input-group @if($errors->has('name')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Name</label>
+                    <label class="input-group-text">Name *</label>
                 </div>
                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Enter name', 'maxlength'=>128]) !!}
             </div>
@@ -51,7 +51,7 @@
         <div class="col-sm-4">
             <div class="input-group @if($errors->has('max_duration')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Max duration</label>
+                    <label class="input-group-text">Max duration *</label>
                 </div>
                 {{ Form::input('time', 'max_duration', null, ['id' => 'max_duration', 'class' => 'form-control']) }}
             </div>
@@ -65,7 +65,7 @@
         <div class="col-sm-6">
             <div class="input-group @if($errors->has('available_from')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Available from</label>
+                    <label class="input-group-text">Available from *</label>
                 </div>
                 {{ Form::input('dateTime-local', 'available_from', date('Y-m-d\TH:i', strtotime(now())), ['id' => 'available_from', 'class' => 'form-control']) }}
             </div>
@@ -76,7 +76,7 @@
         <div class="col-sm-6">
             <div class="input-group @if($errors->has('available_to')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Available to</label>
+                    <label class="input-group-text">Available to *</label>
                 </div>
                 {{ Form::input('dateTime-local', 'available_to', date('Y-m-d\TH:i', strtotime(now())), ['id' => 'available_to', 'class' => 'form-control']) }}
             </div>
@@ -87,7 +87,7 @@
     </div>
 
     <div class="form-group mt-3 @if($errors->has('description')) has-error @endif">
-        <label class="font-weight-bold" style="color: #373737">Description</label>
+        <label class="font-weight-bold" style="color: #373737">Description *</label>
         {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Type description', 'maxlength'=>1024]) !!}
         @if ($errors->has('description'))
             <span class="help-block">{!! $errors->first('description') !!}</span>@endif

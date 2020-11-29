@@ -25,7 +25,7 @@
         <div class="col-sm-7">
             <div class="input-group @if($errors->has('name')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Name</label>
+                    <label class="input-group-text">Name *</label>
                 </div>
                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Enter name', 'maxlength'=>128]) !!}
             </div>
@@ -36,7 +36,7 @@
         <div class="col-sm-5">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Type</label>
+                    <label class="input-group-text">Type *</label>
                 </div>
                 {!! Form::select('type_of_answer', [1 => 'fulltext', 0 => 'test'], 1, ['id' => 'type_of_answer', 'class' => 'form-control', 'onchange' => 'showDiv(\'openAnswer\', \'closedAnswer\', \'type_of_answer\')']) !!}
             </div>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="mt-3 form-group @if($errors->has('task')) has-error @endif">
-        <label class="font-weight-bold" style="color: #373737">Task</label>
+        <label class="font-weight-bold" style="color: #373737">Task *</label>
         {!! Form::textarea('task', null, ['class' => 'form-control', 'placeholder' => 'Enter task']) !!}
         @if ($errors->has('task'))
             <span class="help-block">{!! $errors->first('task') !!}</span>@endif
@@ -70,7 +70,7 @@
                     <span class="help-block">{!! $errors->first('right_answer') !!}</span>@endif
             </div>
             <div id="closedAnswer">
-                <label class="font-weight-bold" style="color: #373737">Select right answer</label>
+                <label class="font-weight-bold" style="color: #373737">Select right answer *</label>
                 <div class="input-group mb-3 @if($errors->has('option_1')) has-error @endif">
                     <div class="input-group-prepend">
                         <div class="input-group-text">

@@ -29,7 +29,7 @@
     {{ Form::open(array('route' => array('tests....edit/storeCategory', [$role, $filter, $from, $test->id]))) }}
 
     <div class="form-group @if($errors->has('category_id')) has-error @endif">
-        <label class="font-weight-bold" style="color: #373737">Categories</label>
+        <label class="font-weight-bold" style="color: #373737">Categories *</label>
         {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'id' => 'category_id', 'multiple' => 'multiple']) !!}
         @if ($errors->has('category_id'))
             <span class="help-block">{!! $errors->first('category_id') !!}</span>
@@ -38,7 +38,7 @@
 
     <div class="input-group @if($errors->has('number_of_questions')) has-error @endif">
         <div class="input-group-prepend">
-            <label class="input-group-text">Number of questions</label>
+            <label class="input-group-text">Number of questions *</label>
         </div>
         {!! Form::number('number_of_questions', null, ['class' => 'form-control','required','min' => 1, 'placeholder' => 'Enter number of questions', 'maxlength'=>128]) !!}
         <div class="input-group-append">

@@ -12,25 +12,25 @@
         {{ csrf_field() }}
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" id="first_name" name="first_name" value="{{Auth::user()->first_name}}" required>
+                <input type="text" class="form-control" placeholder="First name *" id="first_name" name="first_name" value="{{Auth::user()->first_name}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" id="surname" name="surname" value="{{Auth::user()->surname}}" required>
+                <input type="text" class="form-control"  placeholder="Surname *" id="surname" name="surname" value="{{Auth::user()->surname}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" id="email" name="email" value="{{ Auth::user()->email}}" required>
+                <input type="email" class="form-control" placeholder="E-mail *" id="email" name="email" value="{{ Auth::user()->email}}" required>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Current password" id="currentPassword" name="currentPassword">
+                <input type="password" class="form-control" placeholder="Current password *" id="currentPassword" name="currentPassword">
                 @if ($errors->has('wrongCurrentPass'))
                     <span class="error">{{ $errors->first('wrongCurrentPass') }}</span>
                 @endif
@@ -47,7 +47,11 @@
                     <span class="error">{{ $errors->first('newPassword_confirmation') }}</span>
                 @endif
             </div>
-            <input type="checkbox" onclick="showPassword()"> Show Password
+            <div class="form-check mb-3" style="padding:0px">
+                <label class="form-check-label">
+                    <input type="checkbox" onclick="showPassword()"> Show Password
+                </label>
+            </div>
 
             <button type="submit" class="btn btn-success btn-block font-weight-bold">Save</button>
         </div>

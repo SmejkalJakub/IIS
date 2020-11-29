@@ -22,7 +22,7 @@
         <div class="col-sm-7">
             <div class="mb-3 input-group @if($errors->has('name')) has-error @endif">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">Name</label>
+                    <label class="input-group-text">Name *</label>
                 </div>
                 {!! Form::text('name', $category->name, ['class' => 'form-control', 'placeholder' => 'Enter name', 'maxlength'=>128]) !!}
                 @if ($errors->has('name'))
@@ -32,7 +32,7 @@
         <div class="col-sm-3">
             <div class="input-group @if($errors->has('max_points')) has-error @endif">
                 <div class="mb-3 input-group-prepend">
-                    <label class="input-group-text">Points per question</label>
+                    <label class="input-group-text">Points per question *</label>
                 </div>
                 {{ Form::input('number', 'max_points', $category->max_points, ['id' => 'max_points', 'class' => 'form-control']) }}
                 @if ($errors->has('max_points'))

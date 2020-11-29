@@ -19,13 +19,13 @@
             <input type="hidden" class="form-control" id="token" name="token" value="{{$token}}"/>
             <input type="hidden" class="form-control" id="email" name="email" value="{{$email}}"/>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="New password" name="password" required>
+                <input type="password" class="form-control" placeholder="New password *" name="password" required>
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Confirm new password" name="password_confirmation" required>
+                <input type="password" class="form-control" placeholder="Confirm new password *" name="password_confirmation" required>
                 @if ($errors->has('password'))
                     <span class="error">{{ $errors->first('password') }}</span>
                 @endif

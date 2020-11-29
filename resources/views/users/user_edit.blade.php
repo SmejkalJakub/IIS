@@ -15,26 +15,26 @@
         </div>
         <div class="p-3">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="First name" id="first_name" name="first_name" value="{{$user->first_name}}" required>
+                <input type="text" class="form-control" placeholder="First name *" id="first_name" name="first_name" value="{{$user->first_name}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('first_name') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"  placeholder="Surname" id="surname" name="surname" value="{{$user->surname}}" required>
+                <input type="text" class="form-control"  placeholder="Surname *" id="surname" name="surname" value="{{$user->surname}}" required>
                 @if ($errors->has('name'))
                     <span class="error">{{ $errors->first('surname') }}</span>
                 @endif
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail" id="email" name="email" value="{{ $user->email}}" reqiured>
+                <input type="email" class="form-control" placeholder="E-mail *" id="email" name="email" value="{{ $user->email}}" reqiured>
                 @if ($errors->has('email'))
                     <span class="error">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputRole">Role</label>
+                    <label class="input-group-text" for="inputRole">Role *</label>
                 </div>
                 <select class="form-control" id="inputRole" name="role">
                     <option value="student" {{ ($user->role == 'student') ? 'selected' : '' }}>Student</option>

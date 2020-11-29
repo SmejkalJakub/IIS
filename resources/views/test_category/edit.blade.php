@@ -30,7 +30,7 @@
 
     <div class="input-group @if($errors->has('number_of_questions')) has-error @endif">
         <div class="input-group-prepend">
-            <label class="input-group-text">Number of questions</label>
+            <label class="input-group-text">Number of questions *</label>
         </div>
         {!! Form::number('number_of_questions', $test_category->pivot->number_of_questions, ['class' => 'form-control', 'required', 'placeholder' => 'Number of questions', 'min' => 1, 'max' => count($test_category->questions),'maxlength'=>128]) !!}
         <div class="input-group-append">
