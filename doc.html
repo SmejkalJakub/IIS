@@ -11,89 +11,90 @@
 </head>
 <body>
 
-<!-- Zkontrolujte prosím nastavení kódování v hlavièce dokumentu
-     podle pou¾itého editoru -->
+<!-- Zkontrolujte prosÃ­m nastavenÃ­ kÃ³dovÃ¡nÃ­ v hlaviÄce dokumentu
+     podle pouÅ¾itÃ©ho editoru -->
 
-<h1>Testy: tvorba, plnìní a hodnocení testovıch zkou¹ek</h1> <!-- Nahradte názvem svého zadání -->
+<h1>Testy: tvorba, plnÄ›nÃ­ a hodnocenÃ­ testovÃ½ch zkouÅ¡ek</h1> <!-- Nahradte nÃ¡zvem svÃ©ho zadÃ¡nÃ­ -->
 
 <dl>
-	<dt>Autoøi</dt>
-	<dd>Jakub Smejkal <!-- Nahraïte skuteènım jménem a e-mailem autora a popisem èinnosti -->
+	<dt>AutoÅ™i</dt>
+	<dd>Jakub Smejkal <!-- NahraÄte skuteÄnÃ½m jmÃ©nem a e-mailem autora a popisem Äinnosti -->
 	    <a href="mailto:xsmejk28@stud.fit.vutbr.cz">xsmejk28@stud.fit.vutbr.cz</a> -
-		vedoucí, hlavní mozek a konzultant
+		vedoucÃ­, hlavnÃ­ mozek a konzultant
 	</dd>
-	<dd>Dominik Nejedlı <!-- Nahraïte skuteènım jménem a e-mailem autora a popisem èinnosti -->
+	<dd>Dominik NejedlÃ½ <!-- NahraÄte skuteÄnÃ½m jmÃ©nem a e-mailem autora a popisem Äinnosti -->
 	    <a href="mailto:xnejed09@stud.fit.vutbr.cz">xnejed09@stud.fit.vutbr.cz</a> -
-		web designer, UI specialista, tvùrce databáze
+		web designer, UI specialista, tvÅ¯rce databÃ¡ze
 	</dd>
-  <dd>Adam Grünwald<!-- Nahraïte skuteènım jménem a e-mailem autora a popisem èinnosti -->
+  <dd>Adam GrÃ¼nwald<!-- NahraÄte skuteÄnÃ½m jmÃ©nem a e-mailem autora a popisem Äinnosti -->
 	    <a href="mailto:xgrunw00@stud.fit.vutbr.cz">xgrunw00@stud.fit.vutbr.cz</a> -
-		konzultant, tvùrce databáze, dokumentace
+		konzultant, tvÅ¯rce databÃ¡ze, dokumentace
 	</dd>
 	<dt>URL aplikace</dt>
 	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-	<dd>(pokud má aplikace více vstupních stránek, napi¹te obdobnì dal¹í URL)</dd>
+	<dd>(pokud mÃ¡ aplikace vÃ­ce vstupnÃ­ch strÃ¡nek, napiÅ¡te obdobnÄ› dalÅ¡Ã­ URL)</dd>
 </dl>
 
-<h2>U¾ivatelé systému pro testování</h2>
-<p>Uveïte prosím existující zástupce <strong>v¹ech rolí u¾ivatelù</strong>.</p>
+<h2>UÅ¾ivatelÃ© systÃ©mu pro testovÃ¡nÃ­</h2>
+<p>UveÄte prosÃ­m existujÃ­cÃ­ zÃ¡stupce <strong>vÅ¡ech rolÃ­ uÅ¾ivatelÅ¯</strong>.</p>
 <table>
 <tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-<tr><td>admin@gmail.com</td><td>adminadmin</td><td>Administrátor</td></tr>
+<tr><td>admin@gmail.com</td><td>adminadmin</td><td>AdministrÃ¡tor</td></tr>
 <tr><td>profesor@gmail.com</td><td>profesor</td><td>Profesor</td></tr>
 <tr><td>asistent@gmail.com</td><td>asistent</td><td>Asistent</td></tr>
 <tr><td>student@gmail.com</td><td>student</td><td>Student</td></tr>
 </tbody></table>
 
-<p>(Diagram pøípadù u¾ití není nutné vkládat, pokud IS implementuje role a pøípady u¾ití definované zadáním.)</p>
+<p>(Diagram pÅ™Ã­padÅ¯ uÅ¾itÃ­ nenÃ­ nutnÃ© vklÃ¡dat, pokud IS implementuje role a pÅ™Ã­pady uÅ¾itÃ­ definovanÃ© zadÃ¡nÃ­m.)</p>
 
 <h2>Implementace</h2>
-Informaèní systém je implementován pomocí frameworku Laravel.
-O jendotlivé akce vyplıvající z diagramu pøípadù u¾ití se starají Controllery pro ka¾dou entitu, vztah èi specifickı druh èinnosti.
+InformaÄnÃ­ systÃ©m je implementovÃ¡n pomocÃ­ frameworku Laravel.
+O jendotlivÃ© akce vyplÃ½vajÃ­cÃ­ z diagramu pÅ™Ã­padÅ¯ uÅ¾itÃ­ se starajÃ­ Controllery pro kaÅ¾dou entitu, vztah Äi specifickÃ½ druh Äinnosti.
 <h3>Testy</h3>
 <h4>Sprava</h4>
-V controlleru TestController je implementována v jednotlivıch funkcích správa testù vèetnì vytváøení, editace a mazání.
+V controlleru TestController je implementovÃ¡na v jednotlivÃ½ch funkcÃ­ch sprÃ¡va testÅ¯ vÄetnÄ› vytvÃ¡Å™enÃ­, editace a mazÃ¡nÃ­.
 <h4>Prihlaseni</h4>
-Pøihla¹ování na psaní nebo opravu testu je implementováno v SignOnApplyControlleru.
-Pro operace s ¾ádostmi se vyu¾ívají i funkce ze tøídy SignApplyHelper ve slo¾ce Helpers.
-Tyto funkce ulehèují kontrolu, zdali je u¾ivatel pøihlá¹en na test, nebo v jakém stádiu je jeho ¾ádost.
+PÅ™ihlaÅ¡ovÃ¡nÃ­ na psanÃ­ nebo opravu testu je implementovÃ¡no v SignOnApplyControlleru.
+Pro operace s Å¾Ã¡dostmi se vyuÅ¾Ã­vajÃ­ i funkce ze tÅ™Ã­dy SignApplyHelper ve sloÅ¾ce Helpers.
+Tyto funkce ulehÄujÃ­ kontrolu, zdali je uÅ¾ivatel pÅ™ihlÃ¡Å¡en na test, nebo v jakÃ©m stÃ¡diu je jeho Å¾Ã¡dost.
 
 <h4>Psani testu</h4>
-O operace spojené s psaním testu z pohledu studenta obsluhuje TestInstanceController a jeho funkce,
- které generují instance, vrací otázky, ukládají odpovìdi a ukonèují test.
-<h4>Oprava testù</h4>
-O opravu testù se stará TestInstanceCorrectionController. Ten je ukládá hodnocení instancí jednotlivıch instancí,
-je také schopnı automaticky udìlit body odpovìdím na uzavøené otázky,
-nicménì opravující tyto body je¹tì pøi samotné opravì má mo¾nost upravit, pøípadnì potvrdit.
+O operace spojenÃ© s psanÃ­m testu z pohledu studenta obsluhuje TestInstanceController a jeho funkce,
+ kterÃ© generujÃ­ instance, vracÃ­ otÃ¡zky, uklÃ¡dajÃ­ odpovÄ›di a ukonÄujÃ­ test.
+<h4>Oprava testÅ¯</h4>
+O opravu testÅ¯ se starÃ¡ TestInstanceCorrectionController. Ten je uklÃ¡dÃ¡ hodnocenÃ­ instancÃ­ jednotlivÃ½ch instancÃ­,
+je takÃ© schopnÃ½ automaticky udÄ›lit body odpovÄ›dÃ­m na uzavÅ™enÃ© otÃ¡zky,
+nicmÃ©nÄ› opravujÃ­cÃ­ tyto body jeÅ¡tÄ› pÅ™i samotnÃ© opravÄ› mÃ¡ moÅ¾nost upravit, pÅ™Ã­padnÄ› potvrdit.
 <h3>Kategorie</h3>
-Profesor mù¾e kromì vytváøení novıch testù z existujíích kategorií také vytváøet nové kategorie s novımi otázkami.
-O to se stará CategoryController spolu s QuestionControllerem. O samotné pøídaná kategorie k testu se stará TestCategoryController.
-<h3>Správa u¾ivatelù a jejich úètù</h3>
-<h4>Správa u¾ivatelù</h4>
-Pro pøidávání úètù u¾ivatelù slou¾í UserListController, zde je také implementovanı search pro administrátora stránky,
-kterı ulehèuje nalezení konkrétního u¾ivatele na stránce s pøehledem u¾ivatelù.
-O samotnou práci s databazí pøi operacemi s u¾ivatelem slou¾í AuthController.
+Profesor mÅ¯Å¾e kromÄ› vytvÃ¡Å™enÃ­ novÃ½ch testÅ¯ z existujÃ­Ã­ch kategoriÃ­ takÃ© vytvÃ¡Å™et novÃ© kategorie s novÃ½mi otÃ¡zkami.
+O to se starÃ¡ CategoryController spolu s QuestionControllerem. O samotnÃ© pÅ™Ã­danÃ¡ kategorie k testu se starÃ¡ TestCategoryController.
+<h3>SprÃ¡va uÅ¾ivatelÅ¯ a jejich ÃºÄtÅ¯</h3>
+<h4>SprÃ¡va uÅ¾ivatelÅ¯</h4>
+Pro pÅ™idÃ¡vÃ¡nÃ­ ÃºÄtÅ¯ uÅ¾ivatelÅ¯ slouÅ¾Ã­ UserListController, zde je takÃ© implementovanÃ½ search pro administrÃ¡tora strÃ¡nky,
+kterÃ½ ulehÄuje nalezenÃ­ konkrÃ©tnÃ­ho uÅ¾ivatele na strÃ¡nce s pÅ™ehledem uÅ¾ivatelÅ¯.
+O samotnou prÃ¡ci s databazÃ­ pÅ™i operacemi s uÅ¾ivatelem slouÅ¾Ã­ AuthController.
 <h4>Reset hesla</h4>
-Resetování hesla je zaji¹tìno PasswordResetControllerem,
-kdy je u¾ivateli odeslán na jeho e-mail spojenı s úètem odkaz na stránku, kde si mù¾e nastavit heslo nové.
+ResetovÃ¡nÃ­ hesla je zajiÅ¡tÄ›no PasswordResetControllerem,
+kdy je uÅ¾ivateli odeslÃ¡n na jeho e-mail spojenÃ½ s ÃºÄtem odkaz na strÃ¡nku, kde si mÅ¯Å¾e nastavit heslo novÃ©.
 <h4></h4>
-<p>Struèná dokumentace k implementaci, která popisuje, které èásti projektu (napø. PHP skripty) implementují jednotlivé pøípady pou¾ití.</p>
+<p>StruÄnÃ¡ dokumentace k implementaci, kterÃ¡ popisuje, kterÃ© ÄÃ¡sti projektu (napÅ™. PHP skripty) implementujÃ­ jednotlivÃ© pÅ™Ã­pady pouÅ¾itÃ­.</p>
 
-<h3>Databáze</h3>
+<h3>DatabÃ¡ze</h3>
 
-Zde vlo¾te grafické schéma relaèní databáze (tabulek v databázi).
+<img src="http://easytests.freecluster.eu/public/images/ERD.png"/>
+Zde vloÅ¾te grafickÃ© schÃ©ma relaÄnÃ­ databÃ¡ze (tabulek v databÃ¡zi).
 
 <h2>Instalace</h2>
 
-Struènì popi¹te:
+StruÄnÄ› popiÅ¡te:
 <ul>
 <li>postup instalace na server,</li>
-<li>softwarové po¾adavky (verze PHP apod.),</li>
-<li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+<li>softwarovÃ© poÅ¾adavky (verze PHP apod.),</li>
+<li>jak rozbalit, konfigurovat, inicializovat databÃ¡zi, ...</li>
 </ul>
 
-<h2>Známé problémy</h2>
-<p>Zde popi¹te, které body zadání nejsou implementovány a z jakého dùvodu. Napø. &#8222;Z èasovıch dùvodù nebyla implementována správa u¾ivatelù.&#8221; Pomù¾ete tím zrychlit hodnocení, kdy¾ neimplementované funkce nebudeme muset dlouze hledat.</p>
+<h2>ZnÃ¡mÃ© problÃ©my</h2>
+<p>Zde popiÅ¡te, kterÃ© body zadÃ¡nÃ­ nejsou implementovÃ¡ny a z jakÃ©ho dÅ¯vodu. NapÅ™. &#8222;Z ÄasovÃ½ch dÅ¯vodÅ¯ nebyla implementovÃ¡na sprÃ¡va uÅ¾ivatelÅ¯.&#8221; PomÅ¯Å¾ete tÃ­m zrychlit hodnocenÃ­, kdyÅ¾ neimplementovanÃ© funkce nebudeme muset dlouze hledat.</p>
 
 
 
