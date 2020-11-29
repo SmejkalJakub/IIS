@@ -20,23 +20,21 @@
 	<dt>Autoøi</dt>
 	<dd>Jakub Smejkal <!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
 	    <a href="mailto:xsmejk28@stud.fit.vutbr.cz">xsmejk28@stud.fit.vutbr.cz</a> -
-		vedoucí, hlavní mozek a konzultant
+		hlavní mozek a konzultant
 	</dd>
 	<dd>Dominik Nejedlý <!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
 	    <a href="mailto:xnejed09@stud.fit.vutbr.cz">xnejed09@stud.fit.vutbr.cz</a> -
-		web designer, UI specialista, tvùrce databáze
+		vedoucí, web designer, UI specialista, tvùrce databáze
 	</dd>
   <dd>Adam Grünwald<!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
 	    <a href="mailto:xgrunw00@stud.fit.vutbr.cz">xgrunw00@stud.fit.vutbr.cz</a> -
 		konzultant, tvùrce databáze, dokumentace
 	</dd>
 	<dt>URL aplikace</dt>
-	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-	<dd>(pokud má aplikace více vstupních stránek, napi¹te obdobnì dal¹í URL)</dd>
+	<dd><a href="http://easytests.freecluster.eu/login">http://easytests.freecluster.eu/login</a></dd>
 </dl>
 
 <h2>U¾ivatelé systému pro testování</h2>
-<p>Uveïte prosím existující zástupce <strong>v¹ech rolí u¾ivatelù</strong>.</p>
 <table>
 <tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
 <tr><td>admin@gmail.com</td><td>adminadmin</td><td>Administrátor</td></tr>
@@ -45,55 +43,71 @@
 <tr><td>student@gmail.com</td><td>student</td><td>Student</td></tr>
 </tbody></table>
 
-<p>(Diagram pøípadù u¾ití není nutné vkládat, pokud IS implementuje role a pøípady u¾ití definované zadáním.)</p>
-
 <h2>Implementace</h2>
-Informaèní systém je implementován pomocí frameworku Laravel.
+Informaèní systém je implementován pomocí frameworku Laravel 8.
 O jendotlivé akce vyplývající z diagramu pøípadù u¾ití se starají Controllery pro ka¾dou entitu, vztah èi specifický druh èinnosti.
 <h3>Testy</h3>
-<h4>Sprava</h4>
+<h4>Správa</h4>
 V controlleru TestController je implementována v jednotlivých funkcích správa testù vèetnì vytváøení, editace a mazání.
-<h4>Prihlaseni</h4>
+<h4>Pøihlá¹ení</h4>
 Pøihla¹ování na psaní nebo opravu testu je implementováno v SignOnApplyControlleru.
 Pro operace s ¾ádostmi se vyu¾ívají i funkce ze tøídy SignApplyHelper ve slo¾ce Helpers.
 Tyto funkce ulehèují kontrolu, zdali je u¾ivatel pøihlá¹en na test, nebo v jakém stádiu je jeho ¾ádost.
 
-<h4>Psani testu</h4>
-O operace spojené s psaním testu z pohledu studenta obsluhuje TestInstanceController a jeho funkce,
+<h4>Psaní testù</h4>
+Operace spojené s psaním testu z pohledu studenta obsluhuje TestInstanceController a jeho funkce,
  které generují instance, vrací otázky, ukládají odpovìdi a ukonèují test.
+
 <h4>Oprava testù</h4>
 O opravu testù se stará TestInstanceCorrectionController. Ten je ukládá hodnocení instancí jednotlivých instancí,
 je také schopný automaticky udìlit body odpovìdím na uzavøené otázky,
 nicménì opravující tyto body je¹tì pøi samotné opravì má mo¾nost upravit, pøípadnì potvrdit.
+
 <h3>Kategorie</h3>
 Profesor mù¾e kromì vytváøení nových testù z existujíích kategorií také vytváøet nové kategorie s novými otázkami.
 O to se stará CategoryController spolu s QuestionControllerem. O samotné pøídaná kategorie k testu se stará TestCategoryController.
+
 <h3>Správa u¾ivatelù a jejich úètù</h3>
 <h4>Správa u¾ivatelù</h4>
+<p>
 Pro pøidávání úètù u¾ivatelù slou¾í UserListController, zde je také implementovaný search pro administrátora stránky,
 který ulehèuje nalezení konkrétního u¾ivatele na stránce s pøehledem u¾ivatelù.
 O samotnou práci s databazí pøi operacemi s u¾ivatelem slou¾í AuthController.
+</p>
+<p>
+Pokud jde o úpravu vlastního u¾ivatele, tak o tuto skuteènost se stará SettingsController, který ukládá pøípadné úpravy u¾ivatelského úètu.
+</p>
 <h4>Reset hesla</h4>
 Resetování hesla je zaji¹tìno PasswordResetControllerem,
 kdy je u¾ivateli odeslán na jeho e-mail spojený s úètem odkaz na stránku, kde si mù¾e nastavit heslo nové.
 <h4></h4>
-<p>Struèná dokumentace k implementaci, která popisuje, které èásti projektu (napø. PHP skripty) implementují jednotlivé pøípady pou¾ití.</p>
 
 <h3>Databáze</h3>
 
-Zde vlo¾te grafické schéma relaèní databáze (tabulek v databázi).
+<div style="max-height: 1200px; max-width: 1200px">
+    <img class="border rounded" src="http://easytests.freecluster.eu/public/images/ERD.png" style="max-height: 100%; max-width: 100%"/>
+</div>
 
 <h2>Instalace</h2>
 
-Struènì popi¹te:
-<ul>
-<li>postup instalace na server,</li>
-<li>softwarové po¾adavky (verze PHP apod.),</li>
-<li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
-</ul>
+<h3>Postup instalace na server</h3>
+Pro instalaci na¹í aplikace na server je nutné zabalit obsah slo¾ky public do public_html a upravit nìkteré hodnoty aby byla
+cesta ke slo¾kám zbytku programu korektní. Zbytek slo¾ek by nemìl být pøístupný pro veøejnost z dùvodu bezpeènosti, kdy napøíklad v .env souboru
+jsou dostupná hesla do databáze nebo k emailu, pou¾ívaného pro zasílání emailù s resetem hesla.
+
+<h3>Softwarové po¾adavky</h3>
+Systém je testován pro Laravel 8 a PHP 7.4. Dále je vyu¾íván composer s nìkolika doinstalovanými roz¹íøeními.
+Proto je v odevzdaných souborech i soubor composer.json.
+
+<h3>Rozbalení a inicializace databáze</h3>
+Databáze se vytváøí pøíkazem 'php artisan migrate' a v¹echna schémata databáze je mo¾né najít v odevzdaných souborech ve slo¾ce migrations.
 
 <h2>Známé problémy</h2>
-<p>Zde popi¹te, které body zadání nejsou implementovány a z jakého dùvodu. Napø. &#8222;Z èasových dùvodù nebyla implementována správa u¾ivatelù.&#8221; Pomù¾ete tím zrychlit hodnocení, kdy¾ neimplementované funkce nebudeme muset dlouze hledat.</p>
+<p>Bìhem implementace se nám objevil problém s nekonzistencí èasu a to takový,
+    ¾e je mo¾né ¾e se nìkdy ulo¾í Letní/Zimní èas tudí¾ hodnoty èasových intervalù nesedí o 1 hodinu.
+
+    Tento problém by nemìl být znatelný pøi bì¾ném pou¾ívání systému
+</p>
 
 
 
