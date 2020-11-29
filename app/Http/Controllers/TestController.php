@@ -30,17 +30,13 @@ class TestController extends Controller
 
         $test = Test::all()->where('id', '=', $testId)->first();
 
-        if (AuthController::checkUser('profesor')) {
+        if (AuthController::checkUser('assistant')) {
             $test_applies = $test->applies;
-        } elseif (AuthController::checkUser('assistant')) {
-            $test_applies = $test->applies()->where('correction', '=', false);
-
         } else {
             $test_applies = [];
         }
 
         $test_instances = $test->instances;
-
 
         $test_categories = $test->categories;
         return view('tests.show', compact('test', 'test_categories', 'test_applies', 'test_instances', 'role', 'filter'));
